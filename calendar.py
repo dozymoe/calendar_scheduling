@@ -322,6 +322,7 @@ class Event(ModelSQL, ModelView):
 
 Event()
 
+
 class Attendee(ModelSQL, ModelView):
     _name = 'calendar.attendee'
 

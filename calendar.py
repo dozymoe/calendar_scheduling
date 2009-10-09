@@ -76,7 +76,7 @@ class Event(ModelSQL, ModelView):
         return msg
 
     def send_msg(self, cursor, user, from_addr, to_addrs, msg,
-            context=None):
+            event, context=None):
 
         if not to_addrs:
             return True
@@ -145,7 +145,7 @@ class Event(ModelSQL, ModelView):
         msg = self.create_msg(cursor, user, owner.email, attendee_emails,
                 subject, body, ical, context=context)
         sent = self.send_msg(cursor, user, owner.email,
-                attendee_emails, msg, context=context)
+                attendee_emails, msg, event, context=context)
 
         vals = {'status': 'needs-action'}
         if sent:
@@ -211,7 +211,7 @@ class Event(ModelSQL, ModelView):
                         body, ical, context=context)
                 sent = self.send_msg(cursor, user,
                         former_organiser_mail[event.id], missing_mails, msg,
-                        context=context)
+                        event, context=context)
 
             new_attendees = filter(lambda a: a.email not in former_emails,
                 current_attendees)
@@ -236,7 +236,7 @@ class Event(ModelSQL, ModelView):
                             subject, body, ical, context=context)
                     sent = self.send_msg(cursor, user,
                             owner_email, [a.email for a in old_attendees], msg,
-                            context=context)
+                            event, context=context)
                     if sent:
                         sent_succes += old_attendees
                     else:
@@ -252,7 +252,7 @@ class Event(ModelSQL, ModelView):
                             subject, body, ical, context=context)
                     sent = self.send_msg(cursor, user,
                             owner_email, [a.email for a in old_attendees], msg,
-                            context=context)
+                            event, context=context)
                     if sent:
                         sent_succes += old_attendees
                     else:
@@ -265,7 +265,7 @@ class Event(ModelSQL, ModelView):
                             subject, body, ical, context=context)
                     sent = self.send_msg(cursor, user,
                             owner_email, [a.email for a in new_attendees], msg,
-                            context=context)
+                            event, context=context)
                     if sent:
                         sent_succes += new_attendees
                     else:
@@ -282,7 +282,7 @@ class Event(ModelSQL, ModelView):
                             subject, body, ical, context=context)
                     sent = self.send_msg(cursor, user,
                             owner_email, [a.email for a in new_attendees], msg,
-                            context=context)
+                            event, context=context)
                     if sent:
                         sent_succes += new_attendees
                     else:
@@ -316,7 +316,7 @@ class Event(ModelSQL, ModelView):
             msg = self.create_msg(cursor, user, owner.email, attendee_emails,
                     subject, body, ical, context=context)
             sent = self.send_msg(cursor, user, owner.email,
-                    attendee_emails, msg, context=context)
+                    attendee_emails, msg, event, context=context)
 
         return super(Event, self).delete(cursor, user, ids, context=context)
 

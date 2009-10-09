@@ -86,11 +86,11 @@ class Event(ModelSQL, ModelView):
             server = get_smtp_server()
             server.sendmail(from_addr, to_addrs, msg.as_string())
             server.quit()
-            succes = True
+            success = True
         except:
             logging.getLogger('calendar_scheduling').error(
                     'Unable to deliver scheduling mail for event %s' % event.id)
-        return succes
+        return success
 
     @staticmethod
     def attendees_to_notify(event):

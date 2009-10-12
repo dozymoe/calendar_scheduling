@@ -77,6 +77,18 @@ class Event(ModelSQL, ModelView):
 
     def send_msg(self, cursor, user, from_addr, to_addrs, msg,
             event, context=None):
+        '''
+        Send message
+
+        :param cursor: the database cursor
+        :param user: the user id
+        :param from_addr: a from-address string
+        :param to_addrs: a list of to-address strings
+        :param msg: a message string
+        :param event: a BrowseRecord of the calendar.event
+        :param context: the context
+        :return: True for succeed or False for failed
+        '''
 
         if not to_addrs:
             return True

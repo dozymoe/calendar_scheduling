@@ -298,6 +298,9 @@ class Event(ModelSQL, ModelView):
         return res
 
     def delete(self, cursor, user, ids, context=None):
+        if isinstance(ids, (int, long)):
+            ids = [ids]
+
         events = self.browse(cursor, user, ids, context=context)
         for event in events:
             if event.status == 'cancelled':

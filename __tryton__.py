@@ -15,6 +15,7 @@
         'calendar',
     ],
     'xml' : [
+        'res.xml',
     ],
     'translation': [
     ],

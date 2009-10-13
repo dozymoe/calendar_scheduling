@@ -3,3 +3,4 @@
 
 import caldav
 from calendar import *
+from res import *

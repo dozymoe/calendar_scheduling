@@ -64,6 +64,8 @@ class Event(ModelSQL, ModelView):
             if event.dtstart.date() != event.dtend.date():
                 date += ' - ' + lang_obj.strftime(event.dtend.timetuple(),
                         lang.code, lang.date)
+        if event.timezone:
+            date += ' ' + event.timezone
 
         subject = self.raise_user_error(cursor, type + '_subject',
                 (summary, date), raise_exception=False, context=context)

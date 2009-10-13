@@ -77,6 +77,8 @@ class Event(ModelSQL, ModelView):
                 context=context)
 
         fields_names = ['summary', 'dtstart', 'location', 'attendees']
+        if type == 'cancel':
+            fields_names.remove('attendees')
         fields = self.fields_get(cursor, user, fields_names=fields_names,
                 context=context)
         fields['dtstart']['string'] = self.raise_user_error(cursor,

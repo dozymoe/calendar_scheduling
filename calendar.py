@@ -15,29 +15,95 @@ class Event(ModelSQL, ModelView):
     def __init__(self):
         super(Event, self).__init__()
         self._error_messages.update({
-            'new_subject': 'New Event: %s',
-            'new_body': 'A new event "%s" have been created',
-            'update_subject': 'Updated Event: %s',
-            'update_body': 'The event "%s" have been updated',
-            'cancel_subject': 'Cancelled Event: %s',
-            'cancel_body': 'The event "%s" have been cancelled',
-            'missing_title': "Missing Title",
+            'new_subject': 'Invitation: %s @ %s',
+            'new_body': 'You have been invited to the following event.\n\n',
+            'update_subject': 'Updated Invitation: %s @ %s',
+            'update_body': 'This event has been changed.\n\n',
+            'cancel_subject': 'Cancelled Event: %s @ %s',
+            'cancel_body': 'This event has been canceled.\n\n',
+            'no_subject': "(No Subject)",
+            'separator': ':',
+            'bullet': '    * ',
+            'when': 'When',
             })
 
     def subject_body(self, cursor, user, type, event, owner, context=None):
+        lang_obj = self.pool.get('ir.lang')
+
+        if context is None:
+            context = {}
+
         if not (event and owner):
             return "", ""
+        lang = owner.language
+        if not lang:
+            lang_ids = lang_obj.search(cursor, user, [
+                ('code', '=', 'en_US'),
+                ], limit=1, context=context)
+            lang = lang_obj.browse(cursor, user, lang_ids[0], context=context)
+        context = context.copy()
+        context['language'] = lang.code
+
         summary = event.summary
         if not summary:
-            summary = self.raise_user_error(cursor, 'missing_title',
-                    raise_exception=False, context={'language': lang})
-        lang = owner.language and owner.language.code or "en_US"
+            summary = self.raise_user_error(cursor, 'no_subject',
+                    raise_exception=False, context=context)
 
-        subject = self.raise_user_error(cursor, type + '_subject', (summary, ),
-                raise_exception=False, context={'language': lang})
+        date = lang_obj.strftime(event.dtstart.timetuple(), lang.code,
+                lang.date)
+        if not event.all_day:
+            date += ' ' + lang_obj.strftime(event.dtstart.timetuple(),
+                    lang.code, '%H:%M')
+            date += ' -'
+            if event.dtstart.date() != event.dtend.date():
+                date += ' ' + lang_obj.strftime(event.dtend.timetuple(),
+                        lang.code, lang.date)
+            date += ' ' + lang_obj.strftime(event.dtend.timetuple(),
+                    lang.code, '%H:%M')
+        else:
+            if event.dtstart.date() != event.dtend.date():
+                date += ' - ' + lang_obj.strftime(event.dtend.timetuple(),
+                        lang.code, lang.date)
+
+        subject = self.raise_user_error(cursor, type + '_subject',
+                (summary, date), raise_exception=False, context=context)
         body = self.raise_user_error(cursor, type + '_body', (summary, ),
-                raise_exception=False, context={'language': lang})
+                raise_exception=False, context=context)
+        separator = self.raise_user_error(cursor, 'separator',
+                raise_exception=False, context=context)
+        bullet = self.raise_user_error(cursor, 'bullet', raise_exception=False,
+                context=context)
 
+        fields_names = ['summary', 'dtstart', 'location', 'attendees']
+        fields = self.fields_get(cursor, user, fields_names=fields_names,
+                context=context)
+        fields['dtstart']['string'] = self.raise_user_error(cursor,
+                'when', raise_exception=False, context=context)
+        for field in fields_names:
+            if field == 'attendees':
+                if lang.direction == 'ltr':
+                    body += fields['attendees']['string'] + separator + '\n'
+                    body += bullet + owner.email + '\n'
+                    for attendee in event.attendees:
+                        body += bullet + attendee.email + '\n'
+                else:
+                    body += separator + fields['attendees']['string'] + '\n'
+                    body += owner.email + bullet + '\n'
+                    for attendee in event.attendees:
+                        body += attendee.email + bullet + '\n'
+            elif event[field]:
+                if field == 'summary':
+                    value = summary
+                elif field == 'dtstart':
+                    value = date
+                else:
+                    value = event[field]
+                if lang.direction == 'ltr':
+                    body += fields[field]['string'] + separator + ' ' \
+                            + value + '\n'
+                else:
+                    body += value + ' ' + separator \
+                            + fields[field]['string'] + '\n'
         return subject, body
 
     def create_msg(self, cursor, user, from_addr, to_addrs, subject,

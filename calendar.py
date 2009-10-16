@@ -100,6 +100,8 @@ class Event(ModelSQL, ModelView):
                     value = summary
                 elif field == 'dtstart':
                     value = date
+                elif field == 'location':
+                    value = event.location.name
                 else:
                     value = event[field]
                 if lang.direction == 'ltr':

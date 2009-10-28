@@ -127,7 +127,7 @@ class Event(ModelSQL, ModelView):
         inner = MIMEMultipart('alternative')
 
         msg_body = MIMEBase('text', 'plain')
-        msg_body.set_payload(body, 'UTF-8')
+        msg_body.set_payload(body.encode('UTF-8'), 'UTF-8')
         inner.attach(msg_body)
 
         attachment = MIMEBase('text', 'calendar')

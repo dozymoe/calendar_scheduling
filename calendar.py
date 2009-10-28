@@ -55,13 +55,14 @@ class Event(ModelSQL, ModelView):
             date += ' ' + lang_obj.strftime(event.dtstart.timetuple(),
                     lang.code, '%H:%M')
             date += ' -'
-            if event.dtstart.date() != event.dtend.date():
+            if event.dtend:
+                if event.dtstart.date() != event.dtend.date():
+                    date += ' ' + lang_obj.strftime(event.dtend.timetuple(),
+                            lang.code, lang.date)
                 date += ' ' + lang_obj.strftime(event.dtend.timetuple(),
-                        lang.code, lang.date)
-            date += ' ' + lang_obj.strftime(event.dtend.timetuple(),
-                    lang.code, '%H:%M')
+                        lang.code, '%H:%M')
         else:
-            if event.dtstart.date() != event.dtend.date():
+            if event.dtend and event.dtstart.date() != event.dtend.date():
                 date += ' - ' + lang_obj.strftime(event.dtend.timetuple(),
                         lang.code, lang.date)
         if event.timezone:

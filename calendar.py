@@ -229,7 +229,9 @@ class Event(ModelSQL, ModelView):
         if not to_notify:
             return res
 
-        ical = self.event2ical(cursor, user, event, context=context)
+        ctx = context and context.copy() or {}
+        ctx['skip_schedule_agent'] = True
+        ical = self.event2ical(cursor, user, event, context=ctx)
         ical.add('method')
         ical.method.value = 'REQUEST'
 
@@ -404,7 +406,9 @@ class Event(ModelSQL, ModelView):
             if not to_notify:
                 continue
 
-            ical = self.event2ical(cursor, user, event, context=context)
+            ctx = context and context.copy() or {}
+            ctx['skip_schedule_agent'] = True
+            ical = self.event2ical(cursor, user, event, context=ctx)
             ical.add('method')
             ical.method.value = 'CANCEL'
 

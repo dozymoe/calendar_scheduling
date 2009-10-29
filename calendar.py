@@ -54,8 +54,8 @@ class Event(ModelSQL, ModelView):
         if not event.all_day:
             date += ' ' + lang_obj.strftime(event.dtstart.timetuple(),
                     lang.code, '%H:%M')
-            date += ' -'
             if event.dtend:
+                date += ' -'
                 if event.dtstart.date() != event.dtend.date():
                     date += ' ' + lang_obj.strftime(event.dtend.timetuple(),
                             lang.code, lang.date)

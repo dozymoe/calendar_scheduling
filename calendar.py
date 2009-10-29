@@ -208,8 +208,6 @@ class Event(ModelSQL, ModelView):
 
         to_notify = []
         for attendee in attendees:
-            if attendee.status == 'declined':
-                continue
             if attendee.email == organizer:
                 continue
             if attendee.schedule_agent and\

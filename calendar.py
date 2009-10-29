@@ -149,7 +149,7 @@ class Event(ModelSQL, ModelView):
         return msg
 
     def send_msg(self, cursor, user_id, from_addr, to_addrs, msg,
-            type, event, context=None):
+            type, event_id, context=None):
         '''
         Send message
 
@@ -159,7 +159,7 @@ class Event(ModelSQL, ModelView):
         :param to_addrs: a list of to-address strings
         :param msg: a message string
         :param type: the type (new, update, cancel)
-        :param event: a BrowseRecord of the calendar.event
+        :param event_id: the id of the calendar.event
         :param context: the context
         :return: list of email addresses sent
         '''
@@ -184,7 +184,7 @@ class Event(ModelSQL, ModelView):
             success = to_addrs
         except:
             logging.getLogger('calendar_scheduling').error(
-                    'Unable to deliver scheduling mail for event %s' % event.id)
+                    'Unable to deliver scheduling mail for event %s' % event_id)
         return success
 
     @staticmethod
@@ -242,7 +242,7 @@ class Event(ModelSQL, ModelView):
         msg = self.create_msg(cursor, user, owner.email, attendee_emails,
                 subject, body, ical, context=context)
         sent = self.send_msg(cursor, user, owner.email,
-                attendee_emails, msg, 'new', event, context=context)
+                attendee_emails, msg, 'new', event.id, context=context)
 
         vals = {'status': 'needs-action'}
         if sent:
@@ -308,7 +308,7 @@ class Event(ModelSQL, ModelView):
                         body, ical, context=context)
                 sent = self.send_msg(cursor, user,
                         former_organiser_mail[event.id], missing_mails, msg,
-                        'cancel', event, context=context)
+                        'cancel', event.id, context=context)
 
             new_attendees = filter(lambda a: a.email not in former_emails,
                 current_attendees)
@@ -333,7 +333,7 @@ class Event(ModelSQL, ModelView):
                             subject, body, ical, context=context)
                     sent = self.send_msg(cursor, user,
                             owner_email, [a.email for a in old_attendees], msg,
-                            'cancel', event, context=context)
+                            'cancel', event.id, context=context)
                     if sent:
                         sent_succes += old_attendees
                     else:
@@ -349,7 +349,7 @@ class Event(ModelSQL, ModelView):
                             subject, body, ical, context=context)
                     sent = self.send_msg(cursor, user,
                             owner_email, [a.email for a in old_attendees], msg,
-                            'update', event, context=context)
+                            'update', event.id, context=context)
                     if sent:
                         sent_succes += old_attendees
                     else:
@@ -362,7 +362,7 @@ class Event(ModelSQL, ModelView):
                             subject, body, ical, context=context)
                     sent = self.send_msg(cursor, user,
                             owner_email, [a.email for a in new_attendees], msg,
-                            'new', event, context=context)
+                            'new', event.id, context=context)
                     if sent:
                         sent_succes += new_attendees
                     else:
@@ -379,7 +379,7 @@ class Event(ModelSQL, ModelView):
                             subject, body, ical, context=context)
                     sent = self.send_msg(cursor, user,
                             owner_email, [a.email for a in new_attendees], msg,
-                            'new', event, context=context)
+                            'new', event.id, context=context)
                     if sent:
                         sent_succes += new_attendees
                     else:
@@ -399,6 +399,7 @@ class Event(ModelSQL, ModelView):
             ids = [ids]
 
         events = self.browse(cursor, user, ids, context=context)
+        send_list = []
         for event in events:
             if event.status == 'cancelled':
                 continue
@@ -417,10 +418,19 @@ class Event(ModelSQL, ModelView):
                     event, owner, context=context)
             msg = self.create_msg(cursor, user, owner.email, attendee_emails,
                     subject, body, ical, context=context)
-            sent = self.send_msg(cursor, user, owner.email,
-                    attendee_emails, msg, 'cancel', event, context=context)
 
-        return super(Event, self).delete(cursor, user, ids, context=context)
+            send_list.append((owner.email, attendee_emails, msg, event.id,))
+
+        try:
+            res = super(Event, self).delete(cursor, user, ids, context=context)
+        except:
+            raise
+        else:
+            for args in send_list:
+                owner_email, attendee_emails, msg, event_id = args
+                self.send_msg(cursor, user, owner_email, attendee_emails, msg,
+                        'cancel', event_id, context=context)
+        return res
 
 Event()
 

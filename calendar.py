@@ -433,15 +433,11 @@ class Event(ModelSQL, ModelView):
 
             send_list.append((owner.email, attendee_emails, msg, event.id,))
 
-        try:
-            res = super(Event, self).delete(cursor, user, ids, context=context)
-        except:
-            raise
-        else:
-            for args in send_list:
-                owner_email, attendee_emails, msg, event_id = args
-                self.send_msg(cursor, user, owner_email, attendee_emails, msg,
-                        'cancel', event_id, context=context)
+        res = super(Event, self).delete(cursor, user, ids, context=context)
+        for args in send_list:
+            owner_email, attendee_emails, msg, event_id = args
+            self.send_msg(cursor, user, owner_email, attendee_emails, msg,
+                    'cancel', event_id, context=context)
         return res
 
 Event()

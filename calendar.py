@@ -221,6 +221,10 @@ class Event(ModelSQL, ModelView):
         attendee_obj = self.pool.get('calendar.event.attendee')
         res = super(Event, self).create(cursor, user, values, context=context)
 
+        if user == 0:
+            # user is 0 means create is triggered by another one
+            return res
+
         event = self.browse(cursor, user, res, context=context)
 
         to_notify, owner = self.attendees_to_notify(event)
@@ -254,6 +258,12 @@ class Event(ModelSQL, ModelView):
 
     def write(self, cursor, user, ids, values, context=None):
         attendee_obj = self.pool.get('calendar.event.attendee')
+
+        if user == 0:
+            # user is 0 means write is triggered by another one
+            return super(Event, self).write(cursor, user, ids, values,
+                context=context)
+
         if isinstance(ids, (int, long)):
             ids = [ids]
 
@@ -393,6 +403,10 @@ class Event(ModelSQL, ModelView):
         return res
 
     def delete(self, cursor, user, ids, context=None):
+        if user == 0:
+            # user is 0 means the deletion is triggered by another one
+            return super(Event, self).delete(cursor, user, ids, context=context)
+
         if isinstance(ids, (int, long)):
             ids = [ids]
 

@@ -22,6 +22,8 @@ this repository contains the full copyright notices and license terms. -->
                             <field name="calendar_email_notification_update"/>
                             <label name="calendar_email_notification_cancel"/>
                             <field name="calendar_email_notification_cancel"/>
+                            <label name="calendar_email_notification_partstat"/>
+                            <field name="calendar_email_notification_partstat"/>
                         </page>
                     </xpath>
                 </data>
@@ -47,6 +49,8 @@ this repository contains the full copyright notices and license terms. -->
                             <field name="calendar_email_notification_update"/>
                             <label name="calendar_email_notification_cancel"/>
                             <field name="calendar_email_notification_cancel"/>
+                            <label name="calendar_email_notification_partstat"/>
+                            <field name="calendar_email_notification_partstat"/>
                         </page>
                     </xpath>
                 </data>

@@ -12,6 +12,8 @@ class User(ModelSQL, ModelView):
             'Changed invitations')
     calendar_email_notification_cancel = fields.Boolean(
             'Cancelled invitations')
+    calendar_email_notification_partstat = fields.Boolean(
+            'Invitation Replies')
 
     def default_calendar_email_notification_new(self, cursor, user,
             context=None):
@@ -25,12 +27,17 @@ class User(ModelSQL, ModelView):
             context=None):
         return True
 
+    def default_calendar_email_notification_partstat(self, cursor, user,
+            context=None):
+        return True
+
     def __init__(self):
         super(User, self).__init__()
         self._preferences_fields += [
             'calendar_email_notification_new',
             'calendar_email_notification_update',
             'calendar_email_notification_cancel',
+            'calendar_email_notification_partstat',
         ]
 
 User()

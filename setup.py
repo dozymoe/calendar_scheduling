@@ -7,7 +7,7 @@ import re
 
 info = eval(file('__tryton__.py').read())
 
-requires = ['PyWebDAV']
+requires = ['PyWebDAV >= 0.9.3']
 for dep in info.get('depends', []):
     if not re.match(r'(ir|res|workflow|webdav)(\W|$)', dep):
         requires.append('trytond_' + dep)

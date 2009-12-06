@@ -4,6 +4,7 @@
 {
     'name' : 'Calendar Scheduling',
     'name_de_DE' : 'Kalender Terminplanung',
+    'name_es_ES' : 'Planificador del calendario',
     'name_fr_FR' : 'Programmation calendrier',
     'version' : '0.0.1',
     'author' : 'B2CK',
@@ -11,6 +12,7 @@
     'website': 'http://www.tryton.org/',
     'description': 'Add Scheduling support on CalDAV',
     'description_de_DE' : 'Fügt Unterstützung für die Terminplanung in CalDAV hinzu',
+    'description_es_ES' : 'Añade la gestión de planificación de eventos a CalDAV',
     'description_fr_FR': 'Ajoute la gestion de la programmation d\'évènements au CalDAV',
     'depends' : [
         'ir',
@@ -23,5 +25,6 @@
     ],
     'translation': [
         'de_DE.csv',
+        'es_ES.csv',
     ],
 }

@@ -30,6 +30,7 @@ setup(name='trytond_calendar_scheduling',
     package_dir={'trytond.modules.calendar_scheduling': '.'},
     packages=[
         'trytond.modules.calendar_scheduling',
+        'trytond.modules.calendar_scheduling.tests',
     ],
     package_data={
         'trytond.modules.calendar_scheduling': info.get('xml', []) \
@@ -58,4 +59,6 @@ setup(name='trytond_calendar_scheduling',
     [trytond.modules]
     calendar_scheduling = trytond.modules.calendar_scheduling
     """,
+    test_suite='tests',
+    test_loader='trytond.test_loader:Loader',
 )

@@ -127,22 +127,20 @@ class Event(ModelSQL, ModelView):
             summary = self.raise_user_error(cursor, 'no_subject',
                     raise_exception=False, context=context)
 
-        date = lang_obj.strftime(event.dtstart.timetuple(), lang.code,
-                lang.date)
+        date = lang_obj.strftime(event.dtstart, lang.code, lang.date)
         if not event.all_day:
-            date += ' ' + lang_obj.strftime(event.dtstart.timetuple(),
-                    lang.code, '%H:%M')
+            date += ' ' + lang_obj.strftime(event.dtstart, lang.code, '%H:%M')
             if event.dtend:
                 date += ' -'
                 if event.dtstart.date() != event.dtend.date():
-                    date += ' ' + lang_obj.strftime(event.dtend.timetuple(),
-                            lang.code, lang.date)
-                date += ' ' + lang_obj.strftime(event.dtend.timetuple(),
-                        lang.code, '%H:%M')
+                    date += ' ' + lang_obj.strftime(event.dtend, lang.code,
+                            lang.date)
+                date += ' ' + lang_obj.strftime(event.dtend, lang.code,
+                        '%H:%M')
         else:
             if event.dtend and event.dtstart.date() != event.dtend.date():
-                date += ' - ' + lang_obj.strftime(event.dtend.timetuple(),
-                        lang.code, lang.date)
+                date += ' - ' + lang_obj.strftime(event.dtend, lang.code,
+                        lang.date)
         if event.timezone:
             date += ' ' + event.timezone
 
@@ -628,22 +626,20 @@ class EventAttendee(ModelSQL, ModelView):
             summary = self.raise_user_error(cursor, 'no_subject',
                     raise_exception=False, context=context)
 
-        date = lang_obj.strftime(event.dtstart.timetuple(), lang.code,
-                lang.date)
+        date = lang_obj.strftime(event.dtstart, lang.code, lang.date)
         if not event.all_day:
-            date += ' ' + lang_obj.strftime(event.dtstart.timetuple(),
-                    lang.code, '%H:%M')
+            date += ' ' + lang_obj.strftime(event.dtstart, lang.code, '%H:%M')
             if event.dtend:
                 date += ' -'
                 if event.dtstart.date() != event.dtend.date():
-                    date += ' ' + lang_obj.strftime(event.dtend.timetuple(),
-                            lang.code, lang.date)
-                date += ' ' + lang_obj.strftime(event.dtend.timetuple(),
-                        lang.code, '%H:%M')
+                    date += ' ' + lang_obj.strftime(event.dtend, lang.code,
+                            lang.date)
+                date += ' ' + lang_obj.strftime(event.dtend, lang.code,
+                        '%H:%M')
         else:
             if event.dtend and event.dtstart.date() != event.dtend.date():
-                date += ' - ' + lang_obj.strftime(event.dtend.timetuple(),
-                        lang.code, lang.date)
+                date += ' - ' + lang_obj.strftime(event.dtend, lang.code,
+                        lang.date)
         if event.timezone:
             date += ' ' + event.timezone
 

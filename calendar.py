@@ -258,7 +258,7 @@ class Event(ModelSQL, ModelView):
             server.sendmail(from_addr, to_addrs, msg.as_string())
             server.quit()
             success = to_addrs
-        except:
+        except Exception:
             logging.getLogger('calendar_scheduling').error(
                     'Unable to deliver scheduling mail for event %s' % event_id)
         return success
@@ -760,7 +760,7 @@ class EventAttendee(ModelSQL, ModelView):
             server.sendmail(from_addr, to_addr, msg.as_string())
             server.quit()
             success = True
-        except:
+        except Exception:
             logging.getLogger('calendar_scheduling').error(
                     'Unable to deliver reply mail for event %s' % event_id)
         return success

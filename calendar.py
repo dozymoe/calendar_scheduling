@@ -1,12 +1,14 @@
 #This file is part of Tryton.  The COPYRIGHT file at the top level of
 #this repository contains the full copyright notices and license terms.
-from trytond.model import ModelSQL, ModelView, fields
-from trytond.tools import get_smtp_server
+from __future__ import with_statement
 from email.mime.text import MIMEText
 from email.mime.base import MIMEBase
 from email.mime.multipart import MIMEMultipart
 import email.utils
 import logging
+from trytond.model import ModelSQL, ModelView, fields
+from trytond.tools import get_smtp_server
+from trytond.transaction import Transaction
 
 
 class Event(ModelSQL, ModelView):
@@ -30,7 +32,7 @@ class Event(ModelSQL, ModelView):
             ('CLIENT', 'Client'),
             ], 'Schedule Agent')
 
-    def default_schedule_agent(self, cursor, user, context=None):
+    def default_schedule_agent(self):
         return 'SERVER'
 
     def __init__(self):
@@ -48,10 +50,9 @@ class Event(ModelSQL, ModelView):
             'when': 'When',
             })
 
-    def ical2values(self, cursor, user, event_id, ical, calendar_id,
-            vevent=None, context=None):
-        res = super(Event, self).ical2values(cursor, user, event_id, ical,
-                calendar_id, vevent=vevent, context=context)
+    def ical2values(self, event_id, ical, calendar_id, vevent=None):
+        res = super(Event, self).ical2values(event_id, ical, calendar_id,
+                vevent=vevent)
 
         if not vevent:
             vevent = ical.vevent
@@ -68,25 +69,22 @@ class Event(ModelSQL, ModelView):
 
         return res
 
-    def event2ical(self, cursor, user, event, context=None):
+    def event2ical(self, event):
         """
         Override default event2ical to add schedule-status and
         schedule-agent properties
 
-        :param context: if key skip_schedule_agent is present and
-                associated to True, will prevent the schedule-status
-                to be add to the organiser property. This is needed
-                when one want to generate an ical that will be used
-                for scheduling message.
+        If key skip_schedule_agent is present and associated to True, will
+        prevent the schedule-status to be add to the organiser property. This
+        is needed when one want to generate an ical that will be used for
+        scheduling message.
         """
 
-        ical = super(Event, self).event2ical(cursor, user, event,
-                context=context)
+        ical = super(Event, self).event2ical(event)
         if isinstance(event, (int, long)):
-            event = self.browse(cursor, user, event, context=context)
+            event = self.browse(event)
 
         vevent = ical.vevent
-        context = context or {}
 
         if event.organizer_schedule_status:
             if not hasattr(vevent, 'organizer'):
@@ -94,7 +92,7 @@ class Event(ModelSQL, ModelView):
             vevent.organizer.params['SCHEDULE-STATUS'] = \
                 (event.organizer_schedule_status,)
 
-        if context.get('skip_schedule_agent'):
+        if Transaction().context.get('skip_schedule_agent'):
             return ical
 
         if event.organizer_schedule_agent:
@@ -105,27 +103,23 @@ class Event(ModelSQL, ModelView):
 
         return ical
 
-    def subject_body(self, cursor, user, type, event, owner, context=None):
+    def subject_body(self, type, event, owner):
         lang_obj = self.pool.get('ir.lang')
-
-        if context is None:
-            context = {}
 
         if not (event and owner):
             return "", ""
         lang = owner.language
         if not lang:
-            lang_ids = lang_obj.search(cursor, user, [
+            lang_ids = lang_obj.search([
                 ('code', '=', 'en_US'),
-                ], limit=1, context=context)
-            lang = lang_obj.browse(cursor, user, lang_ids[0], context=context)
-        context = context.copy()
-        context['language'] = lang.code
+                ], limit=1)
+            lang = lang_obj.browse(lang_ids[0])
 
-        summary = event.summary
-        if not summary:
-            summary = self.raise_user_error(cursor, 'no_subject',
-                    raise_exception=False, context=context)
+        with Transaction().set_context(language=lang.code):
+            summary = event.summary
+            if not summary:
+                summary = self.raise_user_error('no_subject',
+                        raise_exception=False)
 
         date = lang_obj.strftime(event.dtstart, lang.code, lang.date)
         if not event.all_day:
@@ -144,22 +138,22 @@ class Event(ModelSQL, ModelView):
         if event.timezone:
             date += ' ' + event.timezone
 
-        subject = self.raise_user_error(cursor, type + '_subject',
-                (summary, date), raise_exception=False, context=context)
-        body = self.raise_user_error(cursor, type + '_body', (summary, ),
-                raise_exception=False, context=context)
-        separator = self.raise_user_error(cursor, 'separator',
-                raise_exception=False, context=context)
-        bullet = self.raise_user_error(cursor, 'bullet', raise_exception=False,
-                context=context)
+        with Transaction().set_context(language=lang.code):
+            subject = self.raise_user_error(type + '_subject',
+                    (summary, date), raise_exception=False)
+            body = self.raise_user_error(type + '_body', (summary, ),
+                    raise_exception=False)
+            separator = self.raise_user_error('separator',
+                    raise_exception=False)
+            bullet = self.raise_user_error('bullet', raise_exception=False)
 
         fields_names = ['summary', 'dtstart', 'location', 'attendees']
         if type == 'cancel':
             fields_names.remove('attendees')
-        fields = self.fields_get(cursor, user, fields_names=fields_names,
-                context=context)
-        fields['dtstart']['string'] = self.raise_user_error(cursor,
-                'when', raise_exception=False, context=context)
+        with Transaction().set_context(language=lang.code):
+            fields = self.fields_get(fields_names=fields_names)
+            fields['dtstart']['string'] = self.raise_user_error('when',
+                    raise_exception=False)
         for field in fields_names:
             if field == 'attendees':
                 if lang.direction == 'ltr':
@@ -189,8 +183,7 @@ class Event(ModelSQL, ModelView):
                             + fields[field]['string'] + '\n'
         return subject, body
 
-    def create_msg(self, cursor, user, from_addr, to_addrs, subject,
-            body, ical=None, context=None):
+    def create_msg(self, from_addr, to_addrs, subject, body, ical=None):
 
         if not to_addrs:
             return None
@@ -224,19 +217,15 @@ class Event(ModelSQL, ModelView):
 
         return msg
 
-    def send_msg(self, cursor, user_id, from_addr, to_addrs, msg,
-            type, event_id, context=None):
+    def send_msg(self, from_addr, to_addrs, msg, type, event_id):
         '''
         Send message
 
-        :param cursor: the database cursor
-        :param user_id: the user id
         :param from_addr: a from-address string
         :param to_addrs: a list of to-address strings
         :param msg: a message string
         :param type: the type (new, update, cancel)
         :param event_id: the id of the calendar.event
-        :param context: the context
         :return: list of email addresses sent
         '''
         user_obj = self.pool.get('res.user')
@@ -245,10 +234,10 @@ class Event(ModelSQL, ModelView):
             return to_addrs
         to_addrs = list(set(to_addrs))
 
-        user_ids = user_obj.search(cursor, user_id, [
+        user_ids = user_obj.search([
             ('email', 'in', to_addrs),
-            ], context=context)
-        for user in user_obj.browse(cursor, user_id, user_ids, context=context):
+            ])
+        for user in user_obj.browse(user_ids):
             if not user['calendar_email_notification_' + type]:
                 to_addrs.remove(user.email)
 
@@ -293,59 +282,54 @@ class Event(ModelSQL, ModelView):
 
         return to_notify, owner
 
-    def create(self, cursor, user, values, context=None):
+    def create(self, values):
         attendee_obj = self.pool.get('calendar.event.attendee')
-        res = super(Event, self).create(cursor, user, values, context=context)
+        res = super(Event, self).create(values)
 
-        if user == 0:
+        if Transaction().user == 0:
             # user is 0 means create is triggered by another one
             return res
 
-        event = self.browse(cursor, user, res, context=context)
+        event = self.browse(res)
 
         to_notify, owner = self.attendees_to_notify(event)
         if not to_notify:
             return res
 
-        ctx = context and context.copy() or {}
-        ctx['skip_schedule_agent'] = True
-        ical = self.event2ical(cursor, user, event, context=ctx)
+        with Transaction().set_context(skip_schedule_agent=True):
+            ical = self.event2ical(event)
         ical.add('method')
         ical.method.value = 'REQUEST'
 
         attendee_emails = [a.email for a in to_notify]
 
-        subject, body = self.subject_body(cursor, user, 'new', event, owner,
-                context=context)
-        msg = self.create_msg(cursor, user, owner.email, attendee_emails,
-                subject, body, ical, context=context)
-        sent = self.send_msg(cursor, user, owner.email,
-                attendee_emails, msg, 'new', event.id, context=context)
+        subject, body = self.subject_body('new', event, owner)
+        msg = self.create_msg(owner.email, attendee_emails, subject, body,
+                ical)
+        sent = self.send_msg(owner.email, attendee_emails, msg, 'new',
+                event.id)
 
         vals = {'status': 'needs-action'}
         if sent:
             vals['schedule_status'] = '1.1' #successfully sent
         else:
             vals['schedule_status'] = '5.1' #could not complete delivery
-        attendee_obj.write(cursor, user, [a.id for a in to_notify],
-                vals, context=context)
+        attendee_obj.write([a.id for a in to_notify], vals)
 
         return res
 
-    def write(self, cursor, user, ids, values, context=None):
+    def write(self, ids, values):
         attendee_obj = self.pool.get('calendar.event.attendee')
 
-        if user == 0:
+        if Transaction().user == 0:
             # user is 0 means write is triggered by another one
-            return super(Event, self).write(cursor, user, ids, values,
-                context=context)
+            return super(Event, self).write(ids, values)
 
         if isinstance(ids, (int, long)):
             ids = [ids]
 
         if not values or not ids:
-            return super(Event, self).write(cursor, user, ids, values,
-                    context=context)
+            return super(Event, self).write(ids, values)
 
         event_edited = False
         for k in values:
@@ -354,7 +338,7 @@ class Event(ModelSQL, ModelView):
                 break
 
         # store old attendee info
-        events = self.browse(cursor, user, ids, context=context)
+        events = self.browse(ids)
         event2former_emails = {}
         former_organiser_mail = {}
         former_organiser_lang = {}
@@ -365,10 +349,9 @@ class Event(ModelSQL, ModelView):
             former_organiser_lang[event.id] = owner and owner.language \
                 and owner.language.code
 
-        res = super(Event, self).write(cursor, user, ids, values,
-                context=context)
+        res = super(Event, self).write(ids, values)
 
-        events = self.browse(cursor, user, ids, context=context)
+        events = self.browse(ids)
 
         for event in events:
             current_attendees, owner = self.attendees_to_notify(event)
@@ -379,28 +362,23 @@ class Event(ModelSQL, ModelView):
                     former_emails)
 
             if missing_mails:
-                ctx = context and context.copy() or {}
-                ctx['skip_schedule_agent'] = True
-                ical = self.event2ical(cursor, user, event, context=ctx)
+                with Transaction().set_context(skip_schedule_agent=True):
+                    ical = self.event2ical(event)
                 ical.add('method')
                 ical.method.value = 'CANCEL'
 
-                subject, body = self.subject_body(cursor, user, 'cancel', event,
-                        owner, context=context)
-                msg = self.create_msg(cursor, user,
-                        former_organiser_mail[event.id], missing_mails, subject,
-                        body, ical, context=context)
-                sent = self.send_msg(cursor, user,
-                        former_organiser_mail[event.id], missing_mails, msg,
-                        'cancel', event.id, context=context)
+                subject, body = self.subject_body('cancel', event, owner)
+                msg = self.create_msg(former_organiser_mail[event.id],
+                        missing_mails, subject, body, ical)
+                sent = self.send_msg(former_organiser_mail[event.id],
+                        missing_mails, msg, 'cancel', event.id)
 
             new_attendees = filter(lambda a: a.email not in former_emails,
                 current_attendees)
             old_attendees = filter(lambda a: a.email in former_emails,
                 current_attendees)
-            ctx = context and context.copy() or {}
-            ctx['skip_schedule_agent'] = True
-            ical = self.event2ical(cursor, user, event, context=ctx)
+            with Transaction().set_context(skip_schedule_agent=True):
+                ical = self.event2ical(event)
             if not hasattr(ical, 'method'):
                 ical.add('method')
 
@@ -410,14 +388,13 @@ class Event(ModelSQL, ModelView):
                 if event.status == 'cancelled':
                     ical.method.value = 'CANCEL'
                     #send cancel to old attendee
-                    subject, body = self.subject_body(cursor, user, 'cancel',
-                            event, owner, context=context)
-                    msg = self.create_msg(cursor, user,
-                            owner_email, [a.email for a in old_attendees],
-                            subject, body, ical, context=context)
-                    sent = self.send_msg(cursor, user,
-                            owner_email, [a.email for a in old_attendees], msg,
-                            'cancel', event.id, context=context)
+                    subject, body = self.subject_body('cancel', event, owner)
+                    msg = self.create_msg(owner_email,
+                            [a.email for a in old_attendees],
+                            subject, body, ical)
+                    sent = self.send_msg(owner_email,
+                            [a.email for a in old_attendees],
+                            msg, 'cancel', event.id)
                     if sent:
                         sent_succes += old_attendees
                     else:
@@ -426,27 +403,25 @@ class Event(ModelSQL, ModelView):
                 else:
                     ical.method.value = 'REQUEST'
                     #send update to old attendees
-                    subject, body = self.subject_body(cursor, user, 'update',
-                            event, owner, context=context)
-                    msg = self.create_msg(cursor, user,
-                            owner_email, [a.email for a in old_attendees],
-                            subject, body, ical, context=context)
-                    sent = self.send_msg(cursor, user,
-                            owner_email, [a.email for a in old_attendees], msg,
-                            'update', event.id, context=context)
+                    subject, body = self.subject_body('update', event, owner)
+                    msg = self.create_msg(owner_email,
+                            [a.email for a in old_attendees],
+                            subject, body, ical)
+                    sent = self.send_msg(owner_email,
+                            [a.email for a in old_attendees],
+                            msg, 'update', event.id)
                     if sent:
                         sent_succes += old_attendees
                     else:
                         sent_fail += old_attendees
                     #send new to new attendees
-                    subject, body = self.subject_body(cursor, user, 'new',
-                            event, owner, context=context)
-                    msg = self.create_msg(cursor, user,
-                            owner_email, [a.email for a in new_attendees],
-                            subject, body, ical, context=context)
-                    sent = self.send_msg(cursor, user,
-                            owner_email, [a.email for a in new_attendees], msg,
-                            'new', event.id, context=context)
+                    subject, body = self.subject_body('new', event, owner)
+                    msg = self.create_msg(owner_email,
+                            [a.email for a in new_attendees],
+                            subject, body, ical)
+                    sent = self.send_msg(owner_email,
+                            [a.email for a in new_attendees],
+                            msg, 'new', event.id)
                     if sent:
                         sent_succes += new_attendees
                     else:
@@ -456,14 +431,13 @@ class Event(ModelSQL, ModelView):
                 if event.status != 'cancelled':
                     ical.method.value = 'REQUEST'
                     #send new to new attendees
-                    subject, body = self.subject_body(cursor, user, 'new',
-                            event, owner, context=context)
-                    msg = self.create_msg(cursor, user,
-                            owner_email, [a.email for a in new_attendees],
-                            subject, body, ical, context=context)
-                    sent = self.send_msg(cursor, user,
-                            owner_email, [a.email for a in new_attendees], msg,
-                            'new', event.id, context=context)
+                    subject, body = self.subject_body('new', event, owner)
+                    msg = self.create_msg(owner_email,
+                            [a.email for a in new_attendees],
+                            subject, body, ical)
+                    sent = self.send_msg(owner_email,
+                            [a.email for a in new_attendees],
+                            msg, 'new', event.id)
                     if sent:
                         sent_succes += new_attendees
                     else:
@@ -471,22 +445,20 @@ class Event(ModelSQL, ModelView):
 
                 vals = {'status': 'needs-action'}
                 vals['schedule_status'] = '1.1' #successfully sent
-                attendee_obj.write(cursor, user,
-                        [a.id for a in sent_succes], vals, context=context)
+                attendee_obj.write([a.id for a in sent_succes], vals)
                 vals['schedule_status'] = '5.1' #could not complete delivery
-                attendee_obj.write(cursor, user,
-                        [a.id for a in sent_fail], vals, context=context)
+                attendee_obj.write([a.id for a in sent_fail], vals)
         return res
 
-    def delete(self, cursor, user, ids, context=None):
-        if user == 0:
+    def delete(self, ids):
+        if Transaction().user == 0:
             # user is 0 means the deletion is triggered by another one
-            return super(Event, self).delete(cursor, user, ids, context=context)
+            return super(Event, self).delete(ids)
 
         if isinstance(ids, (int, long)):
             ids = [ids]
 
-        events = self.browse(cursor, user, ids, context=context)
+        events = self.browse(ids)
         send_list = []
         for event in events:
             if event.status == 'cancelled':
@@ -495,25 +467,23 @@ class Event(ModelSQL, ModelView):
             if not to_notify:
                 continue
 
-            ctx = context and context.copy() or {}
-            ctx['skip_schedule_agent'] = True
-            ical = self.event2ical(cursor, user, event, context=ctx)
+            with Transaction().set_context(skip_schedule_agent=True):
+                ical = self.event2ical(event)
             ical.add('method')
             ical.method.value = 'CANCEL'
 
             attendee_emails = [a.email for a in to_notify]
-            subject, body = self.subject_body(cursor, user, 'cancel',
-                    event, owner, context=context)
-            msg = self.create_msg(cursor, user, owner.email, attendee_emails,
-                    subject, body, ical, context=context)
+            subject, body = self.subject_body('cancel', event, owner)
+            msg = self.create_msg(owner.email, attendee_emails, subject, body,
+                    ical)
 
             send_list.append((owner.email, attendee_emails, msg, event.id,))
 
-        res = super(Event, self).delete(cursor, user, ids, context=context)
+        res = super(Event, self).delete(ids)
         for args in send_list:
             owner_email, attendee_emails, msg, event_id = args
-            self.send_msg(cursor, user, owner_email, attendee_emails, msg,
-                    'cancel', event_id, context=context)
+            self.send_msg(owner_email, attendee_emails, msg, 'cancel',
+                    event_id)
         return res
 
 Event()
@@ -540,12 +510,11 @@ class Attendee(ModelSQL, ModelView):
             ('CLIENT', 'Client'),
             ], 'Schedule Agent')
 
-    def default_schedule_agent(self, cursor, user, context=None):
+    def default_schedule_agent(self):
         return 'SERVER'
 
-    def attendee2values(self, cursor, user, attendee, context=None):
-        res = super(Attendee, self).attendee2values(cursor, user, attendee,
-                context=context)
+    def attendee2values(self, attendee):
+        res = super(Attendee, self).attendee2values(attendee)
         if hasattr(attendee, 'schedule_status'):
             if attendee.schedule_status in dict(self.schedule_status.selection):
                 res['schedule_status'] = attendee.schedule_status
@@ -554,11 +523,8 @@ class Attendee(ModelSQL, ModelView):
                 res['schedule_agent'] = attendee.schedule_agent
         return res
 
-    def attendee2attendee(self, cursor, user, attendee, context=None):
-        res = super(Attendee, self).attendee2attendee(cursor, user, attendee,
-                context=context)
-
-        context = context or {}
+    def attendee2attendee(self, attendee):
+        res = super(Attendee, self).attendee2attendee(attendee)
 
         if attendee.schedule_status:
             if hasattr(res, 'schedule_status_param'):
@@ -570,7 +536,7 @@ class Attendee(ModelSQL, ModelView):
             if res.schedule_status_param in dict(self.schedule_status.selection):
                 del res.schedule_status_param
 
-        if context.get('skip_schedule_agent'):
+        if Transaction().context.get('skip_schedule_agent'):
             return res
 
         if attendee.schedule_agent:
@@ -604,27 +570,24 @@ class EventAttendee(ModelSQL, ModelView):
                 'when': 'When',
                 })
 
-    def subject_body(self, cursor, user, status, event, owner, context=None):
+    def subject_body(self, status, event, owner):
         lang_obj = self.pool.get('ir.lang')
         event_obj = self.pool.get('calendar.event')
-        if context is None:
-            context = {}
 
         if not (event and owner):
             return "", ""
         lang = owner.language
         if not lang:
-            lang_ids = lang_obj.search(cursor, user, [
+            lang_ids = lang_obj.search([
                 ('code', '=', 'en_US'),
-                ], limit=1, context=context)
-            lang = lang_obj.browse(cursor, user, lang_ids[0], context=context)
-        context = context.copy()
-        context['language'] = lang.code
+                ], limit=1)
+            lang = lang_obj.browse(lang_ids[0])
 
         summary = event.summary
         if not summary:
-            summary = self.raise_user_error(cursor, 'no_subject',
-                    raise_exception=False, context=context)
+            with Transaction().set_context(language=lang.code):
+                summary = self.raise_user_error('no_subject',
+                        raise_exception=False)
 
         date = lang_obj.strftime(event.dtstart, lang.code, lang.date)
         if not event.all_day:
@@ -645,35 +608,32 @@ class EventAttendee(ModelSQL, ModelView):
 
         status_string = status
         fields_names = ['status']
-        fields = self.fields_get(cursor, user, fields_names=fields_names,
-                context=context)
+        with Transaction().set_context(language=lang.code):
+            fields = self.fields_get(fields_names=fields_names)
         for k,v in  fields['status']['selection']:
             if k == status:
                 status_string = v
 
-        subject = self.raise_user_error(cursor, 'subject',
-                (status, summary, date), raise_exception=False,
-                context=context)
+        with Transaction().set_context(language=lang.code):
+            subject = self.raise_user_error('subject', (status, summary, date),
+                    raise_exception=False)
 
-        if status + '_body' in self._error_messages:
-            body = self.raise_user_error(cursor, status + '_body',
-                    (owner.name, owner.email), raise_exception=False,
-                    context=context)
-        else:
-            body = self.raise_user_error(cursor, 'body',
-                (owner.name, owner.email, status_string ), raise_exception=False,
-                context=context)
+            if status + '_body' in self._error_messages:
+                body = self.raise_user_error(status + '_body',
+                        (owner.name, owner.email), raise_exception=False)
+            else:
+                body = self.raise_user_error('body',
+                        (owner.name, owner.email, status_string),
+                        raise_exception=False)
 
-        separator = self.raise_user_error(cursor, 'separator',
-                raise_exception=False, context=context)
-        bullet = self.raise_user_error(cursor, 'bullet', raise_exception=False,
-                context=context)
+            separator = self.raise_user_error('separator',
+                    raise_exception=False)
+            bullet = self.raise_user_error('bullet', raise_exception=False)
 
-        fields_names = ['summary', 'dtstart', 'location', 'attendees']
-        fields = event_obj.fields_get(cursor, user, fields_names=fields_names,
-                context=context)
-        fields['dtstart']['string'] = self.raise_user_error(cursor,
-                'when', raise_exception=False, context=context)
+            fields_names = ['summary', 'dtstart', 'location', 'attendees']
+            fields = event_obj.fields_get(fields_names=fields_names)
+            fields['dtstart']['string'] = self.raise_user_error('when',
+                    raise_exception=False)
         for field in fields_names:
             if field == 'attendees':
                 organizer = event.organizer or event.parent.organizer
@@ -706,8 +666,7 @@ class EventAttendee(ModelSQL, ModelView):
                             + fields[field]['string'] + '\n'
         return subject, body
 
-    def create_msg(self, cursor, user, from_addr, to_addr, subject,
-            body, ical=None, context=None):
+    def create_msg(self, from_addr, to_addr, subject, body, ical=None):
 
         if not to_addr:
             return None
@@ -740,18 +699,14 @@ class EventAttendee(ModelSQL, ModelView):
 
         return msg
 
-    def send_msg(self, cursor, user_id, from_addr, to_addr, msg,
-            event, context=None):
+    def send_msg(self, from_addr, to_addr, msg, event):
         '''
         Send message
 
-        :param cursor: the database cursor
-        :param user_id: the user id
         :param from_addr: a from-address string
         :param to_addr: recipient address
         :param msg: a message string
         :param event_id: the id of the calendar.event
-        :param context: the context
         :return: a boolean (True if the mail has been sent)
         '''
         success = False
@@ -781,30 +736,27 @@ class EventAttendee(ModelSQL, ModelView):
 
         return organizer
 
-    def write(self, cursor, user, ids, values, context=None):
+    def write(self, ids, values):
         event_obj = self.pool.get('calendar.event')
 
-        if user == 0:
+        if Transaction().user == 0:
             # user is 0 means write is triggered by another one
-            return super(EventAttendee, self).write(cursor, user, ids, values,
-                    context=context)
+            return super(EventAttendee, self).write(ids, values)
 
         if 'status' not in values:
-            return super(EventAttendee, self).write(cursor, user, ids, values,
-                    context=context)
+            return super(EventAttendee, self).write(ids, values)
 
         if isinstance(ids, (int, long)):
             ids = [ids]
 
         att2status = {}
-        attendees = self.browse(cursor, user, ids, context=context)
+        attendees = self.browse(ids)
         for attendee in attendees:
             att2status[attendee.id] = attendee.status
 
-        res = super(EventAttendee, self).write(cursor, user, ids, values,
-                    context=context)
+        res = super(EventAttendee, self).write(ids, values)
 
-        attendees = self.browse(cursor, user, ids, context=context)
+        attendees = self.browse(ids)
         for attendee in attendees:
             owner = attendee.event.calendar.owner
             if not owner.calendar_email_notification_partstat:
@@ -819,41 +771,33 @@ class EventAttendee(ModelSQL, ModelView):
             if old == new:
                 continue
 
-            ctx = context and context.copy() or {}
-            ctx['skip_schedule_agent'] = True
-            ical = event_obj.event2ical(cursor, user, attendee.event,
-                    context=ctx)
+            with Transaction().set_context(skip_schedule_agent=True):
+                ical = event_obj.event2ical(attendee.event)
             if not hasattr(ical, 'method'):
                 ical.add('method')
             ical.method.value = 'REPLY'
 
-            subject, body = self.subject_body(cursor, user, new,
-                    attendee.event, owner, context=context)
-            msg = self.create_msg(cursor, user,
-                    owner.email, organizer,
-                    subject, body, ical, context=context)
+            subject, body = self.subject_body(new, attendee.event, owner)
+            msg = self.create_msg(owner.email, organizer, subject, body, ical)
 
-            sent = self.send_msg(cursor, user,
-                    owner.email, organizer, msg, attendee.event.id,
-                    context=context)
+            sent = self.send_msg(owner.email, organizer, msg,
+                    attendee.event.id)
 
             vals = {'organizer_schedule_status': sent and '1.1' or '5.1'}
-            event_obj.write(cursor, user, attendee.event.id, vals,
-                    context=context)
+            event_obj.write(attendee.event.id, vals)
 
         return res
 
-    def delete(self, cursor, user, ids, context=None):
+    def delete(self, ids):
         event_obj = self.pool.get('calendar.event')
 
-        if user == 0:
+        if Transaction().user == 0:
             # user is 0 means the deletion is triggered by another one
-            return super(EventAttendee, self).delete(cursor, user, ids,
-                    context=context)
+            return super(EventAttendee, self).delete(ids)
 
         if isinstance(ids, (int, long)):
             ids = [ids]
-        attendees = self.browse(cursor, user, ids, context=context)
+        attendees = self.browse(ids)
         send_list = []
         for attendee in attendees:
             owner = attendee.event.calendar.owner
@@ -866,44 +810,37 @@ class EventAttendee(ModelSQL, ModelView):
             if not organizer:
                 continue
 
-            ctx = context and context.copy() or {}
-            ctx['skip_schedule_agent'] = True
-            ical = event_obj.event2ical(cursor, user, attendee.event,
-                    context=ctx)
+            with Transaction().set_context(skip_schedule_agent=True):
+                ical = event_obj.event2ical(attendee.event)
             if not hasattr(ical, 'method'):
                 ical.add('method')
             ical.method.value = 'REPLY'
 
-            subject, body = self.subject_body(cursor, user, 'declined',
-                    attendee.event, owner, context=context)
-            msg = self.create_msg(cursor, user, owner.email, organizer,
-                    subject, body, ical, context=context)
+            subject, body = self.subject_body('declined', attendee.event,
+                    owner)
+            msg = self.create_msg(owner.email, organizer, subject, body, ical)
 
             send_list.append((owner.email, organizer, msg, attendee.event.id))
 
 
-        res = super(EventAttendee, self).delete(cursor, user, ids,
-                context=context)
+        res = super(EventAttendee, self).delete(ids)
         for args in send_list:
             owner_email, organizer, msg, event_id = args
-            sent = self.send_msg(cursor, user, owner_email, organizer, msg,
-                    event_id, context=context)
+            sent = self.send_msg(owner_email, organizer, msg, event_id)
             vals = {'organizer_schedule_status': sent and '1.1' or '5.1'}
-            event_obj.write(cursor, user, event_id, vals,
-                    context=context)
+            event_obj.write(event_id, vals)
 
         return res
 
-    def create(self, cursor, user, values, context=None):
+    def create(self, values):
         event_obj = self.pool.get('calendar.event')
 
-        res_id = super(EventAttendee, self).create(cursor, user, values,
-                context=context)
-        if user == 0:
+        res_id = super(EventAttendee, self).create(values)
+        if Transaction().user == 0:
             # user is 0 means create is triggered by another one
             return res_id
 
-        attendee = self.browse(cursor, user, res_id, context=context)
+        attendee = self.browse(res_id)
 
         owner = attendee.event.calendar.owner
 
@@ -915,26 +852,20 @@ class EventAttendee(ModelSQL, ModelView):
         if not organizer:
             return res_id
 
-        ctx = context and context.copy() or {}
-        ctx['skip_schedule_agent'] = True
-        ical = event_obj.event2ical(cursor, user, attendee.event,
-                context=ctx)
+        with Transaction().set_context(skip_schedule_agent=True):
+            ical = event_obj.event2ical(attendee.event)
         if not hasattr(ical, 'method'):
             ical.add('method')
         ical.method.value = 'REPLY'
 
-        subject, body = self.subject_body(cursor, user, attendee.status,
-                attendee.event, owner, context=context)
-        msg = self.create_msg(cursor, user,
-                owner.email, organizer,
-                subject, body, ical, context=context)
+        subject, body = self.subject_body(attendee.status, attendee.event,
+                owner)
+        msg = self.create_msg(owner.email, organizer, subject, body, ical)
 
-        sent = self.send_msg(cursor, user,
-                owner.email, organizer, msg, attendee.event.id,
-                context=context)
+        sent = self.send_msg(owner.email, organizer, msg, attendee.event.id)
 
         vals = {'organizer_schedule_status': sent and '1.1' or '5.1'}
-        event_obj.write(cursor, user, attendee.event.id, vals, context=context)
+        event_obj.write(attendee.event.id, vals)
 
         return res_id
 

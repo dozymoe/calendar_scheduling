@@ -15,20 +15,16 @@ class User(ModelSQL, ModelView):
     calendar_email_notification_partstat = fields.Boolean(
             'Invitation Replies')
 
-    def default_calendar_email_notification_new(self, cursor, user,
-            context=None):
+    def default_calendar_email_notification_new(self):
         return True
 
-    def default_calendar_email_notification_update(self, cursor, user,
-            context=None):
+    def default_calendar_email_notification_update(self):
         return True
 
-    def default_calendar_email_notification_cancel(self, cursor, user,
-            context=None):
+    def default_calendar_email_notification_cancel(self):
         return True
 
-    def default_calendar_email_notification_partstat(self, cursor, user,
-            context=None):
+    def default_calendar_email_notification_partstat(self):
         return True
 
     def __init__(self):

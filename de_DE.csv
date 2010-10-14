@@ -1,9 +1,9 @@
 type,name,res_id,src,value,fuzzy
 error,calendar.event,0,    * ,    * ,0
+error,calendar.event,0,(No Subject),(Kein Betreff),0
 error,calendar.event,0,:,:,0
 error,calendar.event,0,Cancelled Event: %s @ %s,Abgesagter Termin: %s @ %s,0
 error,calendar.event,0,Invitation: %s @ %s,Einladung: %s @ %s,0
-error,calendar.event,0,(No Subject),(Kein Betreff),0
 error,calendar.event,0,"This event has been canceled.
 
 ","Dieser Termin wurde abgesagt.
@@ -22,8 +22,6 @@ error,calendar.event,0,"You have been invited to the following event.
 
 ",0
 error,calendar.event.attendee,0,    * ,    * ,0
-error,calendar.event.attendee,0,:,:,0
-error,calendar.event.attendee,0,(No Subject),(Kein Betreff),0
 error,calendar.event.attendee,0,"%s (%s) changed his/her participation status to: %s
 
 ","%s (%s) hat den Teilnahmestatus geändert auf: %s
@@ -40,6 +38,8 @@ error,calendar.event.attendee,0,"%s (%s) has declined this invitattion:
 
 ",0
 error,calendar.event.attendee,0,%s: %s @ %s,%s: %s @ %s,0
+error,calendar.event.attendee,0,(No Subject),(Kein Betreff),0
+error,calendar.event.attendee,0,:,:,0
 error,calendar.event.attendee,0,When,Wann,0
 field,"calendar.attendee,schedule_agent",0,Schedule Agent,Terminplaner Agent,0
 field,"calendar.attendee,schedule_status",0,Schedule Status,Terminplaner Status,0

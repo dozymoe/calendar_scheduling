@@ -1,9 +1,9 @@
 type,name,res_id,src,value,fuzzy
 error,calendar.event,0,    * ,    *,0
+error,calendar.event,0,(No Subject),(Pas de sujet),0
 error,calendar.event,0,:,:,0
 error,calendar.event,0,Cancelled Event: %s @ %s,Événement annulé : %s @ %s,0
 error,calendar.event,0,Invitation: %s @ %s,Invitation: %s @ %s,0
-error,calendar.event,0,(No Subject),(Pas de sujet),0
 error,calendar.event,0,"This event has been canceled.
 
 ","Cet événement a été annulé.
@@ -22,8 +22,6 @@ error,calendar.event,0,"You have been invited to the following event.
 
 ",0
 error,calendar.event.attendee,0,    * ,    *,0
-error,calendar.event.attendee,0,:,:,0
-error,calendar.event.attendee,0,(No Subject),(Pas de sujet),0
 error,calendar.event.attendee,0,"%s (%s) changed his/her participation status to: %s
 
 ","%s (%s) a un nouveau statut de participation : %s
@@ -37,6 +35,8 @@ error,calendar.event.attendee,0,"%s (%s) has declined this invitattion:
 ","%s (%s) a décliné l'invitation suivante :
 ",0
 error,calendar.event.attendee,0,%s: %s @ %s,%s: %s @ %s,0
+error,calendar.event.attendee,0,(No Subject),(Pas de sujet),0
+error,calendar.event.attendee,0,:,:,0
 error,calendar.event.attendee,0,When,Quand,0
 field,"calendar.attendee,schedule_agent",0,Schedule Agent,Agent de planification,0
 field,"calendar.attendee,schedule_status",0,Schedule Status,Statut de planification,0

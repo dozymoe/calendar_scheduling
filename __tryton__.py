@@ -3,6 +3,7 @@
 #this repository contains the full copyright notices and license terms.
 {
     'name' : 'Calendar Scheduling',
+    'name_bg_BG' : 'График към календар',
     'name_de_DE' : 'Kalender Terminplanung',
     'name_es_CO' : 'Planificador del calendario',
     'name_es_ES' : 'Planificador del calendario',
@@ -12,6 +13,7 @@
     'email': 'info@b2ck.com',
     'website': 'http://www.tryton.org/',
     'description': 'Add Scheduling support on CalDAV',
+    'description_bg_BG' : 'Добавя график към CalDAV',
     'description_de_DE' : 'Fügt Unterstützung für die Terminplanung in CalDAV hinzu',
     'description_es_CO' : 'Añade gestión de planificación de eventos a CalDAV',
     'description_es_ES' : 'Añade la gestión de planificación de eventos a CalDAV',
@@ -26,6 +28,7 @@
         'res.xml',
     ],
     'translation': [
+        'bg_BG.csv',
         'de_DE.csv',
         'es_ES.csv',
         'es_CO.csv',

@@ -1,0 +1,55 @@
+type,name,res_id,src,value,fuzzy
+error,calendar.event,0,    * ,    * ,0
+error,calendar.event,0,(No Subject),(Без тема),0
+error,calendar.event,0,:,:,0
+error,calendar.event,0,Cancelled Event: %s @ %s,Отказано събитие: %s @ %s,0
+error,calendar.event,0,Invitation: %s @ %s,Покана: %s @ %s,0
+error,calendar.event,0,"This event has been canceled.",Събитието бе прекратено.,0
+error,calendar.event,0,"This event has been changed.",Събитоето бе променено.,0
+error,calendar.event,0,Updated Invitation: %s @ %s,Променена покана: %s @ %s,0
+error,calendar.event,0,When,Кога,0
+error,calendar.event,0,"You have been invited to the following event.",Поканени сте на това събитие.,0
+error,calendar.event.attendee,0,    * ,    * ,0
+error,calendar.event.attendee,0,"%s (%s) changed his/her participation status to: %s",%s (%s) промени състоянието за участието си на: %s,0
+error,calendar.event.attendee,0,"%s (%s) has accepted this invitation:",%s (%s) приеха поканата:,0
+error,calendar.event.attendee,0,"%s (%s) has declined this invitattion:",%s (%s) отказаха поканата:,0
+error,calendar.event.attendee,0,%s: %s @ %s,%s: %s @ %s,0
+error,calendar.event.attendee,0,(No Subject),(Без тема),0
+error,calendar.event.attendee,0,:,:,0
+error,calendar.event.attendee,0,When,Кога,0
+field,"calendar.attendee,schedule_agent",0,Schedule Agent,Пълномощник на графика,0
+field,"calendar.attendee,schedule_status",0,Schedule Status,Състояние на график,0
+field,"calendar.event,organizer_schedule_agent",0,Schedule Agent,Пълномощник на графика,0
+field,"calendar.event,organizer_schedule_status",0,Schedule Status,Състояние на график,0
+field,"res.user,calendar_email_notification_cancel",0,Cancelled invitations,Отказани покани,0
+field,"res.user,calendar_email_notification_new",0,New invitations,Нови покани,0
+field,"res.user,calendar_email_notification_partstat",0,Invitation Replies,Отговори на покана,0
+field,"res.user,calendar_email_notification_update",0,Changed invitations,Променени покани,0
+selection,"calendar.attendee,schedule_agent",0,,,0
+selection,"calendar.attendee,schedule_agent",0,Client,Клиент,0
+selection,"calendar.attendee,schedule_agent",0,None,Няма,0
+selection,"calendar.attendee,schedule_agent",0,Server,Сървър,0
+selection,"calendar.attendee,schedule_status",0,,,0
+selection,"calendar.attendee,schedule_status",0,1.0,1.0,0
+selection,"calendar.attendee,schedule_status",0,1.1,1.1,0
+selection,"calendar.attendee,schedule_status",0,1.2,1.2,0
+selection,"calendar.attendee,schedule_status",0,3.7,3.7,0
+selection,"calendar.attendee,schedule_status",0,3.8,3.8,0
+selection,"calendar.attendee,schedule_status",0,5.1,5.1,0
+selection,"calendar.attendee,schedule_status",0,5.2,5.2,0
+selection,"calendar.attendee,schedule_status",0,5.3,5.3,0
+selection,"calendar.event,organizer_schedule_agent",0,,,0
+selection,"calendar.event,organizer_schedule_agent",0,Client,Клиент,0
+selection,"calendar.event,organizer_schedule_agent",0,None,Няма,0
+selection,"calendar.event,organizer_schedule_agent",0,Server,Сървър,0
+selection,"calendar.event,organizer_schedule_status",0,,,0
+selection,"calendar.event,organizer_schedule_status",0,1.0,1.0,0
+selection,"calendar.event,organizer_schedule_status",0,1.1,1.1,0
+selection,"calendar.event,organizer_schedule_status",0,1.2,1.2,0
+selection,"calendar.event,organizer_schedule_status",0,3.7,3.7,0
+selection,"calendar.event,organizer_schedule_status",0,3.8,3.8,0
+selection,"calendar.event,organizer_schedule_status",0,5.1,5.1,0
+selection,"calendar.event,organizer_schedule_status",0,5.2,5.2,0
+selection,"calendar.event,organizer_schedule_status",0,5.3,5.3,0
+view,res.user,0,Calendar Email Notifications,Известяване за събитие от календар,0
+view,res.user,0,Notifications,Известия,0

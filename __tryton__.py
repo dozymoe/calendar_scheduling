@@ -8,6 +8,7 @@
     'name_es_CO' : 'Planificador del calendario',
     'name_es_ES' : 'Planificador del calendario',
     'name_fr_FR' : 'Programmation calendrier',
+    'name_ru_RU' : 'Календарное планирование',
     'version' : '1.9.0',
     'author' : 'B2CK',
     'email': 'info@b2ck.com',
@@ -17,7 +18,8 @@
     'description_de_DE' : 'Fügt Unterstützung für die Terminplanung in CalDAV hinzu',
     'description_es_CO' : 'Añade gestión de planificación de eventos a CalDAV',
     'description_es_ES' : 'Añade la gestión de planificación de eventos a CalDAV',
-    'description_fr_FR': 'Ajoute la gestion de la programmation d\'évènements au CalDAV',
+    'description_fr_FR' : 'Ajoute la gestion de la programmation d\'évènements au CalDAV',
+    'description_ru_RU' : 'Добавление поддержки планирования для CalDAV',
     'depends' : [
         'ir',
         'res',
@@ -33,5 +35,6 @@
         'es_ES.csv',
         'es_CO.csv',
         'fr_FR.csv',
+        'ru_RU.csv',
     ],
 }

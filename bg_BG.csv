@@ -1,20 +1,32 @@
 type,name,res_id,src,value,fuzzy
 error,calendar.event,0,    * ,    * ,0
-error,calendar.event,0,(No Subject),(Без тема),0
+error,calendar.event,0,(No Subject),(Няма тема),0
 error,calendar.event,0,:,:,0
 error,calendar.event,0,Cancelled Event: %s @ %s,Отказано събитие: %s @ %s,0
 error,calendar.event,0,Invitation: %s @ %s,Покана: %s @ %s,0
-error,calendar.event,0,"This event has been canceled.",Събитието бе прекратено.,0
-error,calendar.event,0,"This event has been changed.",Събитоето бе променено.,0
+error,calendar.event,0,"This event has been canceled.
+
+",Събитието бе прекратено.,0
+error,calendar.event,0,"This event has been changed.
+
+",Събитоето бе променено.,0
 error,calendar.event,0,Updated Invitation: %s @ %s,Променена покана: %s @ %s,0
 error,calendar.event,0,When,Кога,0
-error,calendar.event,0,"You have been invited to the following event.",Поканени сте на това събитие.,0
+error,calendar.event,0,"You have been invited to the following event.
+
+",Поканени сте на това събитие.,0
 error,calendar.event.attendee,0,    * ,    * ,0
-error,calendar.event.attendee,0,"%s (%s) changed his/her participation status to: %s",%s (%s) промени състоянието за участието си на: %s,0
-error,calendar.event.attendee,0,"%s (%s) has accepted this invitation:",%s (%s) приеха поканата:,0
-error,calendar.event.attendee,0,"%s (%s) has declined this invitattion:",%s (%s) отказаха поканата:,0
+error,calendar.event.attendee,0,"%s (%s) changed his/her participation status to: %s
+
+",%s (%s) промени състоянието за участието си на: %s,0
+error,calendar.event.attendee,0,"%s (%s) has accepted this invitation:
+
+",%s (%s) приеха поканата:,0
+error,calendar.event.attendee,0,"%s (%s) has declined this invitattion:
+
+",%s (%s) отказаха поканата:,0
 error,calendar.event.attendee,0,%s: %s @ %s,%s: %s @ %s,0
-error,calendar.event.attendee,0,(No Subject),(Без тема),0
+error,calendar.event.attendee,0,(No Subject),(Няма тема),0
 error,calendar.event.attendee,0,:,:,0
 error,calendar.event.attendee,0,When,Кога,0
 field,"calendar.attendee,schedule_agent",0,Schedule Agent,Пълномощник на графика,0

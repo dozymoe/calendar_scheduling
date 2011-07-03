@@ -9,6 +9,7 @@ import logging
 from trytond.model import ModelSQL, ModelView, fields
 from trytond.tools import get_smtp_server
 from trytond.transaction import Transaction
+from trytond.pool import Pool
 
 
 class Event(ModelSQL, ModelView):
@@ -104,7 +105,7 @@ class Event(ModelSQL, ModelView):
         return ical
 
     def subject_body(self, type, event, owner):
-        lang_obj = self.pool.get('ir.lang')
+        lang_obj = Pool().get('ir.lang')
 
         if not (event and owner):
             return "", ""
@@ -228,7 +229,7 @@ class Event(ModelSQL, ModelView):
         :param event_id: the id of the calendar.event
         :return: list of email addresses sent
         '''
-        user_obj = self.pool.get('res.user')
+        user_obj = Pool().get('res.user')
 
         if not to_addrs:
             return to_addrs
@@ -283,7 +284,7 @@ class Event(ModelSQL, ModelView):
         return to_notify, owner
 
     def create(self, values):
-        attendee_obj = self.pool.get('calendar.event.attendee')
+        attendee_obj = Pool().get('calendar.event.attendee')
         res = super(Event, self).create(values)
 
         if Transaction().user == 0:
@@ -319,7 +320,7 @@ class Event(ModelSQL, ModelView):
         return res
 
     def write(self, ids, values):
-        attendee_obj = self.pool.get('calendar.event.attendee')
+        attendee_obj = Pool().get('calendar.event.attendee')
 
         if Transaction().user == 0:
             # user is 0 means write is triggered by another one
@@ -571,8 +572,8 @@ class EventAttendee(ModelSQL, ModelView):
                 })
 
     def subject_body(self, status, event, owner):
-        lang_obj = self.pool.get('ir.lang')
-        event_obj = self.pool.get('calendar.event')
+        lang_obj = Pool().get('ir.lang')
+        event_obj = Pool().get('calendar.event')
 
         if not (event and owner):
             return "", ""
@@ -737,7 +738,7 @@ class EventAttendee(ModelSQL, ModelView):
         return organizer
 
     def write(self, ids, values):
-        event_obj = self.pool.get('calendar.event')
+        event_obj = Pool().get('calendar.event')
 
         if Transaction().user == 0:
             # user is 0 means write is triggered by another one
@@ -789,7 +790,7 @@ class EventAttendee(ModelSQL, ModelView):
         return res
 
     def delete(self, ids):
-        event_obj = self.pool.get('calendar.event')
+        event_obj = Pool().get('calendar.event')
 
         if Transaction().user == 0:
             # user is 0 means the deletion is triggered by another one
@@ -833,7 +834,7 @@ class EventAttendee(ModelSQL, ModelView):
         return res
 
     def create(self, values):
-        event_obj = self.pool.get('calendar.event')
+        event_obj = Pool().get('calendar.event')
 
         res_id = super(EventAttendee, self).create(values)
         if Transaction().user == 0:

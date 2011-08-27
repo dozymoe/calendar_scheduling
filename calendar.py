@@ -723,7 +723,7 @@ class EventAttendee(ModelSQL, ModelView):
     @staticmethod
     def organiser_to_notify(attendee):
         event = attendee.event
-        organizer = event.organizer or event.parent.organizer
+        organizer = event.organizer or event.parent and event.parent.organizer
         if not organizer:
             return None
         if event.organizer_schedule_agent \

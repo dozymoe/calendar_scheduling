@@ -7,7 +7,7 @@
     'name_es_CO' : 'Planificador del calendario',
     'name_es_ES' : 'Planificador del calendario',
     'name_fr_FR' : 'Programmation calendrier',
-    'version' : '1.8.1',
+    'version' : '1.8.2',
     'author' : 'B2CK',
     'email': 'info@b2ck.com',
     'website': 'http://www.tryton.org/',

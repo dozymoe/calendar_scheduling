@@ -30,11 +30,11 @@
         'res.xml',
     ],
     'translation': [
-        'bg_BG.csv',
-        'de_DE.csv',
-        'es_ES.csv',
-        'es_CO.csv',
-        'fr_FR.csv',
-        'ru_RU.csv',
+        'locale/bg_BG.po',
+        'locale/de_DE.po',
+        'locale/es_ES.po',
+        'locale/es_CO.po',
+        'locale/fr_FR.po',
+        'locale/ru_RU.po',
     ],
 }

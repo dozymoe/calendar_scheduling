@@ -1,0 +1,231 @@
+# 
+msgid ""
+msgstr "Content-Type: text/plain; charset=utf-8\n"
+
+msgctxt "error:calendar.event.attendee:0"
+msgid "    * "
+msgstr ""
+
+msgctxt "error:calendar.event.attendee:0"
+msgid ""
+"%s (%s) changed his/her participation status to: %s\n"
+"\n"
+msgstr ""
+
+msgctxt "error:calendar.event.attendee:0"
+msgid ""
+"%s (%s) has accepted this invitation:\n"
+"\n"
+msgstr ""
+
+msgctxt "error:calendar.event.attendee:0"
+msgid ""
+"%s (%s) has declined this invitattion:\n"
+"\n"
+msgstr ""
+
+msgctxt "error:calendar.event.attendee:0"
+msgid "%s: %s @ %s"
+msgstr ""
+
+msgctxt "error:calendar.event.attendee:0"
+msgid "(No Subject)"
+msgstr "(Нет описания)"
+
+msgctxt "error:calendar.event.attendee:0"
+msgid ":"
+msgstr ""
+
+msgctxt "error:calendar.event.attendee:0"
+msgid "When"
+msgstr "Когда"
+
+msgctxt "error:calendar.event:0"
+msgid "    * "
+msgstr ""
+
+msgctxt "error:calendar.event:0"
+msgid "(No Subject)"
+msgstr "(Нет описания)"
+
+msgctxt "error:calendar.event:0"
+msgid ":"
+msgstr ""
+
+msgctxt "error:calendar.event:0"
+msgid "Cancelled Event: %s @ %s"
+msgstr "Событие отмененно: %s @ %s"
+
+msgctxt "error:calendar.event:0"
+msgid "Invitation: %s @ %s"
+msgstr "Приглашение: %s @ %s"
+
+msgctxt "error:calendar.event:0"
+msgid ""
+"This event has been canceled.\n"
+"\n"
+msgstr ""
+
+msgctxt "error:calendar.event:0"
+msgid ""
+"This event has been changed.\n"
+"\n"
+msgstr ""
+
+msgctxt "error:calendar.event:0"
+msgid "Updated Invitation: %s @ %s"
+msgstr ""
+
+msgctxt "error:calendar.event:0"
+msgid "When"
+msgstr "Когда"
+
+msgctxt "error:calendar.event:0"
+msgid ""
+"You have been invited to the following event.\n"
+"\n"
+msgstr ""
+
+msgctxt "field:calendar.attendee,schedule_agent:0"
+msgid "Schedule Agent"
+msgstr "Расписание агента"
+
+msgctxt "field:calendar.attendee,schedule_status:0"
+msgid "Schedule Status"
+msgstr "Статус расписания"
+
+msgctxt "field:calendar.event,organizer_schedule_agent:0"
+msgid "Schedule Agent"
+msgstr "Расписание агента"
+
+msgctxt "field:calendar.event,organizer_schedule_status:0"
+msgid "Schedule Status"
+msgstr "Статус расписания"
+
+msgctxt "field:res.user,calendar_email_notification_cancel:0"
+msgid "Cancelled invitations"
+msgstr "Отменено приглашения"
+
+msgctxt "field:res.user,calendar_email_notification_new:0"
+msgid "New invitations"
+msgstr "Новые приглашения"
+
+msgctxt "field:res.user,calendar_email_notification_partstat:0"
+msgid "Invitation Replies"
+msgstr "Ответы на приглашения"
+
+msgctxt "field:res.user,calendar_email_notification_update:0"
+msgid "Changed invitations"
+msgstr "Изменен приглашения"
+
+msgctxt "selection:calendar.attendee,schedule_agent:0"
+msgid ""
+msgstr ""
+
+msgctxt "selection:calendar.attendee,schedule_agent:0"
+msgid "Client"
+msgstr "Клиент"
+
+msgctxt "selection:calendar.attendee,schedule_agent:0"
+msgid "None"
+msgstr "Отсутствует"
+
+msgctxt "selection:calendar.attendee,schedule_agent:0"
+msgid "Server"
+msgstr "Сервер"
+
+msgctxt "selection:calendar.attendee,schedule_status:0"
+msgid ""
+msgstr ""
+
+msgctxt "selection:calendar.attendee,schedule_status:0"
+msgid "1.0"
+msgstr ""
+
+msgctxt "selection:calendar.attendee,schedule_status:0"
+msgid "1.1"
+msgstr ""
+
+msgctxt "selection:calendar.attendee,schedule_status:0"
+msgid "1.2"
+msgstr ""
+
+msgctxt "selection:calendar.attendee,schedule_status:0"
+msgid "3.7"
+msgstr ""
+
+msgctxt "selection:calendar.attendee,schedule_status:0"
+msgid "3.8"
+msgstr ""
+
+msgctxt "selection:calendar.attendee,schedule_status:0"
+msgid "5.1"
+msgstr ""
+
+msgctxt "selection:calendar.attendee,schedule_status:0"
+msgid "5.2"
+msgstr ""
+
+msgctxt "selection:calendar.attendee,schedule_status:0"
+msgid "5.3"
+msgstr ""
+
+msgctxt "selection:calendar.event,organizer_schedule_agent:0"
+msgid ""
+msgstr ""
+
+msgctxt "selection:calendar.event,organizer_schedule_agent:0"
+msgid "Client"
+msgstr "Клиент"
+
+msgctxt "selection:calendar.event,organizer_schedule_agent:0"
+msgid "None"
+msgstr "Отсутствует"
+
+msgctxt "selection:calendar.event,organizer_schedule_agent:0"
+msgid "Server"
+msgstr "Сервер"
+
+msgctxt "selection:calendar.event,organizer_schedule_status:0"
+msgid ""
+msgstr ""
+
+msgctxt "selection:calendar.event,organizer_schedule_status:0"
+msgid "1.0"
+msgstr ""
+
+msgctxt "selection:calendar.event,organizer_schedule_status:0"
+msgid "1.1"
+msgstr ""
+
+msgctxt "selection:calendar.event,organizer_schedule_status:0"
+msgid "1.2"
+msgstr ""
+
+msgctxt "selection:calendar.event,organizer_schedule_status:0"
+msgid "3.7"
+msgstr ""
+
+msgctxt "selection:calendar.event,organizer_schedule_status:0"
+msgid "3.8"
+msgstr ""
+
+msgctxt "selection:calendar.event,organizer_schedule_status:0"
+msgid "5.1"
+msgstr ""
+
+msgctxt "selection:calendar.event,organizer_schedule_status:0"
+msgid "5.2"
+msgstr ""
+
+msgctxt "selection:calendar.event,organizer_schedule_status:0"
+msgid "5.3"
+msgstr ""
+
+msgctxt "view:res.user:0"
+msgid "Calendar Email Notifications"
+msgstr "Уведомление по почте"
+
+msgctxt "view:res.user:0"
+msgid "Notifications"
+msgstr "Уведомления"

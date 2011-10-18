@@ -131,10 +131,6 @@ msgid "Changed invitations"
 msgstr "Änderungen von Einladungen"
 
 msgctxt "selection:calendar.attendee,schedule_agent:0"
-msgid ""
-msgstr ""
-
-msgctxt "selection:calendar.attendee,schedule_agent:0"
 msgid "Client"
 msgstr "Client"
 
@@ -146,7 +142,7 @@ msgctxt "selection:calendar.attendee,schedule_agent:0"
 msgid "Server"
 msgstr "Server"
 
-msgctxt "selection:calendar.attendee,schedule_status:0"
+msgctxt "selection:calendar.attendee,schedule_agent:0"
 msgid ""
 msgstr ""
 
@@ -182,7 +178,7 @@ msgctxt "selection:calendar.attendee,schedule_status:0"
 msgid "5.3"
 msgstr "5.3"
 
-msgctxt "selection:calendar.event,organizer_schedule_agent:0"
+msgctxt "selection:calendar.attendee,schedule_status:0"
 msgid ""
 msgstr ""
 
@@ -198,7 +194,7 @@ msgctxt "selection:calendar.event,organizer_schedule_agent:0"
 msgid "Server"
 msgstr "Server"
 
-msgctxt "selection:calendar.event,organizer_schedule_status:0"
+msgctxt "selection:calendar.event,organizer_schedule_agent:0"
 msgid ""
 msgstr ""
 
@@ -233,6 +229,10 @@ msgstr "5.2"
 msgctxt "selection:calendar.event,organizer_schedule_status:0"
 msgid "5.3"
 msgstr "5.3"
+
+msgctxt "selection:calendar.event,organizer_schedule_status:0"
+msgid ""
+msgstr ""
 
 msgctxt "view:res.user:0"
 msgid "Calendar Email Notifications"

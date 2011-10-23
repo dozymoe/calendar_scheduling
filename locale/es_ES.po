@@ -7,14 +7,6 @@ msgid "    * "
 msgstr "    * "
 
 msgctxt "error:calendar.event.attendee:0"
-msgid ":"
-msgstr ":"
-
-msgctxt "error:calendar.event.attendee:0"
-msgid "(No Subject)"
-msgstr "(Sin asunto)"
-
-msgctxt "error:calendar.event.attendee:0"
 msgid ""
 "%s (%s) changed his/her participation status to: %s\n"
 "\n"
@@ -39,12 +31,24 @@ msgid "%s: %s @ %s"
 msgstr "%s: %s @ %s"
 
 msgctxt "error:calendar.event.attendee:0"
+msgid "(No Subject)"
+msgstr "(Sin asunto)"
+
+msgctxt "error:calendar.event.attendee:0"
+msgid ":"
+msgstr ":"
+
+msgctxt "error:calendar.event.attendee:0"
 msgid "When"
 msgstr "Cuando"
 
 msgctxt "error:calendar.event:0"
 msgid "    * "
 msgstr "    * "
+
+msgctxt "error:calendar.event:0"
+msgid "(No Subject)"
+msgstr "(Sin asunto)"
 
 msgctxt "error:calendar.event:0"
 msgid ":"
@@ -57,10 +61,6 @@ msgstr "Evento cancelado: %s @ %s"
 msgctxt "error:calendar.event:0"
 msgid "Invitation: %s @ %s"
 msgstr "Invitación: %s @ %s"
-
-msgctxt "error:calendar.event:0"
-msgid "(No Subject)"
-msgstr "(Sin asunto)"
 
 msgctxt "error:calendar.event:0"
 msgid ""

@@ -118,9 +118,10 @@ msgctxt "field:res.user,calendar_email_notification_update:0"
 msgid "Changed invitations"
 msgstr "Изменен приглашения"
 
+#, fuzzy
 msgctxt "selection:calendar.attendee,schedule_agent:0"
 msgid ""
-msgstr ""
+msgstr "Резервный счет"
 
 msgctxt "selection:calendar.attendee,schedule_agent:0"
 msgid "Client"
@@ -134,9 +135,10 @@ msgctxt "selection:calendar.attendee,schedule_agent:0"
 msgid "Server"
 msgstr "Сервер"
 
+#, fuzzy
 msgctxt "selection:calendar.attendee,schedule_status:0"
 msgid ""
-msgstr ""
+msgstr "Резервный счет"
 
 msgctxt "selection:calendar.attendee,schedule_status:0"
 msgid "1.0"
@@ -170,9 +172,10 @@ msgctxt "selection:calendar.attendee,schedule_status:0"
 msgid "5.3"
 msgstr ""
 
+#, fuzzy
 msgctxt "selection:calendar.event,organizer_schedule_agent:0"
 msgid ""
-msgstr ""
+msgstr "Резервный счет"
 
 msgctxt "selection:calendar.event,organizer_schedule_agent:0"
 msgid "Client"
@@ -186,9 +189,10 @@ msgctxt "selection:calendar.event,organizer_schedule_agent:0"
 msgid "Server"
 msgstr "Сервер"
 
+#, fuzzy
 msgctxt "selection:calendar.event,organizer_schedule_status:0"
 msgid ""
-msgstr ""
+msgstr "Резервный счет"
 
 msgctxt "selection:calendar.event,organizer_schedule_status:0"
 msgid "1.0"

@@ -699,7 +699,7 @@ class EventAttendee(ModelSQL, ModelView):
 
         return msg
 
-    def send_msg(self, from_addr, to_addr, msg, event):
+    def send_msg(self, from_addr, to_addr, msg, event_id):
         '''
         Send message
 

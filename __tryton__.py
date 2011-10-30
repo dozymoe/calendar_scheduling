@@ -4,6 +4,7 @@
 {
     'name' : 'Calendar Scheduling',
     'name_bg_BG' : 'График към календар',
+    'name_ca_ES': 'Planificador del calendari',
     'name_de_DE' : 'Kalender Terminplanung',
     'name_es_CO' : 'Planificador del calendario',
     'name_es_ES' : 'Planificador del calendario',
@@ -15,6 +16,7 @@
     'website': 'http://www.tryton.org/',
     'description': 'Add Scheduling support on CalDAV',
     'description_bg_BG' : 'Добавя график към CalDAV',
+    'description_ca_ES' : 'Afegeix suport per la planificació al CalDAV.',
     'description_de_DE' : 'Fügt Unterstützung für die Terminplanung in CalDAV hinzu',
     'description_es_CO' : 'Añade gestión de planificación de eventos a CalDAV',
     'description_es_ES' : 'Añade la gestión de planificación de eventos a CalDAV',
@@ -31,6 +33,7 @@
     ],
     'translation': [
         'locale/bg_BG.po',
+        'locale/ca_ES.po',
         'locale/cs_CZ.po',
         'locale/de_DE.po',
         'locale/es_ES.po',

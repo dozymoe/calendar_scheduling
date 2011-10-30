@@ -1,0 +1,228 @@
+#
+# Albert Cervera i Areny <albert@nan-tic.com>, 2011.
+msgid ""
+msgstr ""
+"Content-Type: text/plain; charset=UTF-8\n"
+"Last-Translator: Albert Cervera i Areny <albert@nan-tic.com>\n"
+"PO-Revision-Date: 2011-10-17 00:42+0200\n"
+"Project-Id-Version: \n"
+"Language-Team: Catalan <>\n"
+"Language: ca\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Lokalize 1.2\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+
+msgctxt "error:calendar.event.attendee:0"
+msgid "    * "
+msgstr "    * "
+
+msgctxt "error:calendar.event.attendee:0"
+msgid ":"
+msgstr ":"
+
+msgctxt "error:calendar.event.attendee:0"
+msgid "(No Subject)"
+msgstr "(Sense assumpte)"
+
+msgctxt "error:calendar.event.attendee:0"
+msgid ""
+"%s (%s) changed his/her participation status to: %s\n"
+"\n"
+msgstr ""
+"%s (%s) hl'estat de la seva participació a: %s\n"
+"\n"
+
+msgctxt "error:calendar.event.attendee:0"
+msgid ""
+"%s (%s) has accepted this invitation:\n"
+"\n"
+msgstr "%s (%s) ha acceptat aquesta invitació:"
+
+msgctxt "error:calendar.event.attendee:0"
+msgid ""
+"%s (%s) has declined this invitattion:\n"
+"\n"
+msgstr "%s (%s) ha declinat aquesta invitació:"
+
+msgctxt "error:calendar.event.attendee:0"
+msgid "%s: %s @ %s"
+msgstr "%s: %s @ %s"
+
+msgctxt "error:calendar.event.attendee:0"
+msgid "When"
+msgstr "Quan"
+
+msgctxt "error:calendar.event:0"
+msgid "    * "
+msgstr "    * "
+
+msgctxt "error:calendar.event:0"
+msgid ":"
+msgstr ":"
+
+msgctxt "error:calendar.event:0"
+msgid "Cancelled Event: %s @ %s"
+msgstr "Esdeveniment cancel·lat: %s @ %s"
+
+msgctxt "error:calendar.event:0"
+msgid "Invitation: %s @ %s"
+msgstr "Invitació: %s @ %s"
+
+msgctxt "error:calendar.event:0"
+msgid "(No Subject)"
+msgstr "(Sense assumpte)"
+
+msgctxt "error:calendar.event:0"
+msgid ""
+"This event has been canceled.\n"
+"\n"
+msgstr "Aquest esdeveniment ha estat cancel·lat."
+
+msgctxt "error:calendar.event:0"
+msgid ""
+"This event has been changed.\n"
+"\n"
+msgstr "Aquest esdeveniment ha canviat."
+
+msgctxt "error:calendar.event:0"
+msgid "Updated Invitation: %s @ %s"
+msgstr "Invitació actualitzada: %s @ %s"
+
+msgctxt "error:calendar.event:0"
+msgid "When"
+msgstr "Quan"
+
+msgctxt "error:calendar.event:0"
+msgid ""
+"You have been invited to the following event.\n"
+"\n"
+msgstr "Ha estat convidat al següent esdeveniment."
+
+msgctxt "field:calendar.attendee,schedule_agent:0"
+msgid "Schedule Agent"
+msgstr "Agent del planificador"
+
+msgctxt "field:calendar.attendee,schedule_status:0"
+msgid "Schedule Status"
+msgstr "Estat de la planificació"
+
+msgctxt "field:calendar.event,organizer_schedule_agent:0"
+msgid "Schedule Agent"
+msgstr "Agent del planificador"
+
+msgctxt "field:calendar.event,organizer_schedule_status:0"
+msgid "Schedule Status"
+msgstr "Estat de la planificació"
+
+msgctxt "field:res.user,calendar_email_notification_cancel:0"
+msgid "Cancelled invitations"
+msgstr "Invitacions cancel·lades"
+
+msgctxt "field:res.user,calendar_email_notification_new:0"
+msgid "New invitations"
+msgstr "Noves invitacions"
+
+msgctxt "field:res.user,calendar_email_notification_partstat:0"
+msgid "Invitation Replies"
+msgstr "Respostes a les invitacions"
+
+msgctxt "field:res.user,calendar_email_notification_update:0"
+msgid "Changed invitations"
+msgstr "Invitacions canviades"
+
+msgctxt "selection:calendar.attendee,schedule_agent:0"
+msgid "Client"
+msgstr "Client"
+
+msgctxt "selection:calendar.attendee,schedule_agent:0"
+msgid "None"
+msgstr "Cap"
+
+msgctxt "selection:calendar.attendee,schedule_agent:0"
+msgid "Server"
+msgstr "Servidor"
+
+msgctxt "selection:calendar.attendee,schedule_status:0"
+msgid "1.0"
+msgstr "1.0"
+
+msgctxt "selection:calendar.attendee,schedule_status:0"
+msgid "1.1"
+msgstr "1.1"
+
+msgctxt "selection:calendar.attendee,schedule_status:0"
+msgid "1.2"
+msgstr "1.2"
+
+msgctxt "selection:calendar.attendee,schedule_status:0"
+msgid "3.7"
+msgstr "3.7"
+
+msgctxt "selection:calendar.attendee,schedule_status:0"
+msgid "3.8"
+msgstr "3.8"
+
+msgctxt "selection:calendar.attendee,schedule_status:0"
+msgid "5.1"
+msgstr "5.1"
+
+msgctxt "selection:calendar.attendee,schedule_status:0"
+msgid "5.2"
+msgstr "5.2"
+
+msgctxt "selection:calendar.attendee,schedule_status:0"
+msgid "5.3"
+msgstr "5.3"
+
+msgctxt "selection:calendar.event,organizer_schedule_agent:0"
+msgid "Client"
+msgstr "Client"
+
+msgctxt "selection:calendar.event,organizer_schedule_agent:0"
+msgid "None"
+msgstr "Cap"
+
+msgctxt "selection:calendar.event,organizer_schedule_agent:0"
+msgid "Server"
+msgstr "Servidor"
+
+msgctxt "selection:calendar.event,organizer_schedule_status:0"
+msgid "1.0"
+msgstr "1.0"
+
+msgctxt "selection:calendar.event,organizer_schedule_status:0"
+msgid "1.1"
+msgstr "1.1"
+
+msgctxt "selection:calendar.event,organizer_schedule_status:0"
+msgid "1.2"
+msgstr "1.2"
+
+msgctxt "selection:calendar.event,organizer_schedule_status:0"
+msgid "3.7"
+msgstr "3.7"
+
+msgctxt "selection:calendar.event,organizer_schedule_status:0"
+msgid "3.8"
+msgstr "3.8"
+
+msgctxt "selection:calendar.event,organizer_schedule_status:0"
+msgid "5.1"
+msgstr "5.1"
+
+msgctxt "selection:calendar.event,organizer_schedule_status:0"
+msgid "5.2"
+msgstr "5.2"
+
+msgctxt "selection:calendar.event,organizer_schedule_status:0"
+msgid "5.3"
+msgstr "5.3"
+
+msgctxt "view:res.user:0"
+msgid "Calendar Email Notifications"
+msgstr "Notificacions per correu electrònic del calendari"
+
+msgctxt "view:res.user:0"
+msgid "Notifications"
+msgstr "Notificacions"

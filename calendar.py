@@ -1,9 +1,7 @@
 #This file is part of Tryton.  The COPYRIGHT file at the top level of
 #this repository contains the full copyright notices and license terms.
-from email.mime.text import MIMEText
 from email.mime.base import MIMEBase
 from email.mime.multipart import MIMEMultipart
-import email.utils
 import logging
 from trytond.model import ModelSQL, ModelView, fields
 from trytond.tools import get_smtp_server

@@ -10,7 +10,7 @@ import datetime
 from dateutil.relativedelta import relativedelta
 import caldav
 import vobject
-from proteus import config, Model, Wizard
+from proteus import config
 from trytond.modules.calendar.tests.scenario_calendar import (
     install_module, configure_user, create_calendar)
 

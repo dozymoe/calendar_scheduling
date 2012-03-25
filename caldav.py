@@ -2,7 +2,7 @@
 #this repository contains the full copyright notices and license terms.
 _TRYTON_RELOAD = False
 
-from DAV.constants import DAV_VERSION_1, DAV_VERSION_2
+from pywebdav.lib.constants import DAV_VERSION_1, DAV_VERSION_2
 
 DAV_VERSION_1['version'] += ',calendar-auto-schedule'
 DAV_VERSION_2['version'] += ',calendar-auto-schedule'

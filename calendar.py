@@ -247,7 +247,7 @@ class Event(ModelSQL, ModelView):
             success = to_addrs
         except Exception:
             logging.getLogger('calendar_scheduling').error(
-                    'Unable to deliver scheduling mail for event %s' % event_id)
+                'Unable to deliver scheduling mail for event %s' % event_id)
         return success
 
     @staticmethod
@@ -309,9 +309,9 @@ class Event(ModelSQL, ModelView):
 
         vals = {'status': 'needs-action'}
         if sent:
-            vals['schedule_status'] = '1.1' #successfully sent
+            vals['schedule_status'] = '1.1'  # successfully sent
         else:
-            vals['schedule_status'] = '5.1' #could not complete delivery
+            vals['schedule_status'] = '5.1'  # could not complete delivery
         attendee_obj.write([a.id for a in to_notify], vals)
 
         return res
@@ -442,9 +442,9 @@ class Event(ModelSQL, ModelView):
                         sent_fail += new_attendees
 
                 vals = {'status': 'needs-action'}
-                vals['schedule_status'] = '1.1' #successfully sent
+                vals['schedule_status'] = '1.1'  # successfully sent
                 attendee_obj.write([a.id for a in sent_succes], vals)
-                vals['schedule_status'] = '5.1' #could not complete delivery
+                vals['schedule_status'] = '5.1'  # could not complete delivery
                 attendee_obj.write([a.id for a in sent_fail], vals)
         return res
 
@@ -514,7 +514,8 @@ class Attendee(ModelSQL, ModelView):
     def attendee2values(self, attendee):
         res = super(Attendee, self).attendee2values(attendee)
         if hasattr(attendee, 'schedule_status'):
-            if attendee.schedule_status in dict(self.schedule_status.selection):
+            if attendee.schedule_status in dict(
+                    self.schedule_status.selection):
                 res['schedule_status'] = attendee.schedule_status
         if hasattr(attendee, 'schedule_agent'):
             if attendee.schedule_agent in dict(self.schedule_agent.selection):
@@ -526,12 +527,14 @@ class Attendee(ModelSQL, ModelView):
 
         if attendee.schedule_status:
             if hasattr(res, 'schedule_status_param'):
-                if res.schedule_status_param in dict(self.schedule_status.selection):
+                if res.schedule_status_param in dict(
+                        self.schedule_status.selection):
                     res.schedule_status_param = attendee.schedule_status
             else:
                 res.schedule_status_param = attendee.schedule_status
         elif hasattr(res, 'schedule_status_param'):
-            if res.schedule_status_param in dict(self.schedule_status.selection):
+            if res.schedule_status_param in dict(
+                    self.schedule_status.selection):
                 del res.schedule_status_param
 
         if Transaction().context.get('skip_schedule_agent'):
@@ -539,7 +542,8 @@ class Attendee(ModelSQL, ModelView):
 
         if attendee.schedule_agent:
             if hasattr(res, 'schedule_agent_param'):
-                if res.schedule_agent_param in dict(self.schedule_agent.selection):
+                if res.schedule_agent_param in dict(
+                        self.schedule_agent.selection):
                     res.schedule_agent_param = attendee.schedule_agent
             else:
                 res.schedule_agent_param = attendee.schedule_agent
@@ -559,7 +563,8 @@ class EventAttendee(ModelSQL, ModelView):
         super(EventAttendee, self).__init__()
         self._error_messages.update({
                 'subject': '%s: %s @ %s',
-                'body': '%s (%s) changed his/her participation status to: %s\n\n',
+                'body': ('%s (%s) changed his/her participation status '
+                    'to: %s\n\n'),
                 'accepted_body': '%s (%s) has accepted this invitation:\n\n',
                 'declined_body': '%s (%s) has declined this invitattion:\n\n',
                 'no_subject': "(No Subject)",
@@ -608,7 +613,7 @@ class EventAttendee(ModelSQL, ModelView):
         fields_names = ['status']
         with Transaction().set_context(language=lang.code):
             fields = self.fields_get(fields_names=fields_names)
-        for k,v in  fields['status']['selection']:
+        for k, v in  fields['status']['selection']:
             if k == status:
                 status_string = v
 
@@ -819,7 +824,6 @@ class EventAttendee(ModelSQL, ModelView):
             msg = self.create_msg(owner.email, organizer, subject, body, ical)
 
             send_list.append((owner.email, organizer, msg, attendee.event.id))
-
 
         res = super(EventAttendee, self).delete(ids)
         for args in send_list:

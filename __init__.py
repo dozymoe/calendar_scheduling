@@ -2,5 +2,5 @@
 #this repository contains the full copyright notices and license terms.
 
 from . import caldav
-from .calendar import *
+from .calendar_ import *
 from .res import *

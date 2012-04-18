@@ -214,6 +214,22 @@ msgctxt "field:res.user,calendar_email_notification_update:"
 msgid "Changed invitations"
 msgstr "Modification des invitations"
 
+msgctxt "model:calendar.attendee,name:"
+msgid ""
+msgstr ""
+
+msgctxt "model:calendar.event,name:"
+msgid ""
+msgstr ""
+
+msgctxt "model:calendar.event.attendee,name:"
+msgid ""
+msgstr ""
+
+msgctxt "model:res.user,name:"
+msgid ""
+msgstr ""
+
 msgctxt "selection:calendar.attendee,schedule_agent:"
 msgid ""
 msgstr ""

@@ -807,7 +807,7 @@ class EventAttendee(ModelSQL, ModelView):
         attendees = self.browse(cursor, user, ids, context=context)
         for attendee in attendees:
             owner = attendee.event.calendar.owner
-            if not owner.calendar_email_notification_partstat:
+            if not owner or not owner.calendar_email_notification_partstat:
                 continue
             organizer = self.organiser_to_notify(attendee)
             if not organizer:
@@ -860,7 +860,7 @@ class EventAttendee(ModelSQL, ModelView):
 
             if attendee.status == 'declined':
                 continue
-            if not owner.calendar_email_notification_partstat:
+            if not owner or not owner.calendar_email_notification_partstat:
                 continue
             organizer = self.organiser_to_notify(attendee)
             if not organizer:
@@ -909,7 +909,7 @@ class EventAttendee(ModelSQL, ModelView):
 
         if (not attendee.status) or attendee.status in ('', 'needs-action'):
             return res_id
-        if not owner.calendar_email_notification_partstat:
+        if not owner or not owner.calendar_email_notification_partstat:
             return res_id
         organizer = self.organiser_to_notify(attendee)
         if not organizer:

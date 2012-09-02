@@ -9,7 +9,7 @@
     'name_es_ES' : 'Planificador del calendario',
     'name_fr_FR' : 'Programmation calendrier',
     'name_ru_RU' : 'Календарное планирование',
-    'version': '2.0.3',
+    'version': '2.0.4',
     'author' : 'B2CK',
     'email': 'info@b2ck.com',
     'website': 'http://www.tryton.org/',

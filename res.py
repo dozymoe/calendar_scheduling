@@ -1,11 +1,14 @@
 #This file is part of Tryton.  The COPYRIGHT file at the top level of
 #this repository contains the full copyright notices and license terms.
-from trytond.model import ModelSQL, ModelView, fields
+from trytond.model import fields
+from trytond.pool import PoolMeta
+
+__all__ = ['User']
+__metaclass__ = PoolMeta
 
 
-class User(ModelSQL, ModelView):
-    _name = 'res.user'
-
+class User:
+    __name__ = 'res.user'
     calendar_email_notification_new = fields.Boolean(
             'New invitations')
     calendar_email_notification_update = fields.Boolean(
@@ -15,25 +18,28 @@ class User(ModelSQL, ModelView):
     calendar_email_notification_partstat = fields.Boolean(
             'Invitation Replies')
 
-    def default_calendar_email_notification_new(self):
+    @staticmethod
+    def default_calendar_email_notification_new():
         return True
 
-    def default_calendar_email_notification_update(self):
+    @staticmethod
+    def default_calendar_email_notification_update():
         return True
 
-    def default_calendar_email_notification_cancel(self):
+    @staticmethod
+    def default_calendar_email_notification_cancel():
         return True
 
-    def default_calendar_email_notification_partstat(self):
+    @staticmethod
+    def default_calendar_email_notification_partstat():
         return True
 
-    def __init__(self):
-        super(User, self).__init__()
-        self._preferences_fields += [
+    @classmethod
+    def __setup__(cls):
+        super(User, cls).__setup__()
+        cls._preferences_fields += [
             'calendar_email_notification_new',
             'calendar_email_notification_update',
             'calendar_email_notification_cancel',
             'calendar_email_notification_partstat',
-        ]
-
-User()
+            ]

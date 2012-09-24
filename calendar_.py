@@ -3,15 +3,18 @@
 from email.mime.base import MIMEBase
 from email.mime.multipart import MIMEMultipart
 import logging
-from trytond.model import ModelSQL, ModelView, fields
+
+from trytond.model import fields
 from trytond.tools import get_smtp_server
 from trytond.transaction import Transaction
-from trytond.pool import Pool
+from trytond.pool import Pool, PoolMeta
+
+__all__ = ['Event', 'Attendee', 'EventAttendee']
+__metaclass__ = PoolMeta
 
 
-class Event(ModelSQL, ModelView):
-    _name = 'calendar.event'
-
+class Event:
+    __name__ = 'calendar.event'
     organizer_schedule_status = fields.Selection([
             ('', ''),
             ('1.0', '1.0'),
@@ -30,12 +33,14 @@ class Event(ModelSQL, ModelView):
             ('CLIENT', 'Client'),
             ], 'Schedule Agent')
 
-    def default_schedule_agent(self):
+    @staticmethod
+    def default_schedule_agent():
         return 'SERVER'
 
-    def __init__(self):
-        super(Event, self).__init__()
-        self._error_messages.update({
+    @classmethod
+    def __setup__(cls):
+        super(Event, cls).__setup__()
+        cls._error_messages.update({
             'new_subject': 'Invitation: %s @ %s',
             'new_body': 'You have been invited to the following event.\n\n',
             'update_subject': 'Updated Invitation: %s @ %s',
@@ -48,9 +53,10 @@ class Event(ModelSQL, ModelView):
             'when': 'When',
             })
 
-    def ical2values(self, event_id, ical, calendar_id, vevent=None):
-        res = super(Event, self).ical2values(event_id, ical, calendar_id,
-                vevent=vevent)
+    @classmethod
+    def ical2values(cls, event_id, ical, calendar_id, vevent=None):
+        res = super(Event, cls).ical2values(event_id, ical, calendar_id,
+            vevent=vevent)
 
         if not vevent:
             vevent = ical.vevent
@@ -61,13 +67,14 @@ class Event(ModelSQL, ModelView):
         for key in ('status', 'agent'):
             field = 'organizer_schedule_' + key
             param = 'SCHEDULE-' + key.upper()
-            if param in vevent.organizer.params and vevent.organizer[param] \
-                    in dict(self[field].selection):
+            if (param in vevent.organizer.params
+                    and vevent.organizer[param] in dict(getattr(cls,
+                            field).selection)):
                 res[field] = vevent.organizer[param]
 
         return res
 
-    def event2ical(self, event):
+    def event2ical(self):
         """
         Override default event2ical to add schedule-status and
         schedule-agent properties
@@ -78,63 +85,57 @@ class Event(ModelSQL, ModelView):
         scheduling message.
         """
 
-        ical = super(Event, self).event2ical(event)
-        if isinstance(event, (int, long)):
-            event = self.browse(event)
-
+        ical = super(Event, self).event2ical()
         vevent = ical.vevent
 
-        if event.organizer_schedule_status:
+        if self.organizer_schedule_status:
             if not hasattr(vevent, 'organizer'):
                 vevent.add('organizer')
             vevent.organizer.params['SCHEDULE-STATUS'] = \
-                (event.organizer_schedule_status,)
+                (self.organizer_schedule_status,)
 
         if Transaction().context.get('skip_schedule_agent'):
             return ical
 
-        if event.organizer_schedule_agent:
+        if self.organizer_schedule_agent:
             if not hasattr(vevent, 'organizer'):
                 vevent.add('organizer')
             vevent.organizer.params['SCHEDULE-AGENT'] = \
-                event.organizer_schedule_agent
+                self.organizer_schedule_agent
 
         return ical
 
-    def subject_body(self, type, event, owner):
-        lang_obj = Pool().get('ir.lang')
+    def subject_body(self, type, owner):
+        Lang = Pool().get('ir.lang')
 
-        if not (event and owner):
+        if not owner:
             return "", ""
         lang = owner.language
         if not lang:
-            lang_ids = lang_obj.search([
-                ('code', '=', 'en_US'),
-                ], limit=1)
-            lang = lang_obj.browse(lang_ids[0])
+            lang, = Lang.search([
+                    ('code', '=', 'en_US'),
+                    ], limit=1)
 
         with Transaction().set_context(language=lang.code):
-            summary = event.summary
+            summary = self.summary
             if not summary:
                 summary = self.raise_user_error('no_subject',
                         raise_exception=False)
 
-        date = lang_obj.strftime(event.dtstart, lang.code, lang.date)
-        if not event.all_day:
-            date += ' ' + lang_obj.strftime(event.dtstart, lang.code, '%H:%M')
-            if event.dtend:
+        date = Lang.strftime(self.dtstart, lang.code, lang.date)
+        if not self.all_day:
+            date += ' ' + Lang.strftime(self.dtstart, lang.code, '%H:%M')
+            if self.dtend:
                 date += ' -'
-                if event.dtstart.date() != event.dtend.date():
-                    date += ' ' + lang_obj.strftime(event.dtend, lang.code,
-                            lang.date)
-                date += ' ' + lang_obj.strftime(event.dtend, lang.code,
-                        '%H:%M')
-        else:
-            if event.dtend and event.dtstart.date() != event.dtend.date():
-                date += ' - ' + lang_obj.strftime(event.dtend, lang.code,
+                if self.dtstart.date() != self.dtend.date():
+                    date += ' ' + Lang.strftime(self.dtend, lang.code,
                         lang.date)
-        if event.timezone:
-            date += ' ' + event.timezone
+                date += ' ' + Lang.strftime(self.dtend, lang.code, '%H:%M')
+        else:
+            if self.dtend and self.dtstart.date() != self.dtend.date():
+                date += ' - ' + Lang.strftime(self.dtend, lang.code, lang.date)
+        if self.timezone:
+            date += ' ' + self.timezone
 
         with Transaction().set_context(language=lang.code):
             subject = self.raise_user_error(type + '_subject',
@@ -157,22 +158,22 @@ class Event(ModelSQL, ModelView):
                 if lang.direction == 'ltr':
                     body += fields['attendees']['string'] + separator + '\n'
                     body += bullet + owner.email + '\n'
-                    for attendee in event.attendees:
+                    for attendee in self.attendees:
                         body += bullet + attendee.email + '\n'
                 else:
                     body += separator + fields['attendees']['string'] + '\n'
                     body += owner.email + bullet + '\n'
-                    for attendee in event.attendees:
+                    for attendee in self.attendees:
                         body += attendee.email + bullet + '\n'
-            elif event[field]:
+            elif getattr(self, field):
                 if field == 'summary':
                     value = summary
                 elif field == 'dtstart':
                     value = date
                 elif field == 'location':
-                    value = event.location.name
+                    value = self.location.name
                 else:
-                    value = event[field]
+                    value = getattr(self, field)
                 if lang.direction == 'ltr':
                     body += fields[field]['string'] + separator + ' ' \
                             + value + '\n'
@@ -181,7 +182,8 @@ class Event(ModelSQL, ModelView):
                             + fields[field]['string'] + '\n'
         return subject, body
 
-    def create_msg(self, from_addr, to_addrs, subject, body, ical=None):
+    @staticmethod
+    def create_msg(from_addr, to_addrs, subject, body, ical=None):
 
         if not to_addrs:
             return None
@@ -215,28 +217,21 @@ class Event(ModelSQL, ModelView):
 
         return msg
 
-    def send_msg(self, from_addr, to_addrs, msg, type, event_id):
+    def send_msg(self, from_addr, to_addrs, msg, type):
         '''
-        Send message
-
-        :param from_addr: a from-address string
-        :param to_addrs: a list of to-address strings
-        :param msg: a message string
-        :param type: the type (new, update, cancel)
-        :param event_id: the id of the calendar.event
-        :return: list of email addresses sent
+        Send message and return the list of email addresses sent
         '''
-        user_obj = Pool().get('res.user')
+        User = Pool().get('res.user')
 
         if not to_addrs:
             return to_addrs
         to_addrs = list(set(to_addrs))
 
-        user_ids = user_obj.search([
-            ('email', 'in', to_addrs),
-            ])
-        for user in user_obj.browse(user_ids):
-            if not user['calendar_email_notification_' + type]:
+        users = User.search([
+                ('email', 'in', to_addrs),
+                ])
+        for user in users:
+            if not getattr(user, 'calendar_email_notification_' + type):
                 to_addrs.remove(user.email)
 
         success = False
@@ -247,24 +242,23 @@ class Event(ModelSQL, ModelView):
             success = to_addrs
         except Exception:
             logging.getLogger('calendar_scheduling').error(
-                'Unable to deliver scheduling mail for event %s' % event_id)
+                'Unable to deliver scheduling mail for %s' % self)
         return success
 
-    @staticmethod
-    def attendees_to_notify(event):
-        if not event.calendar.owner:
+    def attendees_to_notify(self):
+        if not self.calendar.owner:
             return [], None
-        attendees = event.attendees
-        organizer = event.organizer
-        owner = event.calendar.owner
-        if event.parent:
+        attendees = self.attendees
+        organizer = self.organizer
+        owner = self.calendar.owner
+        if self.parent:
             if not attendees:
-                attendees = event.parent.attendees
-                organizer = event.parent.organizer
-                owner = event.parent.calendar.owner
+                attendees = self.parent.attendees
+                organizer = self.parent.organizer
+                owner = self.parent.calendar.owner
             elif not organizer:
-                organizer = event.parent.organizer
-                owner = event.parent.calendar.owner
+                organizer = self.parent.organizer
+                owner = self.parent.calendar.owner
 
         if organizer != owner.email:
             return [], None
@@ -273,61 +267,58 @@ class Event(ModelSQL, ModelView):
         for attendee in attendees:
             if attendee.email == organizer:
                 continue
-            if attendee.schedule_agent and\
-                    attendee.schedule_agent != 'SERVER':
+            if (attendee.schedule_agent
+                    and attendee.schedule_agent != 'SERVER'):
                 continue
             to_notify.append(attendee)
 
         return to_notify, owner
 
-    def create(self, values):
-        attendee_obj = Pool().get('calendar.event.attendee')
-        res = super(Event, self).create(values)
+    @classmethod
+    def create(cls, values):
+        Attendee = Pool().get('calendar.event.attendee')
+        event = super(Event, cls).create(values)
 
         if Transaction().user == 0:
             # user is 0 means create is triggered by another one
-            return res
+            return event
 
-        event = self.browse(res)
-
-        to_notify, owner = self.attendees_to_notify(event)
+        to_notify, owner = event.attendees_to_notify()
         if not to_notify:
-            return res
+            return event
 
         with Transaction().set_context(skip_schedule_agent=True):
-            ical = self.event2ical(event)
+            ical = event.event2ical()
         ical.add('method')
         ical.method.value = 'REQUEST'
 
         attendee_emails = [a.email for a in to_notify]
 
-        subject, body = self.subject_body('new', event, owner)
-        msg = self.create_msg(owner.email, attendee_emails, subject, body,
-                ical)
-        sent = self.send_msg(owner.email, attendee_emails, msg, 'new',
-                event.id)
+        subject, body = event.subject_body('new', owner)
+        msg = cls.create_msg(owner.email, attendee_emails, subject, body, ical)
+        sent = event.send_msg(owner.email, attendee_emails, msg, 'new')
 
         vals = {'status': 'needs-action'}
         if sent:
             vals['schedule_status'] = '1.1'  # successfully sent
         else:
             vals['schedule_status'] = '5.1'  # could not complete delivery
-        attendee_obj.write([a.id for a in to_notify], vals)
+        Attendee.write(to_notify, vals)
 
-        return res
+        return event
 
-    def write(self, ids, values):
-        attendee_obj = Pool().get('calendar.event.attendee')
+    @classmethod
+    def write(cls, events, values):
+        Attendee = Pool().get('calendar.event.attendee')
 
         if Transaction().user == 0:
             # user is 0 means write is triggered by another one
-            return super(Event, self).write(ids, values)
+            super(Event, cls).write(events, values)
+            return
 
-        if isinstance(ids, (int, long)):
-            ids = [ids]
-
-        if not values or not ids:
-            return super(Event, self).write(ids, values)
+        if not values or not events:
+            super(Event, cls).write(events, values)
+            return
 
         event_edited = False
         for k in values:
@@ -336,23 +327,20 @@ class Event(ModelSQL, ModelView):
                 break
 
         # store old attendee info
-        events = self.browse(ids)
         event2former_emails = {}
         former_organiser_mail = {}
         former_organiser_lang = {}
         for event in events:
-            to_notify, owner = self.attendees_to_notify(event)
+            to_notify, owner = event.attendees_to_notify()
             event2former_emails[event.id] = [a.email for a in to_notify]
             former_organiser_mail[event.id] = owner and owner.email
             former_organiser_lang[event.id] = owner and owner.language \
                 and owner.language.code
 
-        res = super(Event, self).write(ids, values)
-
-        events = self.browse(ids)
+        super(Event, cls).write(events, values)
 
         for event in events:
-            current_attendees, owner = self.attendees_to_notify(event)
+            current_attendees, owner = event.attendees_to_notify()
             owner_email = owner and owner.email
             current_emails = [a.email for a in current_attendees]
             former_emails = event2former_emails.get(event.id, [])
@@ -361,22 +349,22 @@ class Event(ModelSQL, ModelView):
 
             if missing_mails:
                 with Transaction().set_context(skip_schedule_agent=True):
-                    ical = self.event2ical(event)
+                    ical = event.event2ical()
                 ical.add('method')
                 ical.method.value = 'CANCEL'
 
-                subject, body = self.subject_body('cancel', event, owner)
-                msg = self.create_msg(former_organiser_mail[event.id],
-                        missing_mails, subject, body, ical)
-                sent = self.send_msg(former_organiser_mail[event.id],
-                        missing_mails, msg, 'cancel', event.id)
+                subject, body = event.subject_body('cancel', owner)
+                msg = cls.create_msg(former_organiser_mail[event.id],
+                    missing_mails, subject, body, ical)
+                sent = event.send_msg(former_organiser_mail[event.id],
+                    missing_mails, msg, 'cancel')
 
             new_attendees = filter(lambda a: a.email not in former_emails,
                 current_attendees)
             old_attendees = filter(lambda a: a.email in former_emails,
                 current_attendees)
             with Transaction().set_context(skip_schedule_agent=True):
-                ical = self.event2ical(event)
+                ical = event.event2ical()
             if not hasattr(ical, 'method'):
                 ical.add('method')
 
@@ -386,13 +374,13 @@ class Event(ModelSQL, ModelView):
                 if event.status == 'cancelled':
                     ical.method.value = 'CANCEL'
                     #send cancel to old attendee
-                    subject, body = self.subject_body('cancel', event, owner)
-                    msg = self.create_msg(owner_email,
-                            [a.email for a in old_attendees],
-                            subject, body, ical)
-                    sent = self.send_msg(owner_email,
-                            [a.email for a in old_attendees],
-                            msg, 'cancel', event.id)
+                    subject, body = event.subject_body('cancel', owner)
+                    msg = cls.create_msg(owner_email,
+                        [a.email for a in old_attendees],
+                        subject, body, ical)
+                    sent = event.send_msg(owner_email,
+                        [a.email for a in old_attendees],
+                        msg, 'cancel')
                     if sent:
                         sent_succes += old_attendees
                     else:
@@ -401,25 +389,25 @@ class Event(ModelSQL, ModelView):
                 else:
                     ical.method.value = 'REQUEST'
                     #send update to old attendees
-                    subject, body = self.subject_body('update', event, owner)
-                    msg = self.create_msg(owner_email,
-                            [a.email for a in old_attendees],
-                            subject, body, ical)
-                    sent = self.send_msg(owner_email,
-                            [a.email for a in old_attendees],
-                            msg, 'update', event.id)
+                    subject, body = event.subject_body('update', owner)
+                    msg = cls.create_msg(owner_email,
+                        [a.email for a in old_attendees],
+                        subject, body, ical)
+                    sent = event.send_msg(owner_email,
+                        [a.email for a in old_attendees],
+                        msg, 'update')
                     if sent:
                         sent_succes += old_attendees
                     else:
                         sent_fail += old_attendees
                     #send new to new attendees
-                    subject, body = self.subject_body('new', event, owner)
-                    msg = self.create_msg(owner_email,
-                            [a.email for a in new_attendees],
-                            subject, body, ical)
-                    sent = self.send_msg(owner_email,
-                            [a.email for a in new_attendees],
-                            msg, 'new', event.id)
+                    subject, body = event.subject_body('new', owner)
+                    msg = cls.create_msg(owner_email,
+                        [a.email for a in new_attendees],
+                        subject, body, ical)
+                    sent = event.send_msg(owner_email,
+                        [a.email for a in new_attendees],
+                        msg, 'new')
                     if sent:
                         sent_succes += new_attendees
                     else:
@@ -429,13 +417,13 @@ class Event(ModelSQL, ModelView):
                 if event.status != 'cancelled':
                     ical.method.value = 'REQUEST'
                     #send new to new attendees
-                    subject, body = self.subject_body('new', event, owner)
-                    msg = self.create_msg(owner_email,
-                            [a.email for a in new_attendees],
-                            subject, body, ical)
-                    sent = self.send_msg(owner_email,
-                            [a.email for a in new_attendees],
-                            msg, 'new', event.id)
+                    subject, body = event.subject_body('new', owner)
+                    msg = cls.create_msg(owner_email,
+                        [a.email for a in new_attendees],
+                        subject, body, ical)
+                    sent = event.send_msg(owner_email,
+                        [a.email for a in new_attendees],
+                        msg, 'new')
                     if sent:
                         sent_succes += new_attendees
                     else:
@@ -443,53 +431,45 @@ class Event(ModelSQL, ModelView):
 
                 vals = {'status': 'needs-action'}
                 vals['schedule_status'] = '1.1'  # successfully sent
-                attendee_obj.write([a.id for a in sent_succes], vals)
+                Attendee.write(sent_succes, vals)
                 vals['schedule_status'] = '5.1'  # could not complete delivery
-                attendee_obj.write([a.id for a in sent_fail], vals)
-        return res
+                Attendee.write(sent_fail, vals)
 
-    def delete(self, ids):
+    @classmethod
+    def delete(cls, events):
         if Transaction().user == 0:
             # user is 0 means the deletion is triggered by another one
-            return super(Event, self).delete(ids)
+            super(Event, cls).delete(events)
+            return
 
-        if isinstance(ids, (int, long)):
-            ids = [ids]
-
-        events = self.browse(ids)
         send_list = []
         for event in events:
             if event.status == 'cancelled':
                 continue
-            to_notify, owner = self.attendees_to_notify(event)
+            to_notify, owner = event.attendees_to_notify()
             if not to_notify:
                 continue
 
             with Transaction().set_context(skip_schedule_agent=True):
-                ical = self.event2ical(event)
+                ical = event.event2ical()
             ical.add('method')
             ical.method.value = 'CANCEL'
 
             attendee_emails = [a.email for a in to_notify]
-            subject, body = self.subject_body('cancel', event, owner)
-            msg = self.create_msg(owner.email, attendee_emails, subject, body,
-                    ical)
+            subject, body = event.subject_body('cancel', owner)
+            msg = cls.create_msg(owner.email, attendee_emails, subject, body,
+                ical)
 
-            send_list.append((owner.email, attendee_emails, msg, event.id,))
+            send_list.append((owner.email, attendee_emails, msg, event))
 
-        res = super(Event, self).delete(ids)
+        super(Event, cls).delete(events)
         for args in send_list:
-            owner_email, attendee_emails, msg, event_id = args
-            self.send_msg(owner_email, attendee_emails, msg, 'cancel',
-                    event_id)
-        return res
-
-Event()
+            owner_email, attendee_emails, msg, event = args
+            event.send_msg(owner_email, attendee_emails, msg, 'cancel')
 
 
-class Attendee(ModelSQL, ModelView):
-    _name = 'calendar.attendee'
-
+class Attendee:
+    __name__ = 'calendar.attendee'
     schedule_status = fields.Selection([
             ('', ''),
             ('1.0', '1.0'),
@@ -508,60 +488,62 @@ class Attendee(ModelSQL, ModelView):
             ('CLIENT', 'Client'),
             ], 'Schedule Agent')
 
-    def default_schedule_agent(self):
+    @classmethod
+    def default_schedule_agent():
         return 'SERVER'
 
-    def attendee2values(self, attendee):
-        res = super(Attendee, self).attendee2values(attendee)
+    @classmethod
+    def attendee2values(cls, attendee):
+        values = super(Attendee, cls).attendee2values(attendee)
         if hasattr(attendee, 'schedule_status'):
             if attendee.schedule_status in dict(
-                    self.schedule_status.selection):
-                res['schedule_status'] = attendee.schedule_status
+                    cls.schedule_status.selection):
+                values['schedule_status'] = attendee.schedule_status
         if hasattr(attendee, 'schedule_agent'):
-            if attendee.schedule_agent in dict(self.schedule_agent.selection):
-                res['schedule_agent'] = attendee.schedule_agent
-        return res
+            if attendee.schedule_agent in dict(cls.schedule_agent.selection):
+                values['schedule_agent'] = attendee.schedule_agent
+        return values
 
-    def attendee2attendee(self, attendee):
-        res = super(Attendee, self).attendee2attendee(attendee)
+    def attendee2attendee(self):
+        attendee = super(Attendee, self).attendee2attendee()
 
-        if attendee.schedule_status:
-            if hasattr(res, 'schedule_status_param'):
-                if res.schedule_status_param in dict(
-                        self.schedule_status.selection):
-                    res.schedule_status_param = attendee.schedule_status
+        if self.schedule_status:
+            if hasattr(attendee, 'schedule_status_param'):
+                if attendee.schedule_status_param in dict(
+                        self.__class__.schedule_status.selection):
+                    attendee.schedule_status_param = self.schedule_status
             else:
-                res.schedule_status_param = attendee.schedule_status
-        elif hasattr(res, 'schedule_status_param'):
-            if res.schedule_status_param in dict(
-                    self.schedule_status.selection):
-                del res.schedule_status_param
+                attendee.schedule_status_param = self.schedule_status
+        elif hasattr(attendee, 'schedule_status_param'):
+            if attendee.schedule_status_param in dict(
+                    self.__class__.schedule_status.selection):
+                del attendee.schedule_status_param
 
         if Transaction().context.get('skip_schedule_agent'):
-            return res
+            return attendee
 
-        if attendee.schedule_agent:
-            if hasattr(res, 'schedule_agent_param'):
-                if res.schedule_agent_param in dict(
-                        self.schedule_agent.selection):
-                    res.schedule_agent_param = attendee.schedule_agent
+        if self.schedule_agent:
+            if hasattr(attendee, 'schedule_agent_param'):
+                if attendee.schedule_agent_param in dict(
+                        self.__class__.schedule_agent.selection):
+                    attendee.schedule_agent_param = self.schedule_agent
             else:
-                res.schedule_agent_param = attendee.schedule_agent
-        elif hasattr(res, 'schedule_agent_param'):
-            if res.schedule_agent_param in dict(self.schedule_agent.selection):
-                del res.schedule_agent_param
+                attendee.schedule_agent_param = self.schedule_agent
+        elif hasattr(attendee, 'schedule_agent_param'):
+            if attendee.schedule_agent_param in dict(
+                    self.__class__.schedule_agent.selection):
+                del attendee.schedule_agent_param
 
-        return res
-
-Attendee()
+        return attendee
 
 
-class EventAttendee(ModelSQL, ModelView):
-    _name = 'calendar.event.attendee'
+class EventAttendee:
+    __name__ = 'calendar.event.attendee'
 
-    def __init__(self):
-        super(EventAttendee, self).__init__()
-        self._error_messages.update({
+    @classmethod
+    def __setup__(cls):
+        super(EventAttendee, cls).__setup__()
+        cls._error_messages.update({
                 'subject': '%s: %s @ %s',
                 'body': ('%s (%s) changed his/her participation status '
                     'to: %s\n\n'),
@@ -573,18 +555,19 @@ class EventAttendee(ModelSQL, ModelView):
                 'when': 'When',
                 })
 
-    def subject_body(self, status, event, owner):
-        lang_obj = Pool().get('ir.lang')
-        event_obj = Pool().get('calendar.event')
+    def subject_body(self, status, owner):
+        pool = Pool()
+        Lang = pool.get('ir.lang')
+        Event = pool.get('calendar.event')
+        event = self.event
 
         if not (event and owner):
             return "", ""
         lang = owner.language
         if not lang:
-            lang_ids = lang_obj.search([
-                ('code', '=', 'en_US'),
-                ], limit=1)
-            lang = lang_obj.browse(lang_ids[0])
+            lang, = Lang.search([
+                    ('code', '=', 'en_US'),
+                    ], limit=1)
 
         summary = event.summary
         if not summary:
@@ -592,20 +575,19 @@ class EventAttendee(ModelSQL, ModelView):
                 summary = self.raise_user_error('no_subject',
                         raise_exception=False)
 
-        date = lang_obj.strftime(event.dtstart, lang.code, lang.date)
+        date = Lang.strftime(event.dtstart, lang.code, lang.date)
         if not event.all_day:
-            date += ' ' + lang_obj.strftime(event.dtstart, lang.code, '%H:%M')
+            date += ' ' + Lang.strftime(event.dtstart, lang.code, '%H:%M')
             if event.dtend:
                 date += ' -'
                 if event.dtstart.date() != event.dtend.date():
-                    date += ' ' + lang_obj.strftime(event.dtend, lang.code,
-                            lang.date)
-                date += ' ' + lang_obj.strftime(event.dtend, lang.code,
-                        '%H:%M')
+                    date += ' ' + Lang.strftime(event.dtend, lang.code,
+                        lang.date)
+                date += ' ' + Lang.strftime(event.dtend, lang.code, '%H:%M')
         else:
             if event.dtend and event.dtstart.date() != event.dtend.date():
-                date += ' - ' + lang_obj.strftime(event.dtend, lang.code,
-                        lang.date)
+                date += ' - ' + Lang.strftime(event.dtend, lang.code,
+                    lang.date)
         if event.timezone:
             date += ' ' + event.timezone
 
@@ -634,7 +616,7 @@ class EventAttendee(ModelSQL, ModelView):
             bullet = self.raise_user_error('bullet', raise_exception=False)
 
             fields_names = ['summary', 'dtstart', 'location', 'attendees']
-            fields = event_obj.fields_get(fields_names=fields_names)
+            fields = Event.fields_get(fields_names=fields_names)
             fields['dtstart']['string'] = self.raise_user_error('when',
                     raise_exception=False)
         for field in fields_names:
@@ -669,7 +651,8 @@ class EventAttendee(ModelSQL, ModelView):
                             + fields[field]['string'] + '\n'
         return subject, body
 
-    def create_msg(self, from_addr, to_addr, subject, body, ical=None):
+    @staticmethod
+    def create_msg(from_addr, to_addr, subject, body, ical=None):
 
         if not to_addr:
             return None
@@ -702,15 +685,9 @@ class EventAttendee(ModelSQL, ModelView):
 
         return msg
 
-    def send_msg(self, from_addr, to_addr, msg, event_id):
+    def send_msg(self, from_addr, to_addr, msg):
         '''
-        Send message
-
-        :param from_addr: a from-address string
-        :param to_addr: recipient address
-        :param msg: a message string
-        :param event_id: the id of the calendar.event
-        :return: a boolean (True if the mail has been sent)
+        Send message and return True if the mail has been sent
         '''
         success = False
         try:
@@ -720,12 +697,11 @@ class EventAttendee(ModelSQL, ModelView):
             success = True
         except Exception:
             logging.getLogger('calendar_scheduling').error(
-                    'Unable to deliver reply mail for event %s' % event_id)
+                'Unable to deliver reply mail for %s' % self)
         return success
 
-    @staticmethod
-    def organiser_to_notify(attendee):
-        event = attendee.event
+    def organiser_to_notify(self):
+        event = self.event
         organizer = event.organizer or event.parent and event.parent.organizer
         if not organizer:
             return None
@@ -734,37 +710,35 @@ class EventAttendee(ModelSQL, ModelView):
             return None
         if organizer == event.calendar.owner.email:
             return None
-        if attendee.email != event.calendar.owner.email:
+        if self.email != event.calendar.owner.email:
             return None
 
         return organizer
 
-    def write(self, ids, values):
-        event_obj = Pool().get('calendar.event')
+    @classmethod
+    def write(cls, attendees, values):
+        Event = Pool().get('calendar.event')
 
         if Transaction().user == 0:
             # user is 0 means write is triggered by another one
-            return super(EventAttendee, self).write(ids, values)
+            super(EventAttendee, cls).write(attendees, values)
+            return
 
         if 'status' not in values:
-            return super(EventAttendee, self).write(ids, values)
-
-        if isinstance(ids, (int, long)):
-            ids = [ids]
+            super(EventAttendee, cls).write(attendees, values)
+            return
 
         att2status = {}
-        attendees = self.browse(ids)
         for attendee in attendees:
             att2status[attendee.id] = attendee.status
 
-        res = super(EventAttendee, self).write(ids, values)
+        super(EventAttendee, cls).write(attendees, values)
 
-        attendees = self.browse(ids)
         for attendee in attendees:
             owner = attendee.event.calendar.owner
             if not owner or not owner.calendar_email_notification_partstat:
                 continue
-            organizer = self.organiser_to_notify(attendee)
+            organizer = attendee.organiser_to_notify()
             if not organizer:
                 continue
 
@@ -775,32 +749,28 @@ class EventAttendee(ModelSQL, ModelView):
                 continue
 
             with Transaction().set_context(skip_schedule_agent=True):
-                ical = event_obj.event2ical(attendee.event)
+                ical = attendee.event.event2ical()
             if not hasattr(ical, 'method'):
                 ical.add('method')
             ical.method.value = 'REPLY'
 
-            subject, body = self.subject_body(new, attendee.event, owner)
-            msg = self.create_msg(owner.email, organizer, subject, body, ical)
+            subject, body = attendee.subject_body(new, owner)
+            msg = cls.create_msg(owner.email, organizer, subject, body, ical)
 
-            sent = self.send_msg(owner.email, organizer, msg,
-                    attendee.event.id)
+            sent = attendee.send_msg(owner.email, organizer, msg)
 
             vals = {'organizer_schedule_status': sent and '1.1' or '5.1'}
-            event_obj.write(attendee.event.id, vals)
+            Event.write([attendee.event], vals)
 
-        return res
-
-    def delete(self, ids):
-        event_obj = Pool().get('calendar.event')
+    @classmethod
+    def delete(cls, attendees):
+        Event = Pool().get('calendar.event')
 
         if Transaction().user == 0:
             # user is 0 means the deletion is triggered by another one
-            return super(EventAttendee, self).delete(ids)
+            super(EventAttendee, cls).delete(attendees)
+            return
 
-        if isinstance(ids, (int, long)):
-            ids = [ids]
-        attendees = self.browse(ids)
         send_list = []
         for attendee in attendees:
             owner = attendee.event.calendar.owner
@@ -809,66 +779,59 @@ class EventAttendee(ModelSQL, ModelView):
                 continue
             if not owner or not owner.calendar_email_notification_partstat:
                 continue
-            organizer = self.organiser_to_notify(attendee)
+            organizer = attendee.organiser_to_notify()
             if not organizer:
                 continue
 
             with Transaction().set_context(skip_schedule_agent=True):
-                ical = event_obj.event2ical(attendee.event)
+                ical = attendee.event.event2ical()
             if not hasattr(ical, 'method'):
                 ical.add('method')
             ical.method.value = 'REPLY'
 
-            subject, body = self.subject_body('declined', attendee.event,
-                    owner)
-            msg = self.create_msg(owner.email, organizer, subject, body, ical)
+            subject, body = attendee.subject_body('declined', owner)
+            msg = cls.create_msg(owner.email, organizer, subject, body, ical)
 
-            send_list.append((owner.email, organizer, msg, attendee.event.id))
+            send_list.append((owner.email, organizer, msg, attendee))
 
-        res = super(EventAttendee, self).delete(ids)
+        super(EventAttendee, cls).delete(attendees)
         for args in send_list:
-            owner_email, organizer, msg, event_id = args
-            sent = self.send_msg(owner_email, organizer, msg, event_id)
+            owner_email, organizer, msg, attendee = args
+            sent = attendee.send_msg(owner_email, organizer, msg)
             vals = {'organizer_schedule_status': sent and '1.1' or '5.1'}
-            event_obj.write(event_id, vals)
+            Event.write([attendee.event], vals)
 
-        return res
+    @classmethod
+    def create(cls, values):
+        Event = Pool().get('calendar.event')
 
-    def create(self, values):
-        event_obj = Pool().get('calendar.event')
-
-        res_id = super(EventAttendee, self).create(values)
+        attendee = super(EventAttendee, cls).create(values)
         if Transaction().user == 0:
             # user is 0 means create is triggered by another one
-            return res_id
-
-        attendee = self.browse(res_id)
+            return attendee
 
         owner = attendee.event.calendar.owner
 
         if (not attendee.status) or attendee.status in ('', 'needs-action'):
-            return res_id
+            return attendee
         if not owner or not owner.calendar_email_notification_partstat:
-            return res_id
-        organizer = self.organiser_to_notify(attendee)
+            return attendee
+        organizer = attendee.organiser_to_notify()
         if not organizer:
-            return res_id
+            return attendee
 
         with Transaction().set_context(skip_schedule_agent=True):
-            ical = event_obj.event2ical(attendee.event)
+            ical = attendee.event.event2ical()
         if not hasattr(ical, 'method'):
             ical.add('method')
         ical.method.value = 'REPLY'
 
-        subject, body = self.subject_body(attendee.status, attendee.event,
-                owner)
-        msg = self.create_msg(owner.email, organizer, subject, body, ical)
+        subject, body = attendee.subject_body(attendee.status, owner)
+        msg = cls.create_msg(owner.email, organizer, subject, body, ical)
 
-        sent = self.send_msg(owner.email, organizer, msg, attendee.event.id)
+        sent = attendee.send_msg(owner.email, organizer, msg)
 
         vals = {'organizer_schedule_status': sent and '1.1' or '5.1'}
-        event_obj.write(attendee.event.id, vals)
+        Event.write([attendee.event], vals)
 
-        return res_id
-
-EventAttendee()
+        return attendee

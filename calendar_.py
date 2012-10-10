@@ -488,7 +488,7 @@ class Attendee:
             ('CLIENT', 'Client'),
             ], 'Schedule Agent')
 
-    @classmethod
+    @staticmethod
     def default_schedule_agent():
         return 'SERVER'
 

@@ -120,7 +120,7 @@ msgstr "Invitaciones Cambiadas"
 
 msgctxt "selection:calendar.attendee,schedule_agent:"
 msgid ""
-msgstr ""
+msgstr "Punto de Orden"
 
 msgctxt "selection:calendar.attendee,schedule_agent:"
 msgid "Client"
@@ -136,7 +136,7 @@ msgstr "Servidor"
 
 msgctxt "selection:calendar.attendee,schedule_status:"
 msgid ""
-msgstr ""
+msgstr "Punto de Orden"
 
 msgctxt "selection:calendar.attendee,schedule_status:"
 msgid "1.0"
@@ -172,7 +172,7 @@ msgstr "5.3"
 
 msgctxt "selection:calendar.event,organizer_schedule_agent:"
 msgid ""
-msgstr ""
+msgstr "Punto de Orden"
 
 msgctxt "selection:calendar.event,organizer_schedule_agent:"
 msgid "Client"
@@ -188,7 +188,7 @@ msgstr "Servidor"
 
 msgctxt "selection:calendar.event,organizer_schedule_status:"
 msgid ""
-msgstr ""
+msgstr "Punto de Orden"
 
 msgctxt "selection:calendar.event,organizer_schedule_status:"
 msgid "1.0"

@@ -275,37 +275,39 @@ class Event:
         return to_notify, owner
 
     @classmethod
-    def create(cls, values):
+    def create(cls, vlist):
         Attendee = Pool().get('calendar.event.attendee')
-        event = super(Event, cls).create(values)
+        events = super(Event, cls).create(vlist)
 
         if Transaction().user == 0:
             # user is 0 means create is triggered by another one
-            return event
+            return events
 
-        to_notify, owner = event.attendees_to_notify()
-        if not to_notify:
-            return event
+        for event in events:
+            to_notify, owner = event.attendees_to_notify()
+            if not to_notify:
+                return event
 
-        with Transaction().set_context(skip_schedule_agent=True):
-            ical = event.event2ical()
-        ical.add('method')
-        ical.method.value = 'REQUEST'
+            with Transaction().set_context(skip_schedule_agent=True):
+                ical = event.event2ical()
+            ical.add('method')
+            ical.method.value = 'REQUEST'
 
-        attendee_emails = [a.email for a in to_notify]
+            attendee_emails = [a.email for a in to_notify]
 
-        subject, body = event.subject_body('new', owner)
-        msg = cls.create_msg(owner.email, attendee_emails, subject, body, ical)
-        sent = event.send_msg(owner.email, attendee_emails, msg, 'new')
+            subject, body = event.subject_body('new', owner)
+            msg = cls.create_msg(owner.email, attendee_emails, subject, body,
+                ical)
+            sent = event.send_msg(owner.email, attendee_emails, msg, 'new')
 
-        vals = {'status': 'needs-action'}
-        if sent:
-            vals['schedule_status'] = '1.1'  # successfully sent
-        else:
-            vals['schedule_status'] = '5.1'  # could not complete delivery
-        Attendee.write(to_notify, vals)
+            vals = {'status': 'needs-action'}
+            if sent:
+                vals['schedule_status'] = '1.1'  # successfully sent
+            else:
+                vals['schedule_status'] = '5.1'  # could not complete delivery
+            Attendee.write(to_notify, vals)
 
-        return event
+        return events
 
     @classmethod
     def write(cls, events, values):
@@ -802,36 +804,37 @@ class EventAttendee:
             Event.write([attendee.event], vals)
 
     @classmethod
-    def create(cls, values):
+    def create(cls, vlist):
         Event = Pool().get('calendar.event')
 
-        attendee = super(EventAttendee, cls).create(values)
+        attendees = super(EventAttendee, cls).create(vlist)
         if Transaction().user == 0:
             # user is 0 means create is triggered by another one
-            return attendee
+            return attendees
 
-        owner = attendee.event.calendar.owner
+        for attendee in attendees:
+            owner = attendee.event.calendar.owner
 
-        if (not attendee.status) or attendee.status in ('', 'needs-action'):
-            return attendee
-        if not owner or not owner.calendar_email_notification_partstat:
-            return attendee
-        organizer = attendee.organiser_to_notify()
-        if not organizer:
-            return attendee
+            if (not attendee.status) or attendee.status in ('', 'needs-action'):
+                continue
+            if not owner or not owner.calendar_email_notification_partstat:
+                continue
+            organizer = attendee.organiser_to_notify()
+            if not organizer:
+                continue
 
-        with Transaction().set_context(skip_schedule_agent=True):
-            ical = attendee.event.event2ical()
-        if not hasattr(ical, 'method'):
-            ical.add('method')
-        ical.method.value = 'REPLY'
+            with Transaction().set_context(skip_schedule_agent=True):
+                ical = attendee.event.event2ical()
+            if not hasattr(ical, 'method'):
+                ical.add('method')
+            ical.method.value = 'REPLY'
 
-        subject, body = attendee.subject_body(attendee.status, owner)
-        msg = cls.create_msg(owner.email, organizer, subject, body, ical)
+            subject, body = attendee.subject_body(attendee.status, owner)
+            msg = cls.create_msg(owner.email, organizer, subject, body, ical)
 
-        sent = attendee.send_msg(owner.email, organizer, msg)
+            sent = attendee.send_msg(owner.email, organizer, msg)
 
-        vals = {'organizer_schedule_status': sent and '1.1' or '5.1'}
-        Event.write([attendee.event], vals)
+            vals = {'organizer_schedule_status': sent and '1.1' or '5.1'}
+            Event.write([attendee.event], vals)
 
-        return attendee
+        return attendees

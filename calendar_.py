@@ -176,10 +176,10 @@ class Event:
                     value = getattr(self, field)
                 if lang.direction == 'ltr':
                     body += fields[field]['string'] + separator + ' ' \
-                            + value + '\n'
+                        + value + '\n'
                 else:
                     body += value + ' ' + separator \
-                            + fields[field]['string'] + '\n'
+                        + fields[field]['string'] + '\n'
         return subject, body
 
     @staticmethod
@@ -597,7 +597,7 @@ class EventAttendee:
         fields_names = ['status']
         with Transaction().set_context(language=lang.code):
             fields = self.fields_get(fields_names=fields_names)
-        for k, v in  fields['status']['selection']:
+        for k, v in fields['status']['selection']:
             if k == status:
                 status_string = v
 
@@ -647,10 +647,10 @@ class EventAttendee:
                     value = event[field]
                 if lang.direction == 'ltr':
                     body += fields[field]['string'] + separator + ' ' \
-                            + value + '\n'
+                        + value + '\n'
                 else:
                     body += value + ' ' + separator \
-                            + fields[field]['string'] + '\n'
+                        + fields[field]['string'] + '\n'
         return subject, body
 
     @staticmethod
@@ -815,7 +815,8 @@ class EventAttendee:
         for attendee in attendees:
             owner = attendee.event.calendar.owner
 
-            if (not attendee.status) or attendee.status in ('', 'needs-action'):
+            if ((not attendee.status)
+                    or attendee.status in ('', 'needs-action')):
                 continue
             if not owner or not owner.calendar_email_notification_partstat:
                 continue

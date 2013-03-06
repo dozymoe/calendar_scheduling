@@ -8,54 +8,14 @@ this repository contains the full copyright notices and license terms. -->
             <field name="model">res.user</field>
             <field name="type">form</field>
             <field name="inherit" ref="res.user_view_form"/>
-            <field name="arch" type="xml">
-                <![CDATA[
-                <data>
-                    <xpath expr="/form/notebook" position="inside">
-                        <page string="Notifications"
-                            id="notification" col="2">
-                            <separator string="Calendar Email Notifications"
-                                id="calendar_email_notification" colspan="2"/>
-                            <label name="calendar_email_notification_new"/>
-                            <field name="calendar_email_notification_new"/>
-                            <label name="calendar_email_notification_update"/>
-                            <field name="calendar_email_notification_update"/>
-                            <label name="calendar_email_notification_cancel"/>
-                            <field name="calendar_email_notification_cancel"/>
-                            <label name="calendar_email_notification_partstat"/>
-                            <field name="calendar_email_notification_partstat"/>
-                        </page>
-                    </xpath>
-                </data>
-                ]]>
-            </field>
+            <field name="name">user_form</field>
         </record>
 
         <record model="ir.ui.view" id="user_view_form_preferences">
             <field name="model">res.user</field>
             <field name="type">form</field>
             <field name="inherit" ref="res.user_view_form_preferences"/>
-            <field name="arch" type="xml">
-                <![CDATA[
-                <data>
-                    <xpath expr="/form/notebook" position="inside">
-                        <page string="Notifications"
-                            id="notification" col="2">
-                            <separator string="Calendar Email Notifications"
-                                id="calendar_email_notification" colspan="2"/>
-                            <label name="calendar_email_notification_new"/>
-                            <field name="calendar_email_notification_new"/>
-                            <label name="calendar_email_notification_update"/>
-                            <field name="calendar_email_notification_update"/>
-                            <label name="calendar_email_notification_cancel"/>
-                            <field name="calendar_email_notification_cancel"/>
-                            <label name="calendar_email_notification_partstat"/>
-                            <field name="calendar_email_notification_partstat"/>
-                        </page>
-                    </xpath>
-                </data>
-                ]]>
-            </field>
+            <field name="name">user_form_preferences</field>
         </record>
 
     </data>

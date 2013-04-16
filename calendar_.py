@@ -286,7 +286,7 @@ class Event:
         for event in events:
             to_notify, owner = event.attendees_to_notify()
             if not to_notify:
-                return event
+                continue
 
             with Transaction().set_context(skip_schedule_agent=True):
                 ical = event.event2ical()

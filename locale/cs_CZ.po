@@ -86,14 +86,6 @@ msgid ""
 "\n"
 msgstr ""
 
-msgctxt "field:calendar.attendee,schedule_agent:"
-msgid "Schedule Agent"
-msgstr ""
-
-msgctxt "field:calendar.attendee,schedule_status:"
-msgid "Schedule Status"
-msgstr ""
-
 msgctxt "field:calendar.event,organizer_schedule_agent:"
 msgid "Schedule Agent"
 msgstr ""
@@ -116,58 +108,6 @@ msgstr ""
 
 msgctxt "field:res.user,calendar_email_notification_update:"
 msgid "Changed invitations"
-msgstr ""
-
-msgctxt "selection:calendar.attendee,schedule_agent:"
-msgid ""
-msgstr ""
-
-msgctxt "selection:calendar.attendee,schedule_agent:"
-msgid "Client"
-msgstr ""
-
-msgctxt "selection:calendar.attendee,schedule_agent:"
-msgid "None"
-msgstr ""
-
-msgctxt "selection:calendar.attendee,schedule_agent:"
-msgid "Server"
-msgstr ""
-
-msgctxt "selection:calendar.attendee,schedule_status:"
-msgid ""
-msgstr ""
-
-msgctxt "selection:calendar.attendee,schedule_status:"
-msgid "1.0"
-msgstr ""
-
-msgctxt "selection:calendar.attendee,schedule_status:"
-msgid "1.1"
-msgstr ""
-
-msgctxt "selection:calendar.attendee,schedule_status:"
-msgid "1.2"
-msgstr ""
-
-msgctxt "selection:calendar.attendee,schedule_status:"
-msgid "3.7"
-msgstr ""
-
-msgctxt "selection:calendar.attendee,schedule_status:"
-msgid "3.8"
-msgstr ""
-
-msgctxt "selection:calendar.attendee,schedule_status:"
-msgid "5.1"
-msgstr ""
-
-msgctxt "selection:calendar.attendee,schedule_status:"
-msgid "5.2"
-msgstr ""
-
-msgctxt "selection:calendar.attendee,schedule_status:"
-msgid "5.3"
 msgstr ""
 
 msgctxt "selection:calendar.event,organizer_schedule_agent:"

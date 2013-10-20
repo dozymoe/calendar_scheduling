@@ -114,7 +114,7 @@ msgstr "Invitacions canviades"
 
 msgctxt "selection:calendar.event,organizer_schedule_agent:"
 msgid ""
-msgstr " "
+msgstr ""
 
 msgctxt "selection:calendar.event,organizer_schedule_agent:"
 msgid "Client"
@@ -130,7 +130,7 @@ msgstr "Servidor"
 
 msgctxt "selection:calendar.event,organizer_schedule_status:"
 msgid ""
-msgstr " "
+msgstr ""
 
 msgctxt "selection:calendar.event,organizer_schedule_status:"
 msgid "1.0"

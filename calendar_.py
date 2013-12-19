@@ -310,38 +310,36 @@ class Event:
         return events
 
     @classmethod
-    def write(cls, events, values):
+    def write(cls, *args):
         Attendee = Pool().get('calendar.event.attendee')
 
         if Transaction().user == 0:
             # user is 0 means write is triggered by another one
-            super(Event, cls).write(events, values)
+            super(Event, cls).write(*args)
             return
 
-        if not values or not events:
-            super(Event, cls).write(events, values)
-            return
+        actions = iter(args)
+        for events, values in zip(actions, actions):
+            event_edited = False
+            for k in values:
+                if k != 'attendees':
+                    event_edited = True
+                    break
 
-        event_edited = False
-        for k in values:
-            if k != 'attendees':
-                event_edited = True
-                break
+            # store old attendee info
+            event2former_emails = {}
+            former_organiser_mail = {}
+            former_organiser_lang = {}
+            for event in events:
+                to_notify, owner = event.attendees_to_notify()
+                event2former_emails[event.id] = [a.email for a in to_notify]
+                former_organiser_mail[event.id] = owner and owner.email
+                former_organiser_lang[event.id] = owner and owner.language \
+                    and owner.language.code
 
-        # store old attendee info
-        event2former_emails = {}
-        former_organiser_mail = {}
-        former_organiser_lang = {}
-        for event in events:
-            to_notify, owner = event.attendees_to_notify()
-            event2former_emails[event.id] = [a.email for a in to_notify]
-            former_organiser_mail[event.id] = owner and owner.email
-            former_organiser_lang[event.id] = owner and owner.language \
-                and owner.language.code
+        super(Event, cls).write(*args)
 
-        super(Event, cls).write(events, values)
-
-        for event in events:
+        for event in sum(args[::2], []):
             current_attendees, owner = event.attendees_to_notify()
             owner_email = owner and owner.email
             current_emails = [a.email for a in current_attendees]
@@ -718,7 +716,7 @@ class EventAttendee:
         return organizer
 
     @classmethod
-    def write(cls, attendees, values):
+    def write(cls, *args):
         Event = Pool().get('calendar.event')
 
         if Transaction().user == 0:
@@ -726,17 +724,18 @@ class EventAttendee:
             super(EventAttendee, cls).write(attendees, values)
             return
 
-        if 'status' not in values:
-            super(EventAttendee, cls).write(attendees, values)
-            return
-
+        actions = iter(args)
+        status_attendees = []
         att2status = {}
-        for attendee in attendees:
-            att2status[attendee.id] = attendee.status
+        for attendees, values in zip(actions, actions):
+            if 'status' in values:
+                status_attendees += attendees
+                for attendee in attendees:
+                    att2status[attendee.id] = attendee.status
 
-        super(EventAttendee, cls).write(attendees, values)
+        super(EventAttendee, cls).write(*args)
 
-        for attendee in attendees:
+        for attendee in status_attendees:
             owner = attendee.event.calendar.owner
             if not owner or not owner.calendar_email_notification_partstat:
                 continue

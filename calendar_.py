@@ -721,7 +721,7 @@ class EventAttendee:
 
         if Transaction().user == 0:
             # user is 0 means write is triggered by another one
-            super(EventAttendee, cls).write(attendees, values)
+            super(EventAttendee, cls).write(*args)
             return
 
         actions = iter(args)

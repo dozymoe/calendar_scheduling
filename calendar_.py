@@ -9,7 +9,7 @@ from trytond.tools import get_smtp_server
 from trytond.transaction import Transaction
 from trytond.pool import Pool, PoolMeta
 
-__all__ = ['Event', 'Attendee', 'EventAttendee']
+__all__ = ['Event', 'EventAttendee']
 __metaclass__ = PoolMeta
 
 
@@ -468,8 +468,7 @@ class Event:
             event.send_msg(owner_email, attendee_emails, msg, 'cancel')
 
 
-class Attendee:
-    __name__ = 'calendar.attendee'
+class AttendeeMixin:
     schedule_status = fields.Selection([
             ('', ''),
             ('1.0', '1.0'),
@@ -494,7 +493,7 @@ class Attendee:
 
     @classmethod
     def attendee2values(cls, attendee):
-        values = super(Attendee, cls).attendee2values(attendee)
+        values = super(AttendeeMixin, cls).attendee2values(attendee)
         if hasattr(attendee, 'schedule_status'):
             if attendee.schedule_status in dict(
                     cls.schedule_status.selection):
@@ -505,7 +504,7 @@ class Attendee:
         return values
 
     def attendee2attendee(self):
-        attendee = super(Attendee, self).attendee2attendee()
+        attendee = super(AttendeeMixin, self).attendee2attendee()
 
         if self.schedule_status:
             if hasattr(attendee, 'schedule_status_param'):
@@ -537,7 +536,8 @@ class Attendee:
         return attendee
 
 
-class EventAttendee:
+class EventAttendee(AttendeeMixin, object):
+    __metaclass__ = PoolMeta
     __name__ = 'calendar.event.attendee'
 
     @classmethod

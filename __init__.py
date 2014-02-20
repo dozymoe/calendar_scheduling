@@ -10,7 +10,6 @@ from .res import *
 def register():
     Pool.register(
         Event,
-        Attendee,
         EventAttendee,
         User,
         module='calendar_scheduling', type_='model')

@@ -106,6 +106,14 @@ msgctxt "field:calendar.event,organizer_schedule_status:"
 msgid "Schedule Status"
 msgstr "Terminplaner Status"
 
+msgctxt "field:calendar.event.attendee,schedule_agent:"
+msgid "Schedule Agent"
+msgstr "Terminplaner Agent"
+
+msgctxt "field:calendar.event.attendee,schedule_status:"
+msgid "Schedule Status"
+msgstr "Terminplaner Status"
+
 msgctxt "field:res.user,calendar_email_notification_cancel:"
 msgid "Cancelled invitations"
 msgstr "Absagen von Einladungen"
@@ -171,6 +179,58 @@ msgid "5.2"
 msgstr "5.2"
 
 msgctxt "selection:calendar.event,organizer_schedule_status:"
+msgid "5.3"
+msgstr "5.3"
+
+msgctxt "selection:calendar.event.attendee,schedule_agent:"
+msgid ""
+msgstr ""
+
+msgctxt "selection:calendar.event.attendee,schedule_agent:"
+msgid "Client"
+msgstr "Client"
+
+msgctxt "selection:calendar.event.attendee,schedule_agent:"
+msgid "None"
+msgstr "Keiner"
+
+msgctxt "selection:calendar.event.attendee,schedule_agent:"
+msgid "Server"
+msgstr "Server"
+
+msgctxt "selection:calendar.event.attendee,schedule_status:"
+msgid ""
+msgstr ""
+
+msgctxt "selection:calendar.event.attendee,schedule_status:"
+msgid "1.0"
+msgstr "1.0"
+
+msgctxt "selection:calendar.event.attendee,schedule_status:"
+msgid "1.1"
+msgstr "1.1"
+
+msgctxt "selection:calendar.event.attendee,schedule_status:"
+msgid "1.2"
+msgstr "1.2"
+
+msgctxt "selection:calendar.event.attendee,schedule_status:"
+msgid "3.7"
+msgstr "3.7"
+
+msgctxt "selection:calendar.event.attendee,schedule_status:"
+msgid "3.8"
+msgstr "3.8"
+
+msgctxt "selection:calendar.event.attendee,schedule_status:"
+msgid "5.1"
+msgstr "5.1"
+
+msgctxt "selection:calendar.event.attendee,schedule_status:"
+msgid "5.2"
+msgstr "5.2"
+
+msgctxt "selection:calendar.event.attendee,schedule_status:"
 msgid "5.3"
 msgstr "5.3"
 

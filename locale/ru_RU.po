@@ -100,6 +100,16 @@ msgctxt "field:calendar.event,organizer_schedule_status:"
 msgid "Schedule Status"
 msgstr "Статус расписания"
 
+#, fuzzy
+msgctxt "field:calendar.event.attendee,schedule_agent:"
+msgid "Schedule Agent"
+msgstr "Расписание агента"
+
+#, fuzzy
+msgctxt "field:calendar.event.attendee,schedule_status:"
+msgid "Schedule Status"
+msgstr "Статус расписания"
+
 msgctxt "field:res.user,calendar_email_notification_cancel:"
 msgid "Cancelled invitations"
 msgstr "Отменено приглашения"
@@ -165,6 +175,61 @@ msgid "5.2"
 msgstr ""
 
 msgctxt "selection:calendar.event,organizer_schedule_status:"
+msgid "5.3"
+msgstr ""
+
+msgctxt "selection:calendar.event.attendee,schedule_agent:"
+msgid ""
+msgstr ""
+
+#, fuzzy
+msgctxt "selection:calendar.event.attendee,schedule_agent:"
+msgid "Client"
+msgstr "Клиент"
+
+#, fuzzy
+msgctxt "selection:calendar.event.attendee,schedule_agent:"
+msgid "None"
+msgstr "Отсутствует"
+
+#, fuzzy
+msgctxt "selection:calendar.event.attendee,schedule_agent:"
+msgid "Server"
+msgstr "Сервер"
+
+msgctxt "selection:calendar.event.attendee,schedule_status:"
+msgid ""
+msgstr ""
+
+msgctxt "selection:calendar.event.attendee,schedule_status:"
+msgid "1.0"
+msgstr ""
+
+msgctxt "selection:calendar.event.attendee,schedule_status:"
+msgid "1.1"
+msgstr ""
+
+msgctxt "selection:calendar.event.attendee,schedule_status:"
+msgid "1.2"
+msgstr ""
+
+msgctxt "selection:calendar.event.attendee,schedule_status:"
+msgid "3.7"
+msgstr ""
+
+msgctxt "selection:calendar.event.attendee,schedule_status:"
+msgid "3.8"
+msgstr ""
+
+msgctxt "selection:calendar.event.attendee,schedule_status:"
+msgid "5.1"
+msgstr ""
+
+msgctxt "selection:calendar.event.attendee,schedule_status:"
+msgid "5.2"
+msgstr ""
+
+msgctxt "selection:calendar.event.attendee,schedule_status:"
 msgid "5.3"
 msgstr ""
 

@@ -1,5 +1,5 @@
-#This file is part of Tryton.  The COPYRIGHT file at the top level of
-#this repository contains the full copyright notices and license terms.
+# This file is part of Tryton.  The COPYRIGHT file at the top level of
+# this repository contains the full copyright notices and license terms.
 from email.mime.base import MIMEBase
 from email.mime.multipart import MIMEMultipart
 import logging
@@ -373,7 +373,7 @@ class Event:
             if event_edited:
                 if event.status == 'cancelled':
                     ical.method.value = 'CANCEL'
-                    #send cancel to old attendee
+                    # send cancel to old attendee
                     subject, body = event.subject_body('cancel', owner)
                     msg = cls.create_msg(owner_email,
                         [a.email for a in old_attendees],
@@ -388,7 +388,7 @@ class Event:
 
                 else:
                     ical.method.value = 'REQUEST'
-                    #send update to old attendees
+                    # send update to old attendees
                     subject, body = event.subject_body('update', owner)
                     msg = cls.create_msg(owner_email,
                         [a.email for a in old_attendees],
@@ -400,7 +400,7 @@ class Event:
                         sent_succes += old_attendees
                     else:
                         sent_fail += old_attendees
-                    #send new to new attendees
+                    # send new to new attendees
                     subject, body = event.subject_body('new', owner)
                     msg = cls.create_msg(owner_email,
                         [a.email for a in new_attendees],
@@ -416,7 +416,7 @@ class Event:
             else:
                 if event.status != 'cancelled':
                     ical.method.value = 'REQUEST'
-                    #send new to new attendees
+                    # send new to new attendees
                     subject, body = event.subject_body('new', owner)
                     msg = cls.create_msg(owner_email,
                         [a.email for a in new_attendees],

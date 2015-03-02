@@ -12,6 +12,8 @@ from trytond.pool import Pool, PoolMeta
 __all__ = ['Event', 'EventAttendee']
 __metaclass__ = PoolMeta
 
+logger = logging.getLogger(__name__)
+
 
 class Event:
     __name__ = 'calendar.event'
@@ -241,8 +243,9 @@ class Event:
             server.quit()
             success = to_addrs
         except Exception:
-            logging.getLogger('calendar_scheduling').error(
-                'Unable to deliver scheduling mail for %s' % self)
+            logger.error(
+                'Unable to deliver scheduling mail for %s', (self),
+                exc_info=True)
         return success
 
     def attendees_to_notify(self):
@@ -696,8 +699,8 @@ class EventAttendee(AttendeeMixin, object):
             server.quit()
             success = True
         except Exception:
-            logging.getLogger('calendar_scheduling').error(
-                'Unable to deliver reply mail for %s' % self)
+            logger.error(
+                'Unable to deliver reply mail for %s', (self,), exc_info=True)
         return success
 
     def organiser_to_notify(self):

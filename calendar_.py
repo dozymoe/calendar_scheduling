@@ -244,7 +244,7 @@ class Event:
             success = to_addrs
         except Exception:
             logger.error(
-                'Unable to deliver scheduling mail for %s', (self),
+                'Unable to deliver scheduling mail for %s', self,
                 exc_info=True)
         return success
 
@@ -700,7 +700,7 @@ class EventAttendee(AttendeeMixin, object):
             success = True
         except Exception:
             logger.error(
-                'Unable to deliver reply mail for %s', (self,), exc_info=True)
+                'Unable to deliver reply mail for %s', self, exc_info=True)
         return success
 
     def organiser_to_notify(self):

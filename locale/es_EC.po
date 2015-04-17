@@ -10,7 +10,9 @@ msgctxt "error:calendar.event.attendee:"
 msgid ""
 "%s (%s) changed his/her participation status to: %s\n"
 "\n"
-msgstr "%s (%s) cambió el estado de su participación a: %s\n"
+msgstr ""
+"%s (%s) cambió el estado de su participación a: %s\n"
+"\n"
 
 msgctxt "error:calendar.event.attendee:"
 msgid ""
@@ -30,7 +32,7 @@ msgstr "%s: %s @ %s"
 
 msgctxt "error:calendar.event.attendee:"
 msgid "(No Subject)"
-msgstr "(Sin Asunto)"
+msgstr "(Sin asunto)"
 
 msgctxt "error:calendar.event.attendee:"
 msgid ":"
@@ -54,7 +56,7 @@ msgstr ":"
 
 msgctxt "error:calendar.event:"
 msgid "Cancelled Event: %s @ %s"
-msgstr "Evento Cancelado: %s @ %s"
+msgstr "Evento cancelado: %s @ %s"
 
 msgctxt "error:calendar.event:"
 msgid "Invitation: %s @ %s"
@@ -88,19 +90,19 @@ msgstr "Ha sido invitado al siguiente evento.\n"
 
 msgctxt "field:calendar.event,organizer_schedule_agent:"
 msgid "Schedule Agent"
-msgstr "Agente de la Planificación"
+msgstr "Agente de la planificación"
 
 msgctxt "field:calendar.event,organizer_schedule_status:"
 msgid "Schedule Status"
-msgstr "Estado de la Planificación"
+msgstr "Estado de la planificación"
 
 msgctxt "field:calendar.event.attendee,schedule_agent:"
 msgid "Schedule Agent"
-msgstr "Agente de la Planificación"
+msgstr "Agente de la planificación"
 
 msgctxt "field:calendar.event.attendee,schedule_status:"
 msgid "Schedule Status"
-msgstr "Estado de la Planificación"
+msgstr "Estado de la planificación"
 
 msgctxt "field:res.user,calendar_email_notification_cancel:"
 msgid "Cancelled invitations"
@@ -112,7 +114,7 @@ msgstr "Nuevas invitaciones"
 
 msgctxt "field:res.user,calendar_email_notification_partstat:"
 msgid "Invitation Replies"
-msgstr "Respuestas a las Invitaciones"
+msgstr "Respuestas a las invitaciones"
 
 msgctxt "field:res.user,calendar_email_notification_update:"
 msgid "Changed invitations"
@@ -224,7 +226,7 @@ msgstr "5.3"
 
 msgctxt "view:res.user:"
 msgid "Calendar Email Notifications"
-msgstr "Notificaciones por Correo Electrónico del Calendario"
+msgstr "Notificaciones por correo electrónico del calendario"
 
 msgctxt "view:res.user:"
 msgid "Notifications"

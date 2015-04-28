@@ -69,10 +69,10 @@ class Event:
         for key in ('status', 'agent'):
             field = 'organizer_schedule_' + key
             param = 'SCHEDULE-' + key.upper()
+            selection = dict(getattr(cls, field).selection)
             if (param in vevent.organizer.params
-                    and vevent.organizer[param] in dict(getattr(cls,
-                            field).selection)):
-                res[field] = vevent.organizer[param]
+                    and vevent.organizer.params[param][0] in selection):
+                res[field] = vevent.organizer.params[param][0]
 
         return res
 

@@ -637,7 +637,7 @@ class EventAttendee(AttendeeMixin, object):
                         body += owner.email + bullet + '\n'
                     for attendee in event.attendees:
                         body += attendee.email + bullet + '\n'
-            elif event[field]:
+            elif getattr(event, field):
                 if field == 'summary':
                     value = summary
                 elif field == 'dtstart':

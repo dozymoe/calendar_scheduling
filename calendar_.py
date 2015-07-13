@@ -4,6 +4,8 @@ from email.mime.base import MIMEBase
 from email.mime.multipart import MIMEMultipart
 import logging
 
+import dateutil.tz
+
 from trytond.model import fields
 from trytond.tools import get_smtp_server
 from trytond.transaction import Transaction
@@ -11,6 +13,7 @@ from trytond.pool import Pool, PoolMeta
 
 __all__ = ['Event', 'EventAttendee']
 __metaclass__ = PoolMeta
+tzlocal = dateutil.tz.tzlocal()
 
 
 class Event:
@@ -122,18 +125,25 @@ class Event:
                 summary = self.raise_user_error('no_subject',
                         raise_exception=False)
 
-        date = Lang.strftime(self.dtstart, lang.code, lang.date)
+        if self.timezone:
+            tzevent = dateutil.tz.gettz(self.timezone)
+        else:
+            tzevent = tzlocal
+        dtstart = self.dtstart.replace(tzinfo=tzlocal).astimezone(tzevent)
+        dtend = self.dtend.replace(tzinfo=tzlocal).astimezone(tzevent)
+
+        date = Lang.strftime(dtstart, lang.code, lang.date)
         if not self.all_day:
-            date += ' ' + Lang.strftime(self.dtstart, lang.code, '%H:%M')
+            date += ' ' + Lang.strftime(dtstart, lang.code, '%H:%M')
             if self.dtend:
                 date += ' -'
                 if self.dtstart.date() != self.dtend.date():
-                    date += ' ' + Lang.strftime(self.dtend, lang.code,
+                    date += ' ' + Lang.strftime(dtend, lang.code,
                         lang.date)
-                date += ' ' + Lang.strftime(self.dtend, lang.code, '%H:%M')
+                date += ' ' + Lang.strftime(dtend, lang.code, '%H:%M')
         else:
             if self.dtend and self.dtstart.date() != self.dtend.date():
-                date += ' - ' + Lang.strftime(self.dtend, lang.code, lang.date)
+                date += ' - ' + Lang.strftime(dtend, lang.code, lang.date)
         if self.timezone:
             date += ' ' + self.timezone
 

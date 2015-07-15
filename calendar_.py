@@ -130,7 +130,10 @@ class Event:
         else:
             tzevent = tzlocal
         dtstart = self.dtstart.replace(tzinfo=tzlocal).astimezone(tzevent)
-        dtend = self.dtend.replace(tzinfo=tzlocal).astimezone(tzevent)
+        if self.dtend:
+            dtend = self.dtend.replace(tzinfo=tzlocal).astimezone(tzevent)
+        else:
+            dtend = None
 
         date = Lang.strftime(dtstart, lang.code, lang.date)
         if not self.all_day:
@@ -585,18 +588,28 @@ class EventAttendee(AttendeeMixin, object):
                 summary = self.raise_user_error('no_subject',
                         raise_exception=False)
 
-        date = Lang.strftime(event.dtstart, lang.code, lang.date)
+        if event.timezone:
+            tzevent = dateutil.tz.gettz(event.timezone)
+        else:
+            tzevent = tzlocal
+        dtstart = event.dtstart.replace(tzinfo=tzlocal).astimezone(tzevent)
+        if event.dtend:
+            dtend = event.dtend.replace(tzinfo=tzlocal).astimezone(tzevent)
+        else:
+            dtend = None
+
+        date = Lang.strftime(dtstart, lang.code, lang.date)
         if not event.all_day:
-            date += ' ' + Lang.strftime(event.dtstart, lang.code, '%H:%M')
+            date += ' ' + Lang.strftime(dtstart, lang.code, '%H:%M')
             if event.dtend:
                 date += ' -'
                 if event.dtstart.date() != event.dtend.date():
-                    date += ' ' + Lang.strftime(event.dtend, lang.code,
+                    date += ' ' + Lang.strftime(dtend, lang.code,
                         lang.date)
-                date += ' ' + Lang.strftime(event.dtend, lang.code, '%H:%M')
+                date += ' ' + Lang.strftime(dtend, lang.code, '%H:%M')
         else:
             if event.dtend and event.dtstart.date() != event.dtend.date():
-                date += ' - ' + Lang.strftime(event.dtend, lang.code,
+                date += ' - ' + Lang.strftime(dtend, lang.code,
                     lang.date)
         if event.timezone:
             date += ' ' + event.timezone

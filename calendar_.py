@@ -508,6 +508,10 @@ class AttendeeMixin:
 
     @classmethod
     def attendee2values(cls, attendee):
+        # Those params don't need to be stored
+        for param in ['received_dtstamp_param', 'received_sequence_param']:
+            if hasattr(attendee, param):
+                delattr(attendee, param)
         values = super(AttendeeMixin, cls).attendee2values(attendee)
         if hasattr(attendee, 'schedule_status'):
             if attendee.schedule_status in dict(

@@ -100,7 +100,8 @@ class Event:
                 (self.organizer_schedule_status,)
 
         if Transaction().context.get('skip_schedule_agent'):
-            if hasattr(vevent.organizer, 'schedule_agent_param'):
+            if (hasattr(vevent, 'organizer')
+                    and hasattr(vevent.organizer, 'schedule_agent_param')):
                 del vevent.organizer.schedule_agent_param
             return ical
 

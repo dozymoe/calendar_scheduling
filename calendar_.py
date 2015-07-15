@@ -573,7 +573,7 @@ class EventAttendee(AttendeeMixin, object):
                 'body': ('%s (%s) changed his/her participation status '
                     'to: %s\n\n'),
                 'accepted_body': '%s (%s) has accepted this invitation:\n\n',
-                'declined_body': '%s (%s) has declined this invitattion:\n\n',
+                'declined_body': '%s (%s) has declined this invitation:\n\n',
                 'no_subject': "(No Subject)",
                 'separator': ':',
                 'bullet': '    * ',

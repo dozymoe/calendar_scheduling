@@ -98,6 +98,8 @@ class Event:
                 (self.organizer_schedule_status,)
 
         if Transaction().context.get('skip_schedule_agent'):
+            if hasattr(vevent.organizer, 'schedule_agent_param'):
+                del vevent.organizer.schedule_agent_param
             return ical
 
         if self.organizer_schedule_agent:
@@ -538,6 +540,8 @@ class AttendeeMixin:
                 del attendee.schedule_status_param
 
         if Transaction().context.get('skip_schedule_agent'):
+            if hasattr(attendee, 'schedule_agent_param'):
+                del attendee.schedule_agent_param
             return attendee
 
         if self.schedule_agent:

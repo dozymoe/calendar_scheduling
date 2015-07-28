@@ -780,6 +780,8 @@ class EventAttendee(AttendeeMixin, object):
 
             with Transaction().set_context(skip_schedule_agent=True):
                 ical = attendee.event.event2ical()
+                # Only the current attendee is needed
+                ical.vevent.attendee_list = [attendee.attendee2attendee()]
             if not hasattr(ical, 'method'):
                 ical.add('method')
             ical.method.value = 'REPLY'
@@ -815,6 +817,8 @@ class EventAttendee(AttendeeMixin, object):
 
             with Transaction().set_context(skip_schedule_agent=True):
                 ical = attendee.event.event2ical()
+                # Only the current attendee is needed
+                ical.vevent.attendee_list = [attendee.attendee2attendee()]
             if not hasattr(ical, 'method'):
                 ical.add('method')
             ical.method.value = 'REPLY'
@@ -854,6 +858,8 @@ class EventAttendee(AttendeeMixin, object):
 
             with Transaction().set_context(skip_schedule_agent=True):
                 ical = attendee.event.event2ical()
+                # Only the current attendee is needed
+                ical.vevent.attendee_list = [attendee.attendee2attendee()]
             if not hasattr(ical, 'method'):
                 ical.add('method')
             ical.method.value = 'REPLY'

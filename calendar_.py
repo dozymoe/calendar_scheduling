@@ -215,11 +215,9 @@ class Event:
         msg_body.set_payload(body.encode('UTF-8'), 'UTF-8')
         inner.attach(msg_body)
 
-        attachment = MIMEBase('text', 'calendar')
-        attachment.set_payload(ical.serialize())
-        attachment.add_header('Content-Transfer-Encoding', 'quoted-printable',
-                charset='UTF-8',
-                method=ical.method.value.lower())
+        attachment = MIMEBase('text', 'calendar',
+            method=ical.method.value)
+        attachment.set_payload(ical.serialize(), 'UTF-8')
         inner.attach(attachment)
 
         msg.attach(inner)
@@ -700,11 +698,9 @@ class EventAttendee(AttendeeMixin, object):
         msg_body.set_payload(body.encode('UTF-8'), 'UTF-8')
         inner.attach(msg_body)
 
-        attachment = MIMEBase('text', 'calendar')
-        attachment.set_payload(ical.serialize())
-        attachment.add_header('Content-Transfer-Encoding', 'quoted-printable',
-                charset='UTF-8',
-                method=ical.method.value.lower())
+        attachment = MIMEBase('text', 'calendar',
+            method=ical.method.value)
+        attachment.set_payload(ical.serialize(), 'UTF-8')
         inner.attach(attachment)
 
         msg.attach(inner)

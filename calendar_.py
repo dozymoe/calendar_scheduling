@@ -336,11 +336,11 @@ class Event:
             return
 
         actions = iter(args)
+        events_edited = set()
         for events, values in zip(actions, actions):
-            event_edited = False
             for k in values:
                 if k != 'attendees':
-                    event_edited = True
+                    events_edited.update(events)
                     break
 
             # store old attendee info
@@ -387,7 +387,7 @@ class Event:
 
             sent_succes = []
             sent_fail = []
-            if event_edited:
+            if event in events_edited:
                 if event.status == 'cancelled':
                     ical.method.value = 'CANCEL'
                     # send cancel to old attendee
@@ -448,9 +448,11 @@ class Event:
 
                 vals = {'status': 'needs-action'}
                 vals['schedule_status'] = '1.1'  # successfully sent
-                Attendee.write(sent_succes, vals)
+                if sent_succes:
+                    Attendee.write(sent_succes, vals)
                 vals['schedule_status'] = '5.1'  # could not complete delivery
-                Attendee.write(sent_fail, vals)
+                if sent_fail:
+                    Attendee.write(sent_fail, vals)
 
     @classmethod
     def delete(cls, events):

@@ -39,7 +39,7 @@ class Event:
             ], 'Schedule Agent')
 
     @staticmethod
-    def default_schedule_agent():
+    def default_organizer_schedule_agent():
         return 'SERVER'
 
     @classmethod

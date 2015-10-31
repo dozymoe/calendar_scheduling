@@ -24,10 +24,10 @@ msgstr ""
 
 msgctxt "error:calendar.event.attendee:"
 msgid ""
-"%s (%s) has declined this invitattion:\n"
+"%s (%s) has declined this invitation:\n"
 "\n"
 msgstr ""
-"%s (%s) hat folgende Einladung abgesagt:\n"
+"%s (%s) hat diese Einladung abgelehnt:\n"
 "\n"
 
 msgctxt "error:calendar.event.attendee:"

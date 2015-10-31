@@ -22,7 +22,7 @@ msgstr "%s (%s) ha aceptado esta invitación:\n"
 
 msgctxt "error:calendar.event.attendee:"
 msgid ""
-"%s (%s) has declined this invitattion:\n"
+"%s (%s) has declined this invitation:\n"
 "\n"
 msgstr "%s (%s) ha declinado esta invitación:\n"
 
@@ -48,7 +48,7 @@ msgstr "    * "
 
 msgctxt "error:calendar.event:"
 msgid "(No Subject)"
-msgstr "(Sin Asunto)"
+msgstr "(Sin asunto)"
 
 msgctxt "error:calendar.event:"
 msgid ":"

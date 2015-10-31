@@ -20,9 +20,9 @@ msgstr "%s (%s) приеха поканата:"
 
 msgctxt "error:calendar.event.attendee:"
 msgid ""
-"%s (%s) has declined this invitattion:\n"
+"%s (%s) has declined this invitation:\n"
 "\n"
-msgstr "%s (%s) отказаха поканата:"
+msgstr ""
 
 msgctxt "error:calendar.event.attendee:"
 msgid "%s: %s @ %s"

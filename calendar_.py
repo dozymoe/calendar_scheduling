@@ -7,7 +7,7 @@ import logging
 import dateutil.tz
 
 from trytond.model import fields
-from trytond.tools import get_smtp_server
+from trytond.sendmail import sendmail_transactional
 from trytond.transaction import Transaction
 from trytond.pool import Pool, PoolMeta
 
@@ -250,17 +250,8 @@ class Event:
             if not getattr(user, 'calendar_email_notification_' + type):
                 to_addrs.remove(user.email)
 
-        success = False
-        try:
-            server = get_smtp_server()
-            server.sendmail(from_addr, to_addrs, msg.as_string())
-            server.quit()
-            success = to_addrs
-        except Exception:
-            logger.error(
-                'Unable to deliver scheduling mail for %s', self,
-                exc_info=True)
-        return success
+        sendmail_transactional(from_addr, to_addrs, msg)
+        return to_addrs
 
     def attendees_to_notify(self):
         if not self.calendar.owner:
@@ -722,16 +713,8 @@ class EventAttendee(AttendeeMixin, object):
         '''
         Send message and return True if the mail has been sent
         '''
-        success = False
-        try:
-            server = get_smtp_server()
-            server.sendmail(from_addr, to_addr, msg.as_string())
-            server.quit()
-            success = True
-        except Exception:
-            logger.error(
-                'Unable to deliver reply mail for %s', self, exc_info=True)
-        return success
+        sendmail_transactional(from_addr, to_addr, msg)
+        return True
 
     def organiser_to_notify(self):
         event = self.event

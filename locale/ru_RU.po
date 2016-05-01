@@ -22,11 +22,14 @@ msgstr ""
 "%s (%s) принял приглашение:\n"
 "\n"
 
+#, fuzzy
 msgctxt "error:calendar.event.attendee:"
 msgid ""
 "%s (%s) has declined this invitation:\n"
 "\n"
 msgstr ""
+"%s (%s) отказался от приглашения:\n"
+"\n"
 
 msgctxt "error:calendar.event.attendee:"
 msgid "%s: %s @ %s"

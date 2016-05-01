@@ -18,11 +18,12 @@ msgid ""
 "\n"
 msgstr "%s (%s) приеха поканата:"
 
+#, fuzzy
 msgctxt "error:calendar.event.attendee:"
 msgid ""
 "%s (%s) has declined this invitation:\n"
 "\n"
-msgstr ""
+msgstr "%s (%s) отказаха поканата:"
 
 msgctxt "error:calendar.event.attendee:"
 msgid "%s: %s @ %s"

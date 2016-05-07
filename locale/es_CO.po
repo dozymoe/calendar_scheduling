@@ -18,7 +18,6 @@ msgid ""
 "\n"
 msgstr "%s (%s) ha aceptado esta invitación:"
 
-#, fuzzy
 msgctxt "error:calendar.event.attendee:"
 msgid ""
 "%s (%s) has declined this invitation:\n"
@@ -121,7 +120,7 @@ msgstr "Invitaciones Cambiadas"
 
 msgctxt "selection:calendar.event,organizer_schedule_agent:"
 msgid ""
-msgstr ""
+msgstr " "
 
 msgctxt "selection:calendar.event,organizer_schedule_agent:"
 msgid "Client"
@@ -137,7 +136,7 @@ msgstr "Servidor"
 
 msgctxt "selection:calendar.event,organizer_schedule_status:"
 msgid ""
-msgstr ""
+msgstr " "
 
 msgctxt "selection:calendar.event,organizer_schedule_status:"
 msgid "1.0"
@@ -173,7 +172,7 @@ msgstr "5.3"
 
 msgctxt "selection:calendar.event.attendee,schedule_agent:"
 msgid ""
-msgstr ""
+msgstr " "
 
 msgctxt "selection:calendar.event.attendee,schedule_agent:"
 msgid "Client"
@@ -189,7 +188,7 @@ msgstr "Servidor"
 
 msgctxt "selection:calendar.event.attendee,schedule_status:"
 msgid ""
-msgstr ""
+msgstr " "
 
 msgctxt "selection:calendar.event.attendee,schedule_status:"
 msgid "1.0"

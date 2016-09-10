@@ -4,14 +4,14 @@ msgstr "Content-Type: text/plain; charset=utf-8\n"
 
 msgctxt "error:calendar.event.attendee:"
 msgid "    * "
-msgstr ""
+msgstr "    * "
 
 msgctxt "error:calendar.event.attendee:"
 msgid ""
 "%s (%s) changed his/her participation status to: %s\n"
 "\n"
 msgstr ""
-"%s (%s) изменил свой статус участия на: %s\n"
+"%s (%s) ha canviat la seva participació a: %s\n"
 "\n"
 
 msgctxt "error:calendar.event.attendee:"
@@ -19,225 +19,229 @@ msgid ""
 "%s (%s) has accepted this invitation:\n"
 "\n"
 msgstr ""
-"%s (%s) принял приглашение:\n"
+"%s (%s) ha acceptat aquesta invitació:\n"
 "\n"
 
-#, fuzzy
 msgctxt "error:calendar.event.attendee:"
 msgid ""
 "%s (%s) has declined this invitation:\n"
 "\n"
 msgstr ""
-"%s (%s) отказался от приглашения:\n"
+"%s (%s) ha declinat aquesta invitació:\n"
 "\n"
 
 msgctxt "error:calendar.event.attendee:"
 msgid "%s: %s @ %s"
-msgstr ""
+msgstr "%s: %s @ %s"
 
 msgctxt "error:calendar.event.attendee:"
 msgid "(No Subject)"
-msgstr "(Нет описания)"
+msgstr "(Sense assumpte)"
 
 msgctxt "error:calendar.event.attendee:"
 msgid ":"
-msgstr ""
+msgstr ":"
 
 msgctxt "error:calendar.event.attendee:"
 msgid "When"
-msgstr "Когда"
+msgstr "Quan"
 
 msgctxt "error:calendar.event:"
 msgid "    * "
-msgstr ""
+msgstr "    * "
 
 msgctxt "error:calendar.event:"
 msgid "(No Subject)"
-msgstr "(Нет описания)"
+msgstr "(Sense assumpte)"
 
 msgctxt "error:calendar.event:"
 msgid ":"
-msgstr ""
+msgstr ":"
 
 msgctxt "error:calendar.event:"
 msgid "Cancelled Event: %s @ %s"
-msgstr "Событие отмененно: %s @ %s"
+msgstr "Esdeveniment cancel·lat: %s @ %s"
 
 msgctxt "error:calendar.event:"
 msgid "Invitation: %s @ %s"
-msgstr "Приглашение: %s @ %s"
+msgstr "Invitació: %s @ %s"
 
 msgctxt "error:calendar.event:"
 msgid ""
 "This event has been canceled.\n"
 "\n"
-msgstr "Событие было отменено."
+msgstr ""
+"Aquest esdeveniment ha estat cancel·lat:\n"
+"\n"
 
 msgctxt "error:calendar.event:"
 msgid ""
 "This event has been changed.\n"
 "\n"
-msgstr "Событие было изменено"
+msgstr ""
+"Aquest esdeveniment ha canviat:\n"
+"\n"
 
 msgctxt "error:calendar.event:"
 msgid "Updated Invitation: %s @ %s"
-msgstr "Обновлено приглашение: %s @ %s"
+msgstr "Invitació actualitzada: %s @ %s"
 
 msgctxt "error:calendar.event:"
 msgid "When"
-msgstr "Когда"
+msgstr "Quan"
 
 msgctxt "error:calendar.event:"
 msgid ""
 "You have been invited to the following event.\n"
 "\n"
-msgstr "Вы были приглашены к следующему событию."
+msgstr ""
+"Heu estat convidats al següent esdeveniment:\n"
+"\n"
 
 msgctxt "field:calendar.event,organizer_schedule_agent:"
 msgid "Schedule Agent"
-msgstr "Расписание агента"
+msgstr "Agent del planificador"
 
 msgctxt "field:calendar.event,organizer_schedule_status:"
 msgid "Schedule Status"
-msgstr "Статус расписания"
+msgstr "Estat de la planificació"
 
-#, fuzzy
 msgctxt "field:calendar.event.attendee,schedule_agent:"
 msgid "Schedule Agent"
-msgstr "Расписание агента"
+msgstr "Agent del planificador"
 
-#, fuzzy
 msgctxt "field:calendar.event.attendee,schedule_status:"
 msgid "Schedule Status"
-msgstr "Статус расписания"
+msgstr "Estat de la planificació"
 
 msgctxt "field:res.user,calendar_email_notification_cancel:"
 msgid "Cancelled invitations"
-msgstr "Отменено приглашения"
+msgstr "Invitacions cancel·lades"
 
 msgctxt "field:res.user,calendar_email_notification_new:"
 msgid "New invitations"
-msgstr "Новые приглашения"
+msgstr "Noves invitacions"
 
 msgctxt "field:res.user,calendar_email_notification_partstat:"
 msgid "Invitation Replies"
-msgstr "Ответы на приглашения"
+msgstr "Respostes a les invitacions"
 
 msgctxt "field:res.user,calendar_email_notification_update:"
 msgid "Changed invitations"
-msgstr "Изменен приглашения"
+msgstr "Invitacions canviades"
 
+#, fuzzy
 msgctxt "selection:calendar.event,organizer_schedule_agent:"
 msgid ""
-msgstr ""
+msgstr "Cancel·lat"
 
 msgctxt "selection:calendar.event,organizer_schedule_agent:"
 msgid "Client"
-msgstr "Клиент"
+msgstr "Client"
 
 msgctxt "selection:calendar.event,organizer_schedule_agent:"
 msgid "None"
-msgstr "Отсутствует"
+msgstr "Cap"
 
 msgctxt "selection:calendar.event,organizer_schedule_agent:"
 msgid "Server"
-msgstr "Сервер"
+msgstr "Servidor"
 
+#, fuzzy
 msgctxt "selection:calendar.event,organizer_schedule_status:"
 msgid ""
-msgstr ""
+msgstr "Cancel·lat"
 
 msgctxt "selection:calendar.event,organizer_schedule_status:"
 msgid "1.0"
-msgstr ""
+msgstr "1.0"
 
 msgctxt "selection:calendar.event,organizer_schedule_status:"
 msgid "1.1"
-msgstr ""
+msgstr "1.1"
 
 msgctxt "selection:calendar.event,organizer_schedule_status:"
 msgid "1.2"
-msgstr ""
+msgstr "1.2"
 
 msgctxt "selection:calendar.event,organizer_schedule_status:"
 msgid "3.7"
-msgstr ""
+msgstr "3.7"
 
 msgctxt "selection:calendar.event,organizer_schedule_status:"
 msgid "3.8"
-msgstr ""
+msgstr "3.8"
 
 msgctxt "selection:calendar.event,organizer_schedule_status:"
 msgid "5.1"
-msgstr ""
+msgstr "5.1"
 
 msgctxt "selection:calendar.event,organizer_schedule_status:"
 msgid "5.2"
-msgstr ""
+msgstr "5.2"
 
 msgctxt "selection:calendar.event,organizer_schedule_status:"
 msgid "5.3"
-msgstr ""
-
-msgctxt "selection:calendar.event.attendee,schedule_agent:"
-msgid ""
-msgstr ""
+msgstr "5.3"
 
 #, fuzzy
+msgctxt "selection:calendar.event.attendee,schedule_agent:"
+msgid ""
+msgstr "Cancel·lat"
+
 msgctxt "selection:calendar.event.attendee,schedule_agent:"
 msgid "Client"
-msgstr "Клиент"
+msgstr "Client"
 
-#, fuzzy
 msgctxt "selection:calendar.event.attendee,schedule_agent:"
 msgid "None"
-msgstr "Отсутствует"
+msgstr "Cap"
 
-#, fuzzy
 msgctxt "selection:calendar.event.attendee,schedule_agent:"
 msgid "Server"
-msgstr "Сервер"
+msgstr "Servidor"
 
+#, fuzzy
 msgctxt "selection:calendar.event.attendee,schedule_status:"
 msgid ""
-msgstr ""
+msgstr "Cancel·lat"
 
 msgctxt "selection:calendar.event.attendee,schedule_status:"
 msgid "1.0"
-msgstr ""
+msgstr "1.0"
 
 msgctxt "selection:calendar.event.attendee,schedule_status:"
 msgid "1.1"
-msgstr ""
+msgstr "1.1"
 
 msgctxt "selection:calendar.event.attendee,schedule_status:"
 msgid "1.2"
-msgstr ""
+msgstr "1.2"
 
 msgctxt "selection:calendar.event.attendee,schedule_status:"
 msgid "3.7"
-msgstr ""
+msgstr "3.7"
 
 msgctxt "selection:calendar.event.attendee,schedule_status:"
 msgid "3.8"
-msgstr ""
+msgstr "3.8"
 
 msgctxt "selection:calendar.event.attendee,schedule_status:"
 msgid "5.1"
-msgstr ""
+msgstr "5.1"
 
 msgctxt "selection:calendar.event.attendee,schedule_status:"
 msgid "5.2"
-msgstr ""
+msgstr "5.2"
 
 msgctxt "selection:calendar.event.attendee,schedule_status:"
 msgid "5.3"
-msgstr ""
+msgstr "5.3"
 
 msgctxt "view:res.user:"
 msgid "Calendar Email Notifications"
-msgstr "Уведомление по почте"
+msgstr "Notificacions per correu electrònic del calendari"
 
 msgctxt "view:res.user:"
 msgid "Notifications"
-msgstr "Уведомления"
+msgstr "Notificacions"

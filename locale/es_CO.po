@@ -4,7 +4,7 @@ msgstr "Content-Type: text/plain; charset=utf-8\n"
 
 msgctxt "error:calendar.event.attendee:"
 msgid "    * "
-msgstr "    * "
+msgstr ""
 
 msgctxt "error:calendar.event.attendee:"
 msgid ""
@@ -16,7 +16,7 @@ msgctxt "error:calendar.event.attendee:"
 msgid ""
 "%s (%s) has accepted this invitation:\n"
 "\n"
-msgstr "%s (%s) ha aceptado esta invitación:"
+msgstr ""
 
 msgctxt "error:calendar.event.attendee:"
 msgid ""
@@ -26,7 +26,7 @@ msgstr "%s (%s) rechazó esta invitación:"
 
 msgctxt "error:calendar.event.attendee:"
 msgid "%s: %s @ %s"
-msgstr "%s: %s @ %s"
+msgstr ""
 
 msgctxt "error:calendar.event.attendee:"
 msgid "(No Subject)"
@@ -34,15 +34,15 @@ msgstr "(Sin Asunto)"
 
 msgctxt "error:calendar.event.attendee:"
 msgid ":"
-msgstr ":"
+msgstr ""
 
 msgctxt "error:calendar.event.attendee:"
 msgid "When"
-msgstr "Cuando"
+msgstr ""
 
 msgctxt "error:calendar.event:"
 msgid "    * "
-msgstr "    * "
+msgstr ""
 
 msgctxt "error:calendar.event:"
 msgid "(No Subject)"
@@ -50,7 +50,7 @@ msgstr "(Sin Asunto)"
 
 msgctxt "error:calendar.event:"
 msgid ":"
-msgstr ":"
+msgstr ""
 
 msgctxt "error:calendar.event:"
 msgid "Cancelled Event: %s @ %s"
@@ -58,7 +58,7 @@ msgstr "Evento Cancelado: %s @ %s"
 
 msgctxt "error:calendar.event:"
 msgid "Invitation: %s @ %s"
-msgstr "Invitación: %s @ %s"
+msgstr ""
 
 msgctxt "error:calendar.event:"
 msgid ""
@@ -74,11 +74,11 @@ msgstr "Este evento cambió."
 
 msgctxt "error:calendar.event:"
 msgid "Updated Invitation: %s @ %s"
-msgstr "Invitación actualizada: %s @ %s"
+msgstr ""
 
 msgctxt "error:calendar.event:"
 msgid "When"
-msgstr "Cuando"
+msgstr ""
 
 msgctxt "error:calendar.event:"
 msgid ""
@@ -104,11 +104,11 @@ msgstr "Estado de Planeación"
 
 msgctxt "field:res.user,calendar_email_notification_cancel:"
 msgid "Cancelled invitations"
-msgstr "Invitaciones canceladas"
+msgstr ""
 
 msgctxt "field:res.user,calendar_email_notification_new:"
 msgid "New invitations"
-msgstr "Nuevas invitaciones"
+msgstr ""
 
 msgctxt "field:res.user,calendar_email_notification_partstat:"
 msgid "Invitation Replies"
@@ -124,7 +124,7 @@ msgstr " "
 
 msgctxt "selection:calendar.event,organizer_schedule_agent:"
 msgid "Client"
-msgstr "Cliente"
+msgstr ""
 
 msgctxt "selection:calendar.event,organizer_schedule_agent:"
 msgid "None"
@@ -132,7 +132,7 @@ msgstr "Ninguna"
 
 msgctxt "selection:calendar.event,organizer_schedule_agent:"
 msgid "Server"
-msgstr "Servidor"
+msgstr ""
 
 msgctxt "selection:calendar.event,organizer_schedule_status:"
 msgid ""
@@ -140,35 +140,35 @@ msgstr " "
 
 msgctxt "selection:calendar.event,organizer_schedule_status:"
 msgid "1.0"
-msgstr "1.0"
+msgstr ""
 
 msgctxt "selection:calendar.event,organizer_schedule_status:"
 msgid "1.1"
-msgstr "1.1"
+msgstr ""
 
 msgctxt "selection:calendar.event,organizer_schedule_status:"
 msgid "1.2"
-msgstr "1.2"
+msgstr ""
 
 msgctxt "selection:calendar.event,organizer_schedule_status:"
 msgid "3.7"
-msgstr "3.7"
+msgstr ""
 
 msgctxt "selection:calendar.event,organizer_schedule_status:"
 msgid "3.8"
-msgstr "3.8"
+msgstr ""
 
 msgctxt "selection:calendar.event,organizer_schedule_status:"
 msgid "5.1"
-msgstr "5.1"
+msgstr ""
 
 msgctxt "selection:calendar.event,organizer_schedule_status:"
 msgid "5.2"
-msgstr "5.2"
+msgstr ""
 
 msgctxt "selection:calendar.event,organizer_schedule_status:"
 msgid "5.3"
-msgstr "5.3"
+msgstr ""
 
 msgctxt "selection:calendar.event.attendee,schedule_agent:"
 msgid ""
@@ -176,15 +176,16 @@ msgstr " "
 
 msgctxt "selection:calendar.event.attendee,schedule_agent:"
 msgid "Client"
-msgstr "Cliente"
+msgstr ""
 
+#, fuzzy
 msgctxt "selection:calendar.event.attendee,schedule_agent:"
 msgid "None"
-msgstr "Ninguno"
+msgstr "Ninguna"
 
 msgctxt "selection:calendar.event.attendee,schedule_agent:"
 msgid "Server"
-msgstr "Servidor"
+msgstr ""
 
 msgctxt "selection:calendar.event.attendee,schedule_status:"
 msgid ""
@@ -192,35 +193,35 @@ msgstr " "
 
 msgctxt "selection:calendar.event.attendee,schedule_status:"
 msgid "1.0"
-msgstr "1.0"
+msgstr ""
 
 msgctxt "selection:calendar.event.attendee,schedule_status:"
 msgid "1.1"
-msgstr "1.1"
+msgstr ""
 
 msgctxt "selection:calendar.event.attendee,schedule_status:"
 msgid "1.2"
-msgstr "1.2"
+msgstr ""
 
 msgctxt "selection:calendar.event.attendee,schedule_status:"
 msgid "3.7"
-msgstr "3.7"
+msgstr ""
 
 msgctxt "selection:calendar.event.attendee,schedule_status:"
 msgid "3.8"
-msgstr "3.8"
+msgstr ""
 
 msgctxt "selection:calendar.event.attendee,schedule_status:"
 msgid "5.1"
-msgstr "5.1"
+msgstr ""
 
 msgctxt "selection:calendar.event.attendee,schedule_status:"
 msgid "5.2"
-msgstr "5.2"
+msgstr ""
 
 msgctxt "selection:calendar.event.attendee,schedule_status:"
 msgid "5.3"
-msgstr "5.3"
+msgstr ""
 
 msgctxt "view:res.user:"
 msgid "Calendar Email Notifications"
@@ -228,4 +229,4 @@ msgstr "Notificaciones de Calendario por Email"
 
 msgctxt "view:res.user:"
 msgid "Notifications"
-msgstr "Notificaciones"
+msgstr ""

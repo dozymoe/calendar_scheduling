@@ -32,9 +32,10 @@ msgctxt "error:calendar.event.attendee:"
 msgid "(No Subject)"
 msgstr ""
 
+#, fuzzy
 msgctxt "error:calendar.event.attendee:"
 msgid ":"
-msgstr ""
+msgstr ":"
 
 msgctxt "error:calendar.event.attendee:"
 msgid "When"
@@ -48,9 +49,10 @@ msgctxt "error:calendar.event:"
 msgid "(No Subject)"
 msgstr ""
 
+#, fuzzy
 msgctxt "error:calendar.event:"
 msgid ":"
-msgstr ""
+msgstr ":"
 
 msgctxt "error:calendar.event:"
 msgid "Cancelled Event: %s @ %s"
@@ -126,9 +128,10 @@ msgctxt "selection:calendar.event,organizer_schedule_agent:"
 msgid "Client"
 msgstr ""
 
+#, fuzzy
 msgctxt "selection:calendar.event,organizer_schedule_agent:"
 msgid "None"
-msgstr ""
+msgstr "Nincs"
 
 msgctxt "selection:calendar.event,organizer_schedule_agent:"
 msgid "Server"
@@ -178,9 +181,10 @@ msgctxt "selection:calendar.event.attendee,schedule_agent:"
 msgid "Client"
 msgstr ""
 
+#, fuzzy
 msgctxt "selection:calendar.event.attendee,schedule_agent:"
 msgid "None"
-msgstr ""
+msgstr "Nincs"
 
 msgctxt "selection:calendar.event.attendee,schedule_agent:"
 msgid "Server"

@@ -11,18 +11,25 @@ msgid ""
 "%s (%s) changed his/her participation status to: %s\n"
 "\n"
 msgstr ""
+"%s (%s) изменил свой статус участия на: %s\n"
+"\n"
 
 msgctxt "error:calendar.event.attendee:"
 msgid ""
 "%s (%s) has accepted this invitation:\n"
 "\n"
 msgstr ""
+"%s (%s) принял приглашение:\n"
+"\n"
 
+#, fuzzy
 msgctxt "error:calendar.event.attendee:"
 msgid ""
 "%s (%s) has declined this invitation:\n"
 "\n"
 msgstr ""
+"%s (%s) отказался от приглашения:\n"
+"\n"
 
 msgctxt "error:calendar.event.attendee:"
 msgid "%s: %s @ %s"
@@ -30,15 +37,16 @@ msgstr ""
 
 msgctxt "error:calendar.event.attendee:"
 msgid "(No Subject)"
-msgstr ""
+msgstr "(Нет описания)"
 
+#, fuzzy
 msgctxt "error:calendar.event.attendee:"
 msgid ":"
-msgstr ""
+msgstr ":"
 
 msgctxt "error:calendar.event.attendee:"
 msgid "When"
-msgstr ""
+msgstr "Когда"
 
 msgctxt "error:calendar.event:"
 msgid "    * "
@@ -46,77 +54,80 @@ msgstr ""
 
 msgctxt "error:calendar.event:"
 msgid "(No Subject)"
-msgstr ""
+msgstr "(Нет описания)"
 
+#, fuzzy
 msgctxt "error:calendar.event:"
 msgid ":"
-msgstr ""
+msgstr ":"
 
 msgctxt "error:calendar.event:"
 msgid "Cancelled Event: %s @ %s"
-msgstr ""
+msgstr "Событие отмененно: %s @ %s"
 
 msgctxt "error:calendar.event:"
 msgid "Invitation: %s @ %s"
-msgstr ""
+msgstr "Приглашение: %s @ %s"
 
 msgctxt "error:calendar.event:"
 msgid ""
 "This event has been canceled.\n"
 "\n"
-msgstr ""
+msgstr "Событие было отменено."
 
 msgctxt "error:calendar.event:"
 msgid ""
 "This event has been changed.\n"
 "\n"
-msgstr ""
+msgstr "Событие было изменено"
 
 msgctxt "error:calendar.event:"
 msgid "Updated Invitation: %s @ %s"
-msgstr ""
+msgstr "Обновлено приглашение: %s @ %s"
 
 msgctxt "error:calendar.event:"
 msgid "When"
-msgstr ""
+msgstr "Когда"
 
 msgctxt "error:calendar.event:"
 msgid ""
 "You have been invited to the following event.\n"
 "\n"
-msgstr ""
+msgstr "Вы были приглашены к следующему событию."
 
 msgctxt "field:calendar.event,organizer_schedule_agent:"
 msgid "Schedule Agent"
-msgstr ""
+msgstr "Расписание агента"
 
 msgctxt "field:calendar.event,organizer_schedule_status:"
 msgid "Schedule Status"
-msgstr ""
+msgstr "Статус расписания"
 
+#, fuzzy
 msgctxt "field:calendar.event.attendee,schedule_agent:"
 msgid "Schedule Agent"
-msgstr ""
+msgstr "Расписание агента"
 
+#, fuzzy
 msgctxt "field:calendar.event.attendee,schedule_status:"
 msgid "Schedule Status"
-msgstr ""
+msgstr "Статус расписания"
 
 msgctxt "field:res.user,calendar_email_notification_cancel:"
 msgid "Cancelled invitations"
-msgstr ""
+msgstr "Отменено приглашения"
 
 msgctxt "field:res.user,calendar_email_notification_new:"
 msgid "New invitations"
-msgstr ""
+msgstr "Новые приглашения"
 
 msgctxt "field:res.user,calendar_email_notification_partstat:"
 msgid "Invitation Replies"
-msgstr ""
+msgstr "Ответы на приглашения"
 
 msgctxt "field:res.user,calendar_email_notification_update:"
 msgid "Changed invitations"
-msgstr ""
+msgstr "Изменен приглашения"
 
 msgctxt "selection:calendar.event,organizer_schedule_agent:"
 msgid ""
@@ -124,16 +135,15 @@ msgstr ""
 
 msgctxt "selection:calendar.event,organizer_schedule_agent:"
 msgid "Client"
-msgstr ""
+msgstr "Клиент"
 
-#, fuzzy
 msgctxt "selection:calendar.event,organizer_schedule_agent:"
 msgid "None"
-msgstr "Geen"
+msgstr "Отсутствует"
 
 msgctxt "selection:calendar.event,organizer_schedule_agent:"
 msgid "Server"
-msgstr ""
+msgstr "Сервер"
 
 msgctxt "selection:calendar.event,organizer_schedule_status:"
 msgid ""
@@ -175,18 +185,20 @@ msgctxt "selection:calendar.event.attendee,schedule_agent:"
 msgid ""
 msgstr ""
 
+#, fuzzy
 msgctxt "selection:calendar.event.attendee,schedule_agent:"
 msgid "Client"
-msgstr ""
+msgstr "Клиент"
 
 #, fuzzy
 msgctxt "selection:calendar.event.attendee,schedule_agent:"
 msgid "None"
-msgstr "Geen"
+msgstr "Отсутствует"
 
+#, fuzzy
 msgctxt "selection:calendar.event.attendee,schedule_agent:"
 msgid "Server"
-msgstr ""
+msgstr "Сервер"
 
 msgctxt "selection:calendar.event.attendee,schedule_status:"
 msgid ""
@@ -226,8 +238,8 @@ msgstr ""
 
 msgctxt "view:res.user:"
 msgid "Calendar Email Notifications"
-msgstr ""
+msgstr "Уведомление по почте"
 
 msgctxt "view:res.user:"
 msgid "Notifications"
-msgstr ""
+msgstr "Уведомления"

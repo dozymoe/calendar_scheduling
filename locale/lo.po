@@ -4,131 +4,121 @@ msgstr "Content-Type: text/plain; charset=utf-8\n"
 
 msgctxt "error:calendar.event.attendee:"
 msgid "    * "
-msgstr "    * "
+msgstr ""
 
 msgctxt "error:calendar.event.attendee:"
 msgid ""
 "%s (%s) changed his/her participation status to: %s\n"
 "\n"
 msgstr ""
-"%s (%s) ha canviat la seva participació a: %s\n"
-"\n"
 
 msgctxt "error:calendar.event.attendee:"
 msgid ""
 "%s (%s) has accepted this invitation:\n"
 "\n"
 msgstr ""
-"%s (%s) ha acceptat aquesta invitació:\n"
-"\n"
 
 msgctxt "error:calendar.event.attendee:"
 msgid ""
 "%s (%s) has declined this invitation:\n"
 "\n"
 msgstr ""
-"%s (%s) ha declinat aquesta invitació:\n"
-"\n"
 
 msgctxt "error:calendar.event.attendee:"
 msgid "%s: %s @ %s"
-msgstr "%s: %s @ %s"
+msgstr ""
 
 msgctxt "error:calendar.event.attendee:"
 msgid "(No Subject)"
-msgstr "(Sense assumpte)"
+msgstr ""
 
+#, fuzzy
 msgctxt "error:calendar.event.attendee:"
 msgid ":"
 msgstr ":"
 
 msgctxt "error:calendar.event.attendee:"
 msgid "When"
-msgstr "Quan"
+msgstr ""
 
 msgctxt "error:calendar.event:"
 msgid "    * "
-msgstr "    * "
+msgstr ""
 
 msgctxt "error:calendar.event:"
 msgid "(No Subject)"
-msgstr "(Sense assumpte)"
+msgstr ""
 
+#, fuzzy
 msgctxt "error:calendar.event:"
 msgid ":"
 msgstr ":"
 
 msgctxt "error:calendar.event:"
 msgid "Cancelled Event: %s @ %s"
-msgstr "Esdeveniment cancel·lat: %s @ %s"
+msgstr ""
 
 msgctxt "error:calendar.event:"
 msgid "Invitation: %s @ %s"
-msgstr "Invitació: %s @ %s"
+msgstr ""
 
 msgctxt "error:calendar.event:"
 msgid ""
 "This event has been canceled.\n"
 "\n"
 msgstr ""
-"Aquest esdeveniment ha estat cancel·lat:\n"
-"\n"
 
 msgctxt "error:calendar.event:"
 msgid ""
 "This event has been changed.\n"
 "\n"
 msgstr ""
-"Aquest esdeveniment ha canviat:\n"
-"\n"
 
 msgctxt "error:calendar.event:"
 msgid "Updated Invitation: %s @ %s"
-msgstr "Invitació actualitzada: %s @ %s"
+msgstr ""
 
 msgctxt "error:calendar.event:"
 msgid "When"
-msgstr "Quan"
+msgstr ""
 
 msgctxt "error:calendar.event:"
 msgid ""
 "You have been invited to the following event.\n"
 "\n"
 msgstr ""
-"Heu estat convidats al següent esdeveniment:\n"
-"\n"
 
 msgctxt "field:calendar.event,organizer_schedule_agent:"
 msgid "Schedule Agent"
-msgstr "Agent del planificador"
+msgstr ""
 
 msgctxt "field:calendar.event,organizer_schedule_status:"
 msgid "Schedule Status"
-msgstr "Estat de la planificació"
+msgstr ""
 
 msgctxt "field:calendar.event.attendee,schedule_agent:"
 msgid "Schedule Agent"
-msgstr "Agent del planificador"
+msgstr ""
 
 msgctxt "field:calendar.event.attendee,schedule_status:"
 msgid "Schedule Status"
-msgstr "Estat de la planificació"
+msgstr ""
 
 msgctxt "field:res.user,calendar_email_notification_cancel:"
 msgid "Cancelled invitations"
-msgstr "Invitacions cancel·lades"
+msgstr ""
 
 msgctxt "field:res.user,calendar_email_notification_new:"
 msgid "New invitations"
-msgstr "Noves invitacions"
+msgstr ""
 
 msgctxt "field:res.user,calendar_email_notification_partstat:"
 msgid "Invitation Replies"
-msgstr "Respostes a les invitacions"
+msgstr ""
 
 msgctxt "field:res.user,calendar_email_notification_update:"
 msgid "Changed invitations"
-msgstr "Invitacions canviades"
+msgstr ""
 
 msgctxt "selection:calendar.event,organizer_schedule_agent:"
 msgid ""
@@ -136,15 +126,16 @@ msgstr ""
 
 msgctxt "selection:calendar.event,organizer_schedule_agent:"
 msgid "Client"
-msgstr "Client"
+msgstr ""
 
+#, fuzzy
 msgctxt "selection:calendar.event,organizer_schedule_agent:"
 msgid "None"
-msgstr "Cap"
+msgstr "ບໍ່ມີ"
 
 msgctxt "selection:calendar.event,organizer_schedule_agent:"
 msgid "Server"
-msgstr "Servidor"
+msgstr ""
 
 msgctxt "selection:calendar.event,organizer_schedule_status:"
 msgid ""
@@ -152,35 +143,35 @@ msgstr ""
 
 msgctxt "selection:calendar.event,organizer_schedule_status:"
 msgid "1.0"
-msgstr "1.0"
+msgstr ""
 
 msgctxt "selection:calendar.event,organizer_schedule_status:"
 msgid "1.1"
-msgstr "1.1"
+msgstr ""
 
 msgctxt "selection:calendar.event,organizer_schedule_status:"
 msgid "1.2"
-msgstr "1.2"
+msgstr ""
 
 msgctxt "selection:calendar.event,organizer_schedule_status:"
 msgid "3.7"
-msgstr "3.7"
+msgstr ""
 
 msgctxt "selection:calendar.event,organizer_schedule_status:"
 msgid "3.8"
-msgstr "3.8"
+msgstr ""
 
 msgctxt "selection:calendar.event,organizer_schedule_status:"
 msgid "5.1"
-msgstr "5.1"
+msgstr ""
 
 msgctxt "selection:calendar.event,organizer_schedule_status:"
 msgid "5.2"
-msgstr "5.2"
+msgstr ""
 
 msgctxt "selection:calendar.event,organizer_schedule_status:"
 msgid "5.3"
-msgstr "5.3"
+msgstr ""
 
 msgctxt "selection:calendar.event.attendee,schedule_agent:"
 msgid ""
@@ -188,15 +179,16 @@ msgstr ""
 
 msgctxt "selection:calendar.event.attendee,schedule_agent:"
 msgid "Client"
-msgstr "Client"
+msgstr ""
 
+#, fuzzy
 msgctxt "selection:calendar.event.attendee,schedule_agent:"
 msgid "None"
-msgstr "Cap"
+msgstr "ບໍ່ມີ"
 
 msgctxt "selection:calendar.event.attendee,schedule_agent:"
 msgid "Server"
-msgstr "Servidor"
+msgstr ""
 
 msgctxt "selection:calendar.event.attendee,schedule_status:"
 msgid ""
@@ -204,40 +196,40 @@ msgstr ""
 
 msgctxt "selection:calendar.event.attendee,schedule_status:"
 msgid "1.0"
-msgstr "1.0"
+msgstr ""
 
 msgctxt "selection:calendar.event.attendee,schedule_status:"
 msgid "1.1"
-msgstr "1.1"
+msgstr ""
 
 msgctxt "selection:calendar.event.attendee,schedule_status:"
 msgid "1.2"
-msgstr "1.2"
+msgstr ""
 
 msgctxt "selection:calendar.event.attendee,schedule_status:"
 msgid "3.7"
-msgstr "3.7"
+msgstr ""
 
 msgctxt "selection:calendar.event.attendee,schedule_status:"
 msgid "3.8"
-msgstr "3.8"
+msgstr ""
 
 msgctxt "selection:calendar.event.attendee,schedule_status:"
 msgid "5.1"
-msgstr "5.1"
+msgstr ""
 
 msgctxt "selection:calendar.event.attendee,schedule_status:"
 msgid "5.2"
-msgstr "5.2"
+msgstr ""
 
 msgctxt "selection:calendar.event.attendee,schedule_status:"
 msgid "5.3"
-msgstr "5.3"
+msgstr ""
 
 msgctxt "view:res.user:"
 msgid "Calendar Email Notifications"
-msgstr "Notificacions per correu electrònic del calendari"
+msgstr ""
 
 msgctxt "view:res.user:"
 msgid "Notifications"
-msgstr "Notificacions"
+msgstr ""

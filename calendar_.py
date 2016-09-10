@@ -121,7 +121,7 @@ class Event:
         lang = owner.language
         if not lang:
             lang, = Lang.search([
-                    ('code', '=', 'en_US'),
+                    ('code', '=', 'en'),
                     ], limit=1)
 
         with Transaction().set_context(language=lang.code):
@@ -582,7 +582,7 @@ class EventAttendee(AttendeeMixin, object):
         lang = owner.language
         if not lang:
             lang, = Lang.search([
-                    ('code', '=', 'en_US'),
+                    ('code', '=', 'en'),
                     ], limit=1)
 
         summary = event.summary

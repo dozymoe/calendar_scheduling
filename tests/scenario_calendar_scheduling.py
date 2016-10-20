@@ -12,7 +12,7 @@ import caldav
 import vobject
 from proteus import config
 from trytond.modules.calendar.tests.scenario_calendar import (
-    install_module, configure_user, create_calendar)
+    activate_module, configure_user, create_calendar)
 
 
 class TestCase(unittest.TestCase):
@@ -78,7 +78,7 @@ if __name__ == '__main__':
     user = urlparse(options.url).username
     assert xmlrpc_user == user
     assert user != 'foo'
-    install_module('calendar_scheduling', config)
+    activate_module('calendar_scheduling', config)
     configure_user(user, config)
     configure_user('foo', config)
     create_calendar(user, user, config)

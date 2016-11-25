@@ -130,10 +130,9 @@ msgctxt "field:res.user,calendar_email_notification_update:"
 msgid "Changed invitations"
 msgstr "Invitacions canviades"
 
-#, fuzzy
 msgctxt "selection:calendar.event,organizer_schedule_agent:"
 msgid ""
-msgstr "Cancel·lat"
+msgstr ""
 
 msgctxt "selection:calendar.event,organizer_schedule_agent:"
 msgid "Client"
@@ -147,10 +146,9 @@ msgctxt "selection:calendar.event,organizer_schedule_agent:"
 msgid "Server"
 msgstr "Servidor"
 
-#, fuzzy
 msgctxt "selection:calendar.event,organizer_schedule_status:"
 msgid ""
-msgstr "Cancel·lat"
+msgstr ""
 
 msgctxt "selection:calendar.event,organizer_schedule_status:"
 msgid "1.0"
@@ -184,10 +182,9 @@ msgctxt "selection:calendar.event,organizer_schedule_status:"
 msgid "5.3"
 msgstr "5.3"
 
-#, fuzzy
 msgctxt "selection:calendar.event.attendee,schedule_agent:"
 msgid ""
-msgstr "Cancel·lat"
+msgstr ""
 
 msgctxt "selection:calendar.event.attendee,schedule_agent:"
 msgid "Client"
@@ -201,10 +198,9 @@ msgctxt "selection:calendar.event.attendee,schedule_agent:"
 msgid "Server"
 msgstr "Servidor"
 
-#, fuzzy
 msgctxt "selection:calendar.event.attendee,schedule_status:"
 msgid ""
-msgstr "Cancel·lat"
+msgstr ""
 
 msgctxt "selection:calendar.event.attendee,schedule_status:"
 msgid "1.0"
